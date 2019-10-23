@@ -1,0 +1,29 @@
+{
+  "name": "handlebars-i18next",
+  "version": "0.1.0",
+  "description": "handelbars-i18next adds internationlization to handelbars.js using i18next",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://fwalzel@bitbucket.org/fwalzel/handlebars-i18next.git"
+  },
+  "keywords": [
+    "Internationalization",
+    "Localization",
+    "Translation",
+    "Handlebars",
+    "Handlebars.js",
+    "i18next",
+    "Vanilla JS"
+  ],
+  "author": "Florian Walzel",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/fwalzel/handlebars-i18next#readme",
+  "dependencies": {
+    "handlebars": "^4.4.5",
+    "i18next": "^17.3.0"
+  }
+}
