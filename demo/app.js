@@ -5,32 +5,44 @@
 'use strict';
 
 const Handlebars = require('handlebars');
-let data = { name: 'HandelbarsI18next' };
-let template = '<div>{{t "key" what=name }}</div>';
-
 const i18next = require('i18next');
+//const intervalPlural = require('i18next-intervalplural-postprocessor');
+const HandelbarsI18next = require('./../handlebars-i18next.js');
 
-i18next.init({
+HandelbarsI18next.init(Handlebars, i18next);
+
+i18next
+  .init({
   resources : {
-    'en_EN' : {
-      translations : {
-        'key': '{{what}} is good.'
+    'en' : {
+      translation : {
+        'key1': 'Is good.',
+        'key2': '{{what}} is good.',
+        'key3': 'item',
+        'key3_plural': 'items',
+        'key3WithCount': '{{count}} item',
+        'key3WithCount_plural': '{{count}} items'
       }
     },
-    'de_DE' : {
-      translations: {
-        'key': '{{what}} ist gut.'
+    'de' : {
+      translation: {
+        'key1': 'Ist gut.',
+        'key2': '{{what}} ist gut.',
+        'key3': 'Gegenstand',
+        'key3_plural': 'Gegenstände',
+        'key3WithCount': '{{count}} Gegenstand',
+        'key3WithCount_plural': '{{count}} Gegenstände'
       }
     }
   },
-  defaultNS: 'translations',
-  lng : 'en_EN',
-  // debug : true
+  lng : 'de',
+  //debug : true
 });
 
-const HandelbarsI18next = require('./../handlebars-i18next.js');
-HandelbarsI18next.init(Handlebars, i18next);
-
+let data = { name : 'HandelbarsI18next' };
+//let template = '<h1>{{t "key1"}}</h1>';
+//let template = '<h1>{{t "key2" what=name}}</h1>';
+let template = '<h1>{{t "key3WithCount" count=7 }}</h1>';
 let compiled = Handlebars.compile(template);
 
 console.log(compiled(data));
