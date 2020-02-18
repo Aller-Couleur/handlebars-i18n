@@ -24,6 +24,7 @@
   "homepage": "https://bitbucket.org/fwalzel/handlebars-i18next#readme",
   "dependencies": {
     "handlebars": "^4.4.5",
-    "i18next": "^17.3.0"
+    "i18next": "^17.3.0",
+    "intl": "^1.2.5"
   }
 }

@@ -35,7 +35,7 @@ i18next
       }
     }
   },
-  lng : 'de',
+  lng : 'de'
   //debug : true
 });
 
