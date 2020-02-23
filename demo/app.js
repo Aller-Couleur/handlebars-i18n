@@ -6,10 +6,9 @@
 
 const Handlebars = require('handlebars');
 const i18next = require('i18next');
-//const intervalPlural = require('i18next-intervalplural-postprocessor');
 const HandelbarsI18next = require('./../handlebars-i18next.js');
 
-HandelbarsI18next.init(Handlebars, i18next);
+HandelbarsI18next.init();
 
 i18next
   .init({
@@ -42,7 +41,12 @@ i18next
 let data = { name : 'HandelbarsI18next' };
 //let template = '<h1>{{t "key1"}}</h1>';
 //let template = '<h1>{{t "key2" what=name}}</h1>';
-let template = '<h1>{{t "key3WithCount" count=7 }}</h1>';
+//let template = '<h1>{{__ "key3WithCount" count=7 }}</h1>';
+//let template = '{{#if (localeIs "de")}}Hello DE{{/if}}';
+//let template = '{{_num 400000}}';
+let template = '{{_price 400000}}';
+
+
 let compiled = Handlebars.compile(template);
 
 console.log(compiled(data));

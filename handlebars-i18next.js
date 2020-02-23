@@ -4,15 +4,15 @@ const handlebars = require('handlebars');
 const i18next = require('i18next');
 const intl = require('intl');
 
-module.exports = {
-
-    configuredOptions : {
+var configuredOptions = {
       DateTimeFormat : { },
       NumberFormat : { },
       PriceFormat : {
         all : { style: 'currency' }
-      }
-    },
+        }
+    };
+
+module.exports = {
 
     /**
      * configure the options for INTL number, currency, and date formatting
@@ -28,13 +28,13 @@ module.exports = {
       if (typeof language !== typeOfFormat)
         return console.log('boo 2');
 
-      this.configuredOptions[typeOfFormat][language] = options;
+      configuredOptions[typeOfFormat][language] = options;
 
       return true;
     },
 
     init : function() {
-      return handlebars.registerHelper('__',
+      handlebars.registerHelper('__',
         /**
          * key as string retrieves the translation phrase
          * use like: {{__ "key_name"}}
@@ -46,7 +46,8 @@ module.exports = {
         function (str, attributes) {
           return new handlebars.SafeString((typeof(i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
         }
-      ).registerHelper('_v',
+      );
+      handlebars.registerHelper('_v',
         /**
          * the key comes from a handlebars variable instead
          * use like: {{_v here.is.theKey}}
@@ -58,7 +59,8 @@ module.exports = {
         function (str, attributes) {
           return new handlebars.SafeString((typeof(i18next) !== 'undefined' ? i18next.t(str, attributes) : attributes));
         }
-      ).registerHelper('_locale',
+      );
+      handlebars.registerHelper('_locale',
         /**
          * echo the current language
          * use like: {{_locale}}
@@ -68,7 +70,8 @@ module.exports = {
         function() {
           return i18next.language;
         }
-      ).registerHelper('localeIs',
+      );
+      handlebars.registerHelper('localeIs',
         /**
          * check against the current language
          * use like: {{#if (localeIs "en")}} Hello EN {{/if}}
@@ -78,7 +81,8 @@ module.exports = {
         function(language) {
           return i18next.language === language;
         }
-      ).registerHelper('_date',
+      );
+      handlebars.registerHelper('_date',
           /**
            *
            * @param dateString
@@ -86,12 +90,13 @@ module.exports = {
            */
           function(dateString, options) {
             let options =
-                this.configuredOptions.DateTimeFormat[i18next.language] ||
-                this.configuredOptions.DateTimeFormat.all || options;
+                configuredOptions.DateTimeFormat[i18next.language] ||
+                configuredOptions.DateTimeFormat.all || options;
             const dateFormat = new Intl.DateTimeFormat(i18next.language, options);
             return dateFormat.format(dateString);
           }
-      ).registerHelper('_num',
+      );
+      handlebars.registerHelper('_num',
           /**
            *
            * @param number
@@ -99,13 +104,14 @@ module.exports = {
            * @returns {*}
            */
           function(number, options) {
-            let options =
-                this.configuredOptions.NumberFormat[i18next.language] ||
-                this.configuredOptions.NumberFormat.all || options;
-            const priceFormat = new intl.NumberFormat(i18next.language, options);
+            let opts =
+                configuredOptions.NumberFormat[i18next.language] ||
+                configuredOptions.NumberFormat.all || options;
+            const priceFormat = new intl.NumberFormat(i18next.language, opts);
             return priceFormat.format(number);
         }
-      ).registerHelper('_price',
+      );
+      handlebars.registerHelper('_price',
           /**
            *
            * @param price
@@ -113,12 +119,14 @@ module.exports = {
            * @returns {*}
            */
           function(price, options) {
-            let options =
-                this.configuredOptions.PriceFormat[i18next.language] ||
-                this.configuredOptions.PriceFormat.all || options;
-            const priceFormat = new intl.NumberFormat(i18next.language, options);
+            let opts =
+                configuredOptions.PriceFormat[i18next.language] ||
+                configuredOptions.PriceFormat.all || options;
+            const priceFormat = new intl.NumberFormat(i18next.language, opts);
             return priceFormat.format(price);
           }
       );
+
+      return handlebars;
     }
 };
