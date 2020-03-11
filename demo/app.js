@@ -9,6 +9,9 @@ const i18next = require('i18next');
 const HandelbarsI18next = require('./../handlebars-i18next.js');
 
 HandelbarsI18next.init();
+HandelbarsI18next.configure('de', 'DateTimeFormat', {hour: 'numeric', minute: 'numeric', second: 'numeric', timeZone: 'Australia/Sydney', timeZoneName: 'short'});
+HandelbarsI18next.configure('de', 'PriceFormat', {style: 'currency', currency: 'USD'});
+HandelbarsI18next.configure('en', 'NumberFormat', { notation: "compact" , compactDisplay: "long" });
 
 i18next
   .init({
@@ -39,12 +42,13 @@ i18next
 });
 
 let data = { name : 'HandelbarsI18next' };
-//let template = '<h1>{{t "key1"}}</h1>';
-//let template = '<h1>{{t "key2" what=name}}</h1>';
+//let template = '<h1>{{__ "key1"}}</h1>';
+//let template = '<h1>{{__ "key2" what=name}}</h1>';
 //let template = '<h1>{{__ "key3WithCount" count=7 }}</h1>';
 //let template = '{{#if (localeIs "de")}}Hello DE{{/if}}';
-//let template = '{{_num 400000}}';
-let template = '{{_price 400000}}';
+//let template = '{{_num 40000000}}';
+//let template = '{{_price 400000}}';
+let template = '{{_price 400000 currency="EUR"}}';
 
 
 let compiled = Handlebars.compile(template);

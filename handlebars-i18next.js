@@ -8,8 +8,8 @@ var configuredOptions = {
       DateTimeFormat : { },
       NumberFormat : { },
       PriceFormat : {
-        all : { style: 'currency' }
-        }
+        all : { style: 'currency', currency: 'EUR' }
+      }
     };
 
 module.exports = {
@@ -23,10 +23,19 @@ module.exports = {
      */
     configure : function(language, typeOfFormat, options) {
 
-      if (typeof language !== string)
-        return console.log('boo 1');
-      if (typeof language !== typeOfFormat)
-        return console.log('boo 2');
+      if (typeof language !== 'string')
+        return console.log('@ HandelbarsI18next.configure(): First argument must be a string with ' +
+          'language code such as "en".');
+
+      if (typeOfFormat !== 'DateTimeFormat'
+            && typeOfFormat !== 'NumberFormat'
+            && typeOfFormat !== 'PriceFormat')
+        return console.log('@ HandelbarsI18next.configure(): Second argument must be a string with ' +
+          'the options key. Use either "DateTimeFormat", "NumberFormat" oer "PriceFormat".');
+
+      if (typeof options !== 'object')
+        return console.log('@ HandelbarsI18next.configure(): Third argument must be an object ' +
+          'containing the configuration parameters');
 
       configuredOptions[typeOfFormat][language] = options;
 
@@ -105,6 +114,7 @@ module.exports = {
            */
           function(number, options) {
             let opts =
+                (typeof options === 'string') ? { style: 'currency', currency: currency } : null ||
                 configuredOptions.NumberFormat[i18next.language] ||
                 configuredOptions.NumberFormat.all || options;
             const priceFormat = new intl.NumberFormat(i18next.language, opts);
@@ -120,8 +130,13 @@ module.exports = {
            */
           function(price, options) {
             let opts =
-                configuredOptions.PriceFormat[i18next.language] ||
-                configuredOptions.PriceFormat.all || options;
+                (Object.keys(options.hash).length != 0) ? options.hash : configuredOptions.PriceFormat[i18next.language] ||
+                configuredOptions.PriceFormat.all;
+
+            // for usage convenience automatically add the object parameter style:'currency' if not given
+            if (typeof opts['style'] !== 'string' )
+              opts['style'] = 'currency';
+
             const priceFormat = new intl.NumberFormat(i18next.language, opts);
             return priceFormat.format(price);
           }
