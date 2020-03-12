@@ -3,6 +3,7 @@
  *
  * @author: Florian Walzel
  * @version: 1.0.1
+ * @licence: MIT
  * @date: 2020-03
  *
  * Handlebars-i18next adds features for localization/
@@ -98,19 +99,6 @@ module.exports = {
          */
         function (str, attributes) {
           return new handlebars.SafeString((typeof(i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
-        }
-      );
-      handlebars.registerHelper('_v',
-        /**
-         * retrieves the translation phrase from a key given as handlebars variable
-         * use like: {{_v here.is.theKey}}
-         *
-         * @param str
-         * @param attributes
-         * @returns {*}
-         */
-        function (str, attributes) {
-          return new handlebars.SafeString((typeof(i18next) !== 'undefined' ? i18next.t(str, attributes) : attributes));
         }
       );
       handlebars.registerHelper('_locale',
