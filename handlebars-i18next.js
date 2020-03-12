@@ -1,3 +1,15 @@
+/********************************************************************
+ * handlebars-i18next.js
+ *
+ * @author: Florian Walzel
+ * @version: 1.0.1
+ * @date: 2020-03
+ *
+ * Handlebars-i18next adds features for localization/
+ * internationalization to handelbars.js
+ *
+ *********************************************************************/
+
 'use strict';
 
 const handlebars = require('handlebars');
@@ -19,31 +31,56 @@ function __applyToConstructor(constructor, argArray) {
 }
 
 module.exports = {
-
     /**
      * configure the options for INTL number, currency, and date formatting
      *
-     * @param language : the language key like 'fr' or 'all' for all languages
-     * @param typeOfFormat : DateTimeFormat | NumberFormat | PriceFormat
-     * @param options : the options object
+     * @param langOrArr : string – the language key like 'fr' or 'all' for all languages
+     *                 | array – an array with all options
+     * @param typeOfFormat : string - DateTimeFormat | NumberFormat | PriceFormat
+     * @param options : object - the options object
      */
-    configure : function(language, typeOfFormat, options) {
+    configure : function(langOrArr, typeOfFormat, options) {
 
-      if (typeof language !== 'string')
-        return console.log('@ HandelbarsI18next.configure(): First argument must be a string with ' +
-          'language code such as "en".');
+      function __validateArgs(lngShortcode, typeOfFormat, options) {
 
-      if (typeOfFormat !== 'DateTimeFormat'
-            && typeOfFormat !== 'NumberFormat'
-            && typeOfFormat !== 'PriceFormat')
-        return console.log('@ HandelbarsI18next.configure(): Second argument must be a string with ' +
-          'the options key. Use either "DateTimeFormat", "NumberFormat" oer "PriceFormat".');
+        if (typeof lngShortcode !== 'string') {
+          console.log('@ HandelbarsI18next.configure(): False Argument ['+ lngShortcode +'] '+
+            'First argument must be a string with language code such as "en".');
+          return false;
+        }
 
-      if (typeof options !== 'object')
-        return console.log('@ HandelbarsI18next.configure(): Third argument must be an object ' +
-          'containing the configuration parameters');
+        if (typeOfFormat !== 'DateTimeFormat'
+          && typeOfFormat !== 'NumberFormat'
+          && typeOfFormat !== 'PriceFormat') {
+          console.log('@ HandelbarsI18next.configure(): False Argument ['+ typeOfFormat +'] ' +
+            'Second argument must be a string with the options key. ' +
+            'Use either "DateTimeFormat", "NumberFormat" oer "PriceFormat".');
+          return false;
+        }
 
-      configuredOptions[typeOfFormat][language] = options;
+        if (typeof options !== 'object') {
+          console.log('@ HandelbarsI18next.configure(): False Argument [' + options + '] ' +
+            'Third argument must be an object containing the configuration parameters');
+          return false;
+        }
+
+        return true;
+      }
+
+      if (Array.isArray(langOrArr)) {
+        langOrArr.forEach(elem => {
+          if (__validateArgs(elem[0], elem[1], elem[2]))
+            configuredOptions[elem[1]][elem[0]] = elem[2];
+          else
+            return false;
+        });
+      }
+      else {
+        if (__validateArgs(langOrArr, typeOfFormat, options))
+          configuredOptions[typeOfFormat][langOrArr] = options;
+        else
+          return false;
+      }
 
       return true;
     },
@@ -107,7 +144,7 @@ module.exports = {
            * -> returns the current date
            *
            * {{_date "now" hour="numeric" minute="numeric" second="numeric"}}
-           * -> returns the current date with configured options
+           * -> returns the current date with specific options
            *
            * {{_date 1583922952743}}
            * -> returns the date given in milliseconds since begin of unix epoch
@@ -120,7 +157,7 @@ module.exports = {
            *
            * @link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
            *
-           * @param dateInput
+           * @param dateInput : string | number
            * @param options
            */
           function(dateInput, options) {
@@ -172,7 +209,7 @@ module.exports = {
            *
            *  * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
            *
-           * @param number
+           * @param number : number
            * @param options
            * @returns {*}
            */
@@ -194,7 +231,7 @@ module.exports = {
            *
            * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
            *
-           * @param price
+           * @param price : number
            * @param options
            * @returns {*}
            */
