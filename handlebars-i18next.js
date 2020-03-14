@@ -1,5 +1,5 @@
 /********************************************************************
- * handlebars-i18next.js
+ * node handlebars-i18next.js
  *
  * @author: Florian Walzel
  * @version: 1.0.1
@@ -175,7 +175,7 @@ module.exports = {
               }
             }
             else {
-              // fallback: today date
+              // fallback: today's date
               date = new Date();
             }
 

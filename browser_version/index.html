@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>handlebars-i18next</title>
+    <title>handlebars-i18next demo</title>
 </head>
 <body>
+    <h2>Handlebars-i18next Demo</h2>
     <div id="demo"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/19.3.2/i18next.js"></script>
     <script src="assets/js/handlebars-i18next.js"></script>
@@ -13,11 +15,13 @@
 
         'use strict';
 
+        // -- the translation phrases for i18next
         i18next
             .init({
                 resources : {
                     'en' : {
                         translation : {
+                            'key0': 'Change Language to',
                             'key1': 'What is good?',
                             'key2': '{{what}} is good.',
                             'key3WithCount': '{{count}} item',
@@ -27,6 +31,7 @@
                     },
                     'de' : {
                         translation: {
+                            'key0': 'Sprache wechseln zu',
                             'key1': 'Was ist gut?',
                             'key2': '{{what}} ist gut.',
                             'key3WithCount': '{{count}} Gegenstand',
@@ -35,9 +40,10 @@
                         }
                     }
                 },
-                lng : 'en' // change to 'de' to see the alternative translations
+                lng : 'en'
             });
 
+        // -- the data object for handlebars
         let data = {
             sayWhat : 'HandelbarsI18next',
             holdKey3 : 'key3WithCount',
@@ -48,6 +54,7 @@
             myDate: '2020-03-11T03:24:00'
         };
 
+        // -- init and configure HandelbarsI18next
         let HndlbrsI18n = new HandelbarsI18next();
         HndlbrsI18n.init(Handlebars, i18next);
 
@@ -59,72 +66,79 @@
             ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:false}]
         ]);
 
+        // -- the template to be rendered
+        let template =
+        '<button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>' +
+        '<ul>' +
+            // key given as string
+            '<li>{{__ "key1"}}</li>' +
 
-        let template;
+            // key with variable replacement
+            '<li>{{__ "key2" what=sayWhat}}</li>' +
 
-        template = 'EXAMPLE OUTPUT:' + '\n';
-        template += '------------------------' + '\n';
+            // phrase with [singular] / plural
+            '<li>{{__ "key3WithCount" count=1}}</li>' +
 
+            // phrase with singular / [plural]
+            '<li>{{__ "key3WithCount" count=7}}</li>' +
 
-        // key given as string
-        template += '{{__ "key1"}}' + '\n';
+            // key given as handlebars variable and _locale output
+            '<li>{{__ holdKey4}} {{_locale}}</li>' +
 
-        // key with variable replacement
-        template += '{{__ "key2" what=sayWhat}}' + '\n';
+            // if condition against selected language
+            '<li>{{#if (localeIs "en")}}RED {{else}}BLUE {{/if}}</li>' +
 
-        // phrase with [singular] / plural
-        template += '{{__ "key3WithCount" count=1}}' + '\n';
+            // number representation
+            '<li>{{_num 4000000.2}}</li>' +
 
-        // phrase with singular / [plural]
-        template += '{{__ "key3WithCount" count=7}}' + '\n';
+            // number representation with custom configuration
+            '<li>{{_num 4000000.2 maximumFractionDigits=0}}</li>' +
 
-        // key given as handlebars variable and _locale output
-        template += '{{__ holdKey4}} {{_locale}}' + '\n';
+            // number given as handlebars variable
+            '<li>{{_num number maximumFractionDigits=maxDigits}}</li>' +
 
-        // if condition against selected language
-        template += '{{#if (localeIs "en")}}RED {{else}}BLUE {{/if}}' + '\n';
+            // price representation
+            '<li>{{_price 9999.99}}</li>' +
 
-        // number representation
-        template += '{{_num 4000000.2}}' + '\n';
+            // price representation with custom configuration
+            '<li>{{_price 1000 currency="JPY" minimumFractionDigits=1}}</li>' +
 
-        // number representation with custom configuration
-        template += '{{_num 4000000.2 maximumFractionDigits=0}}' + '\n';
+            // price given as handlebars variable and with custom configuration
+            '<li>{{_price myPrice currency="DKK"}}</li>' +
 
-        // number given as handlebars variable
-        template += '{{_num number maximumFractionDigits=maxDigits}}' + '\n';
+            // todays date
+            '<li>{{_date}}</li>' +
 
-        // price representation
-        template += '{{_price 9999.99}}' + '\n';
+            // todays date with custom configuration
+            '<li>{{_date "today" year="2-digit" month="2-digit" day="2-digit"}}</li>' +
 
-        // price representation with custom configuration
-        template += '{{_price 1000 currency="JPY" minimumFractionDigits=1}}' + '\n';
+            // date given as date string
+            '<li>{{_date "2020-03-11T03:24:00"}}</li>' +
 
-        // price given as handlebars variable
-        template += '{{_price myPrice currency="DKK"}}' + '\n';
+            // date given in milliseconds since begin of unix epoch
+            '<li>{{_date 1583922952743}}</li>' +
 
-        // todays date
-        template += '{{_date}}' + '\n';
+            // date given as javascript date parameters
+            '<li>{{_date "[2012, 11, 20, 3, 0, 0]"}}</li>' +
 
-        // todays date with custom configuration
-        template += '{{_date "today" year="2-digit" month="2-digit" day="2-digit"}}' + '\n';
+            // date given as as handlebars variable
+            '<li>{{_date myDate}}</li>' +
+        '</ul>';
 
-        // date given as date string
-        template += '{{_date "2020-03-11T03:24:00"}}' + '\n';
+        // -- compile and output to demo container
+        function compile() {
+            let compiled = Handlebars.compile(template);
+            document.getElementById('demo').innerHTML = compiled(data);
+        }
 
-        // date given in milliseconds since begin of unix epoch
-        template += '{{_date 1583922952743}}' + '\n';
+        function changeLang() {
+            var changeTo = i18next.language == 'en' ? 'de' : 'en';
+            i18next.changeLanguage(changeTo).then(() => {
+                compile();
+            });
+        }
 
-        // date given as javascript date parameters
-        template += '{{_date "[2012, 11, 20, 3, 0, 0]"}}' + '\n';
-
-        // date given as as handlebars variable
-        template += '{{_date myDate}}' + '\n';
-
-        let compiled = Handlebars.compile(template);
-
-        console.log(compiled(data));
-
-        document.getElementById('demo').innerHTML = compiled(data);
+        compile();
 
     </script>
 </body>
