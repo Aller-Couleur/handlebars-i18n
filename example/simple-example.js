@@ -1,5 +1,5 @@
 /**
- * A simple eimxample using handlebars-i18next.js
+ * A simple example using handlebars-i18next.js
  *
  * @author: Florian Walzel
  * @date: 2020-03
