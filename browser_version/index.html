@@ -6,6 +6,7 @@
 </head>
 <body>
     <h2>Handlebars-i18next Demo</h2>
+
     <div id="demo"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
@@ -59,7 +60,7 @@
         HndlbrsI18n.init(Handlebars, i18next);
 
         HndlbrsI18n.configure([
-            ['all', 'NumberFormat', { minimumFractionDigits: 4 }],
+            ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
             ['en', 'PriceFormat', { currency: 'USD'}],
             ['de', 'PriceFormat', { currency: 'EUR'}],
             ['en', 'DateTimeFormat', { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric'}],
@@ -86,7 +87,7 @@
             '<li>{{__ holdKey4}} {{_locale}}</li>' +
 
             // if condition against selected language
-            '<li>{{#if (localeIs "en")}}RED {{else}}BLUE {{/if}}</li>' +
+            '<li><img src="assets/img/{{#if (localeIs \'en\')}}united_kingdom.png{{else}}germany.png{{/if}}" height="20"></li>' +
 
             // number representation
             '<li>{{_num 4000000.2}}</li>' +
@@ -131,6 +132,7 @@
             document.getElementById('demo').innerHTML = compiled(data);
         }
 
+        // -- switch language
         function changeLang() {
             var changeTo = i18next.language == 'en' ? 'de' : 'en';
             i18next.changeLanguage(changeTo).then(() => {
