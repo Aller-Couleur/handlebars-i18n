@@ -7,10 +7,10 @@ build in localization / internationalization and is not in the [list](https://ww
 Handlebars-i18next.js bridges the gap. It is usable as node module and in browser.
 
 
-## Licence
+## License
 
 Copyright (c) 2020 Florian Walzel
-MIT Licence
+MIT License
 
 ## Install
 
