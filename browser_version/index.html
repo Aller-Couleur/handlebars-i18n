@@ -56,10 +56,10 @@
         };
 
         // -- init and configure HandelbarsI18next
-        let HndlbrsI18n = new HandelbarsI18next();
-        HndlbrsI18n.init(Handlebars, i18next);
+        let handlebarsI18n = new HandelbarsI18next();
+        handlebarsI18n.init(Handlebars, i18next);
 
-        HndlbrsI18n.configure([
+        handlebarsI18n.configure([
             ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
             ['en', 'PriceFormat', { currency: 'USD'}],
             ['de', 'PriceFormat', { currency: 'EUR'}],
@@ -135,7 +135,7 @@
         // -- switch language
         function changeLang() {
             var changeTo = i18next.language == 'en' ? 'de' : 'en';
-            i18next.changeLanguage(changeTo).then(() => {
+            i18next.changeLanguage(changeTo).then(function() {
                 compile();
             });
         }
