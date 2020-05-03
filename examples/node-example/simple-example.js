@@ -5,9 +5,8 @@
  * @date: 2020-03
  *
  * usage:
- * $ cd examples
+ * $ cd examples/node-example
  * $ node simple-example.js
- *
  */
 
 
@@ -15,7 +14,7 @@
 
 const Handlebars = require('handlebars');
 const i18next = require('i18next');
-const HandelbarsI18next = require('./../handlebars-i18next.js');
+const HandelbarsI18next = require('../../dist/handlebars-i18next.js');
 
 i18next
   .init({

@@ -11,7 +11,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/19.3.2/i18next.js"></script>
-    <script src="assets/js/handlebars-i18next.js"></script>
+    <script src="../../dist/handlebars-i18next.js"></script>
     <script>
 
         'use strict';
@@ -44,7 +44,7 @@
                 lng : 'en'
             });
 
-        // -- the data object for handlebars
+        // -- handlebars' data object
         let data = {
             sayWhat : 'HandelbarsI18next',
             holdKey3 : 'key3WithCount',
@@ -55,11 +55,8 @@
             myDate: '2020-03-11T03:24:00'
         };
 
-        // -- init and configure HandelbarsI18next
-        let handlebarsI18n = new HandelbarsI18next();
-        handlebarsI18n.init(Handlebars, i18next);
-
-        handlebarsI18n.configure([
+        HandlebarsI18next.init();
+        HandlebarsI18next.configure([
             ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
             ['en', 'PriceFormat', { currency: 'USD'}],
             ['de', 'PriceFormat', { currency: 'EUR'}],
@@ -87,7 +84,7 @@
             '<li>{{__ holdKey4}} {{_locale}}</li>' +
 
             // if condition against selected language
-            '<li><img src="assets/img/{{#if (localeIs \'en\')}}united_kingdom.png{{else}}germany.png{{/if}}" height="20"></li>' +
+            '<li><img src="img/{{#if (localeIs \'en\')}}united_kingdom.png{{else}}germany.png{{/if}}" height="20"></li>' +
 
             // number representation
             '<li>{{_num 4000000.2}}</li>' +

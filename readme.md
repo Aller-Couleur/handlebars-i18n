@@ -35,4 +35,3 @@ Usage in web browser:
 
 ## Documentation
 
-// todo

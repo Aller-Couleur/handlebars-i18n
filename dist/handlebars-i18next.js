@@ -1,14 +1,12 @@
 /********************************************************************
- * handlebars-i18next.js
+ * node handlebars-i18next.js
  *
  * @author: Florian Walzel
  * @version: 1.0.1
- * @licence: MIT
  * @date: 2020-03
  *
  * Handlebars-i18next adds features for localization/
  * internationalization to handelbars.js
- *
  *
  * Copyright (c) 2020 Florian Walzel
  *
@@ -34,24 +32,116 @@
  *
  *********************************************************************/
 
-'use strict';
+(function (root, factory) {
 
-class HandelbarsI18next {
+  if (typeof exports === 'object' && typeof module === 'object') {
+    const Handlebars = require('handlebars'),
+      i18next = require('i18next'),
+      Intl = require('intl');
+    module.exports = factory(Handlebars, i18next, Intl);
+  }
+  else if (typeof define === 'function' && define.amd)
+    define(['Handlebars', 'i18next', 'Intl'], factory);
+  else if (typeof root.Handlebars === 'object' && typeof root.i18next === 'object'
+    && typeof root.Intl === 'object')
+    root['HandlebarsI18next'] = factory(root.Handlebars, root.i18next, root.Intl);
+  else
+    return console.error('@handlebars-i18next: One or more dependencies are missing. Check for Handlebars, i18next and Intl.');
 
-  constructor() {
-    this.configuredOptions = {
-      DateTimeFormat : { },
-      NumberFormat : { },
-      PriceFormat : {
-        all : { style: 'currency', currency: 'EUR' }
-      }
-    };
+})(this, function(handlebars, i18next, Intl) {
+
+  'use strict';
+
+  var configuredOptions = {
+    DateTimeFormat : { },
+    NumberFormat : { },
+    PriceFormat : {
+      all : { style: 'currency', currency: 'EUR' }
+    }
+  };
+
+  /**
+   *
+   * @param constructor
+   * @param argArray
+   * @returns {*|function(this:*)}
+   * @private
+   */
+  function __applyToConstructor(constructor, argArray) {
+    var args = [null].concat(argArray);
+    var factoryFunction = constructor.bind.apply(constructor, args);
+    return new factoryFunction();
   }
 
-  init(handlebars, i18next)  {
+  /**
+   *
+   * @param lngShortcode
+   * @param typeOfFormat
+   * @param options
+   * @returns {boolean}
+   * @private
+   */
+  function __validateArgs(lngShortcode, typeOfFormat, options) {
 
-      let _this = this;
+    if (typeof lngShortcode !== 'string') {
+      console.log('@ HandelbarsI18next.configure(): False Argument ['+ lngShortcode +'] '+
+        'First argument must be a string with language code such as "en".');
+      return false;
+    }
 
+    if (typeOfFormat !== 'DateTimeFormat'
+      && typeOfFormat !== 'NumberFormat'
+      && typeOfFormat !== 'PriceFormat') {
+      console.log('@ HandelbarsI18next.configure(): False Argument ['+ typeOfFormat +'] ' +
+        'Second argument must be a string with the options key. ' +
+        'Use either "DateTimeFormat", "NumberFormat" oer "PriceFormat".');
+      return false;
+    }
+
+    if (typeof options !== 'object') {
+      console.log('@ HandelbarsI18next.configure(): False Argument [' + options + '] ' +
+        'Third argument must be an object containing the configuration parameters');
+      return false;
+    }
+
+    return true;
+  }
+
+  return {
+    /**
+     * configure the options for INTL number, currency, and date formatting
+     *
+     * @param langOrArr : string – the language key like 'fr' or 'all' for all languages
+     *                 | array – an array with all options
+     * @param typeOfFormat : string - DateTimeFormat | NumberFormat | PriceFormat
+     * @param options : object - the options object
+     */
+    configure : function(langOrArr, typeOfFormat, options) {
+
+      if (Array.isArray(langOrArr)) {
+        langOrArr.forEach(elem => {
+          if (__validateArgs(elem[0], elem[1], elem[2]))
+            configuredOptions[elem[1]][elem[0]] = elem[2];
+          else
+            return false;
+        });
+      }
+      else {
+        if (__validateArgs(langOrArr, typeOfFormat, options))
+          configuredOptions[typeOfFormat][langOrArr] = options;
+        else
+          return false;
+      }
+
+      return true;
+    },
+
+    /**
+     * init all handlebars helpers
+     *
+     * @returns {*}
+     */
+    init : function() {
       handlebars.registerHelper('__',
         /**
          * retrieves the translation phrase from a key given as string
@@ -65,6 +155,7 @@ class HandelbarsI18next {
         function (str, attributes) {
           return new handlebars.SafeString((typeof(i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
         }
+        // __
       );
       handlebars.registerHelper('_locale',
         /**
@@ -117,17 +208,17 @@ class HandelbarsI18next {
 
           var date;
 
-          if (typeof dateInput == 'number') {
+          if (typeof dateInput === 'number') {
             // input as milliseconds since unix epoch, like: 1583922952743
             date = new Date(dateInput);
           }
-          if (typeof dateInput == 'string') {
+          else if (typeof dateInput === 'string') {
 
             if (dateInput.charAt(0) == '[' && dateInput.slice(-1) == ']') {
               // input as array represented as string such as "[2020, 11]"
               dateInput = dateInput.substring(1, dateInput.length-1).replace(/ /g,'');
               var dateArr = dateInput.split(',');
-              var dateFactory = _this.__applyToConstructor.bind(null, Date);
+              var dateFactory = __applyToConstructor.bind(null, Date);
               date = dateFactory(dateArr);
             }
             else if (dateInput.toLowerCase() == 'now' || dateInput.toLowerCase() == 'today') {
@@ -140,16 +231,16 @@ class HandelbarsI18next {
             }
           }
           else {
-            // fallback: today date
+            // fallback: today's date
             date = new Date();
           }
 
           var opts =
             (typeof options !== 'undefined' && Object.keys(options.hash).length != 0) ?
-              options.hash : _this.configuredOptions.DateTimeFormat[i18next.language] ||
-              _this.configuredOptions.DateTimeFormat.all;
+              options.hash : configuredOptions.DateTimeFormat[i18next.language] ||
+            configuredOptions.DateTimeFormat.all;
 
-          const dateFormat = Intl.DateTimeFormat(i18next.language, opts);
+          const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
         }
       );
@@ -168,10 +259,10 @@ class HandelbarsI18next {
          */
         function(number, options) {
           var opts =
-            (Object.keys(options.hash).length != 0) ? options.hash : _this.configuredOptions.NumberFormat[i18next.language] ||
-            _this.configuredOptions.NumberFormat.all;
+            (Object.keys(options.hash).length != 0) ? options.hash : configuredOptions.NumberFormat[i18next.language] ||
+            configuredOptions.NumberFormat.all;
 
-          const priceFormat = Intl.NumberFormat(i18next.language, opts);
+          const priceFormat = new Intl.NumberFormat(i18next.language, opts);
           return priceFormat.format(number);
         }
       );
@@ -180,8 +271,8 @@ class HandelbarsI18next {
          * formats a number as currency
          *
          * use with preset: {{_price 4999.99}
-               * or with individual option parameters: {{_price 4999.99 currency="EUR" maximumSignificantDigits=2}}
-               *
+         * or with individual option parameters: {{_price 4999.99 currency="EUR" maximumSignificantDigits=2}}
+         *
          * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
          *
          * @param price : number
@@ -190,90 +281,22 @@ class HandelbarsI18next {
          */
         function(price, options) {
           var opts =
-            (Object.keys(options.hash).length != 0) ? options.hash : _this.configuredOptions.PriceFormat[i18next.language] ||
-            _this.configuredOptions.PriceFormat.all;
+            (Object.keys(options.hash).length != 0) ? options.hash : configuredOptions.PriceFormat[i18next.language] ||
+            configuredOptions.PriceFormat.all;
 
-          // for usage convenience automatically add the object parameter style:'currency' if not given
+          // for convenience automatically add the object parameter style:'currency' if not given
           if (typeof opts['style'] !== 'string' )
             opts['style'] = 'currency';
 
-          const priceFormat = Intl.NumberFormat(i18next.language, opts);
+          const priceFormat = new Intl.NumberFormat(i18next.language, opts);
           return priceFormat.format(price);
         }
       );
+
+      return handlebars;
+    }
   }
+});
 
-  /**
-   *
-   * @param constructor
-   * @param argArray
-   * @returns {function(this:*)}
-   * @private
-   */
-  __applyToConstructor(constructor, argArray) {
-    var args = [null].concat(argArray);
-    var factoryFunction = constructor.bind.apply(constructor, args);
-    return new factoryFunction();
-  }
 
-  /**
-   *
-   * @param lngShortcode
-   * @param typeOfFormat
-   * @param options
-   * @returns {boolean}
-   * @private
-   */
-   __validateArgs(lngShortcode, typeOfFormat, options) {
 
-    if (typeof lngShortcode !== 'string') {
-      console.log('@ HandelbarsI18next.configure(): False Argument ['+ lngShortcode +'] '+
-        'First argument must be a string with language code such as "en".');
-      return false;
-    }
-
-    if (typeOfFormat !== 'DateTimeFormat'
-      && typeOfFormat !== 'NumberFormat'
-      && typeOfFormat !== 'PriceFormat') {
-      console.log('@ HandelbarsI18next.configure(): False Argument ['+ typeOfFormat +'] ' +
-        'Second argument must be a string with the options key. ' +
-        'Use either "DateTimeFormat", "NumberFormat" oer "PriceFormat".');
-      return false;
-    }
-
-    if (typeof options !== 'object') {
-      console.log('@ HandelbarsI18next.configure(): False Argument [' + options + '] ' +
-        'Third argument must be an object containing the configuration parameters');
-      return false;
-    }
-
-    return true;
-  }
-
-  /**
-   *
-   * @param langOrArr
-   * @param typeOfFormat
-   * @param options
-   * @returns {boolean}
-   */
-  configure(langOrArr, typeOfFormat, options) {
-
-    if (Array.isArray(langOrArr)) {
-      langOrArr.forEach(elem => {
-        if (this.__validateArgs(elem[0], elem[1], elem[2]))
-          this.configuredOptions[elem[1]][elem[0]] = elem[2];
-        else
-          return false;
-      });
-    }
-    else {
-      if (this.__validateArgs(langOrArr, typeOfFormat, options))
-        this.configuredOptions[typeOfFormat][langOrArr] = options;
-      else
-        return false;
-    }
-
-    return true;
-  }
-}
