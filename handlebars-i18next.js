@@ -32,11 +32,17 @@
  *
  *********************************************************************/
 
+// todo: make window wrapper
+// todo: use instanbul nyc for code coverage
+// todo: use sinon
+
 'use strict';
 
 const handlebars = require('handlebars');
 const i18next = require('i18next');
 const intl = require('intl');
+
+const __ = require('./include/__.js');
 
 var configuredOptions = {
       DateTimeFormat : { },
@@ -118,9 +124,10 @@ module.exports = {
          * @param attributes
          * @returns {*}
          */
-        function (str, attributes) {
+       /* function (str, attributes) {
           return new handlebars.SafeString((typeof(i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
-        }
+        }*/
+        __
       );
       handlebars.registerHelper('_locale',
         /**
