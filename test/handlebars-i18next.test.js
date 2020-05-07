@@ -45,11 +45,11 @@ describe('handlebarsI18next Test', function() {
   });
 
   // -- Tests for function __ -- //
-  it('function __ should throw error when called with no parameter', function() {
+  it('expecting __ to throw error when called with no parameter', function() {
     expect(function() { hI18n.helpers.__() }).to.throw("Cannot read property 'hash' of undefined");
   });
 
-  it('function __ should throw error when called with missing second key', function() {
+  it('expecting __ to throw error when called with missing second key', function() {
     expect(function() { hI18n.helpers.__("someKey") }).to.throw("Cannot read property 'hash' of undefined");
   });
 
@@ -60,21 +60,45 @@ describe('handlebarsI18next Test', function() {
     assert.equal("someKey", res.string);
   });
 
-  // todo:more
+  // todo: more here
+
+
+  // -- Tests for function _locale -- //
+  it('expecting function _locale to be undefined as long as no language was set with i18next.init', function() {
+    expect(hI18n.helpers._locale()).to.be.undefined;
+  });
+
+  it('function _locale should return "en" if language is specified via i18next.init', function() {
+    i18next.init({
+        resources : {
+          en : { translation : { } },
+          de : { translation: { } }
+        },
+        lng : 'en'
+      });
+    assert.equal('en', hI18n.helpers._locale());
+  });
+
+  it('function _locale should return "de" after language change to "de"', function() {
+    i18next.changeLanguage('de');
+    assert.equal('de', hI18n.helpers._locale());
+  });
+
+  // -- Tests for function isLocale -- //
+  it('function isLocale should return TRUE when current language is set to "en" and given "en" as parameter', function() {
+    i18next.changeLanguage('en');
+    assert.equal(true, hI18n.helpers.localeIs('en'));
+  });
+
+  it('function isLocale should return FALSE when current language is set to "en" and given "someOther" as parameter', function() {
+    assert.equal(false, hI18n.helpers.localeIs('someOther'));
+  });
 
 
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
 
 
   // -- Tests for method configure() -- //
