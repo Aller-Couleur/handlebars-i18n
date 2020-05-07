@@ -16,31 +16,31 @@ describe('handlebarsI18next Test', function() {
 
   // -- Tests for method init() -- //
 
-  it('method init() should return an object (HandlebarsEnvironment)', function() {
+  it('after method call init() should return an object (HandlebarsEnvironment)', function() {
     assert.isObject(hI18n);
   });
 
-  it('after method init() HandlebarsEnvironment object should have a function __', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function __', function() {
     assert.isFunction(hI18n.helpers.__);
   });
 
-  it('after method init() HandlebarsEnvironment object should have a function _locale', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function _locale', function() {
     assert.isFunction(hI18n.helpers._locale);
   });
 
-  it('after method init() HandlebarsEnvironment object should have a function localeIs', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function localeIs', function() {
     assert.isFunction(hI18n.helpers.localeIs);
   });
 
-  it('after method init() HandlebarsEnvironment object should have a function _date', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function _date', function() {
     assert.isFunction(hI18n.helpers._date);
   });
 
-  it('after method init() HandlebarsEnvironment object should have a function _num', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function _num', function() {
     assert.isFunction(hI18n.helpers._num);
   });
 
-  it('after method init() HandlebarsEnvironment object should have a function _price', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function _price', function() {
     assert.isFunction(hI18n.helpers._price);
   });
 
@@ -73,7 +73,7 @@ describe('handlebarsI18next Test', function() {
     expect(hI18n.helpers._locale()).to.be.undefined;
   });
 
-  it('function _locale should return "en" if language is specified via i18next.init', function() {
+  it('function _locale should return "en" if language is specified via i18next.init as "en', function() {
     i18next.init({
         resources : {
           en : { translation : { } },
@@ -168,7 +168,7 @@ describe('handlebarsI18next Test', function() {
 
   it('method configure() returns true if called with empty array []', function() {
     const configure = HandlebarsI18next.configure([]);
-    assert.isOk(configure);
+    assert.isNotOk(configure);
   });
 
   it('method configure() returns false if called with only one argument', function() {

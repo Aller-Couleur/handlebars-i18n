@@ -88,7 +88,7 @@
   function __validateArgs(lngShortcode, typeOfFormat, options) {
 
     if (typeof lngShortcode !== 'string') {
-      console.log('@ HandelbarsI18next.configure(): False Argument ['+ lngShortcode +'] '+
+      console.error('@ HandelbarsI18next.configure(): Invalid argument ['+ lngShortcode +'] ' +
         'First argument must be a string with language code such as "en".');
       return false;
     }
@@ -96,14 +96,14 @@
     if (typeOfFormat !== 'DateTimeFormat'
       && typeOfFormat !== 'NumberFormat'
       && typeOfFormat !== 'PriceFormat') {
-      console.log('@ HandelbarsI18next.configure(): False Argument ['+ typeOfFormat +']. ' +
+      console.error('@ HandelbarsI18next.configure(): Invalid argument ['+ typeOfFormat +']. ' +
         'Second argument must be a string with the options key. ' +
         'Use either "DateTimeFormat", "NumberFormat" or "PriceFormat".');
       return false;
     }
 
     if (typeof options !== 'object') {
-      console.log('@ HandelbarsI18next.configure(): False Argument [' + options + '] ' +
+      console.error('@ HandelbarsI18next.configure(): Invalid argument [' + options + '] ' +
         'Third argument must be an object containing the configuration parameters');
       return false;
     }
@@ -122,7 +122,18 @@
      */
     configure : function(langOrArr, typeOfFormat, options) {
 
+      if (typeof langOrArr !== 'string' && !Array.isArray(langOrArr)) {
+        console.error('@ HandelbarsI18next.configure(): Invalid argument ['+ langOrArr +'] ' +
+          'First argument must be a string with language code such as "en" or an array with parameters.');
+        return false;
+      }
+
       if (Array.isArray(langOrArr)) {
+        if (langOrArr.length < 1) {
+          console.error('@ HandelbarsI18next.configure(): ' +
+            'You passed an empty array, no Parameters taken.');
+          return false;
+        }
         langOrArr.forEach(elem => {
           if (__validateArgs(elem[0], elem[1], elem[2]))
             configuredOptions[elem[1]][elem[0]] = elem[2];
