@@ -12,10 +12,10 @@ const HandlebarsI18next = require('../dist/handlebars-i18next');
 
 describe('handlebarsI18next Test', function() {
 
-  i18next.init();
   const hI18n = HandlebarsI18next.init();
 
   // -- Tests for method init() -- //
+
   it('method init() should return an object (HandlebarsEnvironment)', function() {
     assert.isObject(hI18n);
   });
@@ -44,7 +44,11 @@ describe('handlebarsI18next Test', function() {
     assert.isFunction(hI18n.helpers._price);
   });
 
+
   // -- Tests for function __ -- //
+
+  i18next.init();
+
   it('expecting __ to throw error when called with no parameter', function() {
     expect(function() { hI18n.helpers.__() }).to.throw("Cannot read property 'hash' of undefined");
   });
@@ -64,7 +68,8 @@ describe('handlebarsI18next Test', function() {
 
 
   // -- Tests for function _locale -- //
-  it('expecting function _locale to be undefined as long as no language was set with i18next.init', function() {
+
+  it('expecting function _locale to be [undefined] as long as no language was set with i18next.init', function() {
     expect(hI18n.helpers._locale()).to.be.undefined;
   });
 
@@ -84,15 +89,69 @@ describe('handlebarsI18next Test', function() {
     assert.equal('de', hI18n.helpers._locale());
   });
 
+
   // -- Tests for function isLocale -- //
+
   it('function isLocale should return TRUE when current language is set to "en" and given "en" as parameter', function() {
     i18next.changeLanguage('en');
     assert.equal(true, hI18n.helpers.localeIs('en'));
   });
 
   it('function isLocale should return FALSE when current language is set to "en" and given "someOther" as parameter', function() {
+    i18next.changeLanguage('en');
     assert.equal(false, hI18n.helpers.localeIs('someOther'));
   });
+
+
+  // -- Tests for function _date -- //
+
+  it('expect function _date to throw error when called with invalid date parameter', function() {
+    expect(function() { hI18n.helpers._date('someStrangeString') }).to.throw("Invalid valid date passed to format");
+  });
+
+  it('function _date should return today\'s date in Intl default format when called without parameter', function() {
+    const today = new Date();
+    const todayFormated = new Intl.DateTimeFormat().format(today);
+    assert.equal(todayFormated, hI18n.helpers._date());
+  });
+
+  it('function _date should return today\'s date in Intl default format when called with parameter, "Today" or "Now" ', function() {
+    const today = new Date();
+    const todayFormated = new Intl.DateTimeFormat().format(today);
+    assert.equal(todayFormated, hI18n.helpers._date("today"));
+    assert.equal(todayFormated, hI18n.helpers._date("Today"));
+    assert.equal(todayFormated, hI18n.helpers._date("TODAY"));
+    assert.equal(todayFormated, hI18n.helpers._date("now"));
+    assert.equal(todayFormated, hI18n.helpers._date("Now"));
+    assert.equal(todayFormated, hI18n.helpers._date("NOW"));
+  });
+
+  it('function _date should return "1/1/1970" (Intl default format) when called with parameter 1 as number ', function() {
+    assert.equal('1/1/1970', hI18n.helpers._date(1));
+  });
+
+  it('function _date should return "12/17/1995" (Intl default format) when called with parameter "1995-12-17T03:24:00"', function() {
+    assert.equal('12/17/1995', hI18n.helpers._date('1995-12-17T03:24:00'));
+  });
+
+  it('function _date should return "12/17/1995" (Intl default format) when called with parameter "December 17, 1995 03:24:00"', function() {
+    assert.equal('12/17/1995', hI18n.helpers._date('December 17, 1995 03:24:00'));
+  });
+
+  it('function _date should return "1/1/2020" (Intl default format )called with parameter "[2020]"', function() {
+    assert.equal('1/1/1995', hI18n.helpers._date('[1995]'));
+  });
+
+  it('function _date should return "12/1/1995" (Intl default format )called with parameter "[2020,11]"', function() {
+    assert.equal('12/1/1995', hI18n.helpers._date('[1995,11]'));
+  });
+
+  it('function _date should return "12/17/1995" (Intl default format )called with parameter "[2020,11,17]"', function() {
+    assert.equal('12/17/1995', hI18n.helpers._date('[1995,11,17]'));
+  });
+
+
+
 
 
 
