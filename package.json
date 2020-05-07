@@ -4,7 +4,10 @@
   "description": "handelbars-i18next adds internationlization to handelbars.js using i18next and Intl",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec "
+    "test": "mocha"
+  },
+  "directories": {
+    "test": "test"
   },
   "repository": {
     "type": "git",
@@ -28,6 +31,7 @@
     "intl": "^1.2.5"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-rename": "^2.0.0",
     "gulp-uglify": "^3.0.2",

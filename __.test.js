@@ -2,6 +2,7 @@
  * Created by florianwalzel on 02.05.20.
  */
 
+/*
 const handlebars = require('handlebars');
 const i18next = require('i18next');
 const assert = require('assert');
@@ -15,4 +16,4 @@ describe('__', function() {
     const result = __('some string', {});
     assert.equal(result, 'some string');
   })
-});
+});*/

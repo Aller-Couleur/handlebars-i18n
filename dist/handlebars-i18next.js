@@ -36,17 +36,21 @@
 
   if (typeof exports === 'object' && typeof module === 'object') {
     const Handlebars = require('handlebars'),
-      i18next = require('i18next'),
-      Intl = require('intl');
+          i18next = require('i18next'),
+          Intl = require('intl');
     module.exports = factory(Handlebars, i18next, Intl);
   }
   else if (typeof define === 'function' && define.amd)
     define(['Handlebars', 'i18next', 'Intl'], factory);
-  else if (typeof root.Handlebars === 'object' && typeof root.i18next === 'object'
-    && typeof root.Intl === 'object')
+  else if (typeof root.Handlebars === 'object'
+           && typeof root.i18next === 'object'
+           && typeof root.Intl === 'object')
     root['HandlebarsI18next'] = factory(root.Handlebars, root.i18next, root.Intl);
-  else
-    return console.error('@handlebars-i18next: One or more dependencies are missing. Check for Handlebars, i18next and Intl.');
+  else {
+    console.error('@handlebars-i18next: One or more dependencies are missing. Check for Handlebars, i18next and Intl.');
+    return false;
+  }
+
 
 })(this, function(handlebars, i18next, Intl) {
 
@@ -92,9 +96,9 @@
     if (typeOfFormat !== 'DateTimeFormat'
       && typeOfFormat !== 'NumberFormat'
       && typeOfFormat !== 'PriceFormat') {
-      console.log('@ HandelbarsI18next.configure(): False Argument ['+ typeOfFormat +'] ' +
+      console.log('@ HandelbarsI18next.configure(): False Argument ['+ typeOfFormat +']. ' +
         'Second argument must be a string with the options key. ' +
-        'Use either "DateTimeFormat", "NumberFormat" oer "PriceFormat".');
+        'Use either "DateTimeFormat", "NumberFormat" or "PriceFormat".');
       return false;
     }
 
@@ -112,7 +116,7 @@
      * configure the options for INTL number, currency, and date formatting
      *
      * @param langOrArr : string – the language key like 'fr' or 'all' for all languages
-     *                 | array – an array with all options
+     *                 | array – an array with multiple options
      * @param typeOfFormat : string - DateTimeFormat | NumberFormat | PriceFormat
      * @param options : object - the options object
      */
@@ -155,7 +159,6 @@
         function (str, attributes) {
           return new handlebars.SafeString((typeof(i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
         }
-        // __
       );
       handlebars.registerHelper('_locale',
         /**
