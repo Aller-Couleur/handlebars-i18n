@@ -58,7 +58,7 @@ describe('handlebarsI18next Test', function() {
   });
 
   it('function __ should return a SafeString object with property "string" where "string" contains the first parameter given to __', function() {
-    const res = hI18n.helpers.__("someKey", {});
+    const res = hI18n.helpers.__("someKey", { hash: {} });
     assert.isObject(res);
     assert.isString(res.string);
     assert.equal("someKey", res.string);
@@ -138,23 +138,45 @@ describe('handlebarsI18next Test', function() {
     assert.equal('12/17/1995', hI18n.helpers._date('December 17, 1995 03:24:00'));
   });
 
-  it('function _date should return "1/1/2020" (Intl default format )called with parameter "[2020]"', function() {
+  it('function _date should return "1/1/2020" (Intl default format) when called with parameter "[2020]"', function() {
     assert.equal('1/1/1995', hI18n.helpers._date('[1995]'));
   });
 
-  it('function _date should return "12/1/1995" (Intl default format )called with parameter "[2020,11]"', function() {
+  it('function _date should return "12/1/1995" (Intl default format) when called with parameter "[2020,11]"', function() {
     assert.equal('12/1/1995', hI18n.helpers._date('[1995,11]'));
   });
 
-  it('function _date should return "12/17/1995" (Intl default format )called with parameter "[2020,11,17]"', function() {
+  it('function _date should return "12/17/1995" (Intl default format) when called with parameter "[2020,11,17]"', function() {
     assert.equal('12/17/1995', hI18n.helpers._date('[1995,11,17]'));
   });
 
+  it('function _date should return 12/1/95"  when called with parameter "[2020,11,01] and specifying options"', function() {
+    assert.equal('12/1/95', hI18n.helpers._date('[1995,11,1]', { hash: { year:"2-digit", month:"2-digit", day:"2-digit" }}));
+  });
 
 
+  // -- Tests for function _num -- //
+
+  it('function _num should return comma separated triples of decimals when language is "en""', function() {
+    i18next.changeLanguage('en');
+    assert.equal('4,000,000', hI18n.helpers._num(4000000, { hash: {} }));
+  });
+
+  it('function _num should return dot separated triples of decimals and 2 fraction digits"', function() {
+    assert.equal('4,000,000.00', hI18n.helpers._num(4000000, { hash: { minimumFractionDigits : 2 } }));
+  });
+
+  it('function _num should return dot separated triples of decimals when language is "de"', function() {
+    i18next.changeLanguage('de');
+    assert.equal('4.000.000', hI18n.helpers._num(4000000, { hash: {} }));
+  });
+
+  it('function _num should return dot separated triples of decimals when language is "de"', function() {
+    assert.equal('4.000.000,00', hI18n.helpers._num(4000000, { hash: { minimumFractionDigits : 2 } }));
+  });
 
 
-
+  // -- Tests for function _currency -- //
 
 
 

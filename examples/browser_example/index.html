@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>handlebars-i18next demo</title>
+    <title>handlebars-i18next Demo</title>
 </head>
 <body>
     <h2>Handlebars-i18next Demo</h2>
@@ -16,7 +16,7 @@
 
         'use strict';
 
-        // -- the translation phrases for i18next
+        // -- The translation phrases for i18next
         i18next
             .init({
                 resources : {
@@ -44,7 +44,7 @@
                 lng : 'en'
             });
 
-        // -- handlebars' data object
+        // -- Handlebars' data object
         let data = {
             sayWhat : 'HandelbarsI18next',
             holdKey3 : 'key3WithCount',
@@ -55,7 +55,8 @@
             myDate: '2020-03-11T03:24:00'
         };
 
-        console.log(HandlebarsI18next.init());
+        // -- Init and configure HandlebarsI18next
+        HandlebarsI18next.init();
         HandlebarsI18next.configure([
             ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
             ['en', 'PriceFormat', { currency: 'USD'}],
@@ -64,7 +65,7 @@
             ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:false}]
         ]);
 
-        // -- the template to be rendered
+        // -- The template to be rendered
         let template =
         '<button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>' +
         '<ul>' +
@@ -123,13 +124,13 @@
             '<li>{{_date myDate}}</li>' +
         '</ul>';
 
-        // -- compile and output to demo container
+        // -- Compile template and output to demo container
         function compile() {
             let compiled = Handlebars.compile(template);
             document.getElementById('demo').innerHTML = compiled(data);
         }
 
-        // -- switch language
+        // -- Switch language function
         function changeLang() {
             var changeTo = i18next.language == 'en' ? 'de' : 'en';
             i18next.changeLanguage(changeTo).then(function() {

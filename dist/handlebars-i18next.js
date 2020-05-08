@@ -131,7 +131,7 @@
       if (Array.isArray(langOrArr)) {
         if (langOrArr.length < 1) {
           console.error('@ HandelbarsI18next.configure(): ' +
-            'You passed an empty array, no Parameters taken.');
+            'You passed an empty array, no parameters taken.');
           return false;
         }
         langOrArr.forEach(elem => {
@@ -263,7 +263,7 @@
          * formats a given number by internationalization options
          *
          * use with preset: {{_num 3000}}
-         * or with individual option parameters: {{_num 3000 maximumSignificantDigits=1}}
+         * or with individual option parameters: {{_num 3000 minimumFractionDigits=2}}
          *
          *  * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
          *
@@ -272,6 +272,9 @@
          * @returns {*}
          */
         function(number, options) {
+
+          console.log(options);
+
           var opts =
             (Object.keys(options.hash).length != 0) ? options.hash : configuredOptions.NumberFormat[i18next.language] ||
             configuredOptions.NumberFormat.all;
@@ -285,7 +288,7 @@
          * formats a number as currency
          *
          * use with preset: {{_price 4999.99}
-         * or with individual option parameters: {{_price 4999.99 currency="EUR" maximumSignificantDigits=2}}
+         * or with individual option parameters: {{_price 4999.99 currency="EUR" minimumFractionDigits=2}}
          *
          * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
          *
