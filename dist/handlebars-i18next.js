@@ -273,8 +273,6 @@
          */
         function(number, options) {
 
-          console.log(options);
-
           var opts =
             (Object.keys(options.hash).length != 0) ? options.hash : configuredOptions.NumberFormat[i18next.language] ||
             configuredOptions.NumberFormat.all;

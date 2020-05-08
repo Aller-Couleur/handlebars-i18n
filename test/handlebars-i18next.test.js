@@ -53,10 +53,6 @@ describe('handlebarsI18next Test', function() {
     expect(function() { hI18n.helpers.__() }).to.throw("Cannot read property 'hash' of undefined");
   });
 
-  it('expecting __ to throw error when called with missing second key', function() {
-    expect(function() { hI18n.helpers.__("someKey") }).to.throw("Cannot read property 'hash' of undefined");
-  });
-
   it('function __ should return a SafeString object with property "string" where "string" contains the first parameter given to __', function() {
     const res = hI18n.helpers.__("someKey", { hash: {} });
     assert.isObject(res);
