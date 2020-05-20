@@ -1,5 +1,5 @@
 /********************************************************************
- * node handlebars-i18next.js
+ * handlebars-i18next.js
  *
  * @author: Florian Walzel
  * @version: 1.0.1
@@ -50,7 +50,6 @@
     console.error('@handlebars-i18next: One or more dependencies are missing. Check for Handlebars, i18next and Intl.');
     return false;
   }
-
 
 })(this, function(handlebars, i18next, Intl) {
 
