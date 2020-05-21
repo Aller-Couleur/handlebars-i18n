@@ -62,7 +62,7 @@ HandelbarsI18next.configure([
 
 let template;
 
-template = 'EXAMPLE OUTPUT:' + '\n';
+template = '\n' + 'EXAMPLE OUTPUT:' + '\n';
 template += '------------------------' + '\n';
 
 // key given as string
@@ -81,7 +81,7 @@ template += '{{__ "key3WithCount" count=7}}' + '\n';
 template += '{{__ holdKey4}} {{_locale}}' + '\n';
 
 // if condition against selected language
-template += '{{#if (localeIs "en")}}RED {{else}}BLUE {{/if}}' + '\n';
+template += '{{#if (localeIs "en")}}English {{else}}Deutsch {{/if}}' + '\n';
 
 // number representation
 template += '{{_num 4000000.2}}' + '\n';
@@ -122,4 +122,4 @@ template += '{{_date myDate}}' + '\n';
 
 let compiled = Handlebars.compile(template);
 
-console.log(compiled(data));
+console.log('\x1b[36m%s\x1b[0m', compiled(data));

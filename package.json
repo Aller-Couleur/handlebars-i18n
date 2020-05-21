@@ -1,8 +1,8 @@
 {
   "name": "handlebars-i18next",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "handelbars-i18next adds internationlization to handelbars.js using i18next and Intl",
-  "main": "index.js",
+  "main": "dist/handlebars-i18next.js",
   "scripts": {
     "test": "nyc mocha"
   },
