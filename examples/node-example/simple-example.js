@@ -52,13 +52,17 @@ let data = {
 };
 
 HandelbarsI18next.init();
-HandelbarsI18next.configure([
-  ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
-  ['en', 'PriceFormat', { currency: 'USD'}],
-  ['de', 'PriceFormat', { currency: 'EUR'}],
-  ['en', 'DateTimeFormat', { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric'}],
-  ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:false}]
-]);
+/*HandelbarsI18next.configure([
+ ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
+ ['en', 'PriceFormat', { currency: 'USD'}],
+ ['de', 'PriceFormat', { currency: 'EUR'}],
+ ['en', 'DateTimeFormat', { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric'}],
+ ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:false}]
+ ]);*/
+
+/*HandelbarsI18next.configure([
+ ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
+ ]);*/
 
 let template;
 

@@ -7,7 +7,7 @@
 
 ## License
 
-Copyright (c) 2020 Florian Walzel
+Copyright (c) 2020 Florian Walzel,
 MIT License
 
 ## Install
@@ -98,7 +98,9 @@ Also see the *examples folder* in the repo for more details.
 
 ## API
 
-#### __
+
+
+### __
 
 
 
@@ -116,37 +118,137 @@ Also see the *examples folder* in the repo for more details.
 
 --
 
-#### _locale
 
-Returns the shortcode of i18next's currently selected language such as "en", "de", "fr", "fi" … etc.
+
+### _locale
+
+Returns the shortcode of i18next's currently selected language such as "**en**", "**de**", "**fr**", "**fi**" … etc.
 
 ```
 {{_locale}}
 ```
 --
 
-#### localeIs
+### localeIs
 
+Check against  i18next's currently selected language. Returns **true** or **false**.
 
 ```
 {{#if (localeIs "en")}} ... {{/if}}
 ```
 --
 
-#### _date
+### _date
 
+Outputs a formated date according to the language specific conventions.
 
+```
+{{_date}}
+```
+
+If called without argument the current date is returned. Any other input date can be passed as a conventional date string, a number (timestamp in milliseconds), or a javascript date array.
+
+**Date argument given as date string:**
+
+```
+{{_date "2020-03-11T03:24:00"}}
+```
+
+```
+{{_date "December 17, 1995 03:24:00"}}
+```
+
+**Date argument given as number (milliseconds since begin of unix epoch):**
+
+```
+{{_date 1583922952743}}
+```
+
+**Date argument given as javascript date array:**
+
+```
+{{_date "[2012, 11, 20, 3, 0, 0]"}}
+```
+
+**Additional arguments for formating**
+
+You can add multiple arguments for individual formating. See [Intl DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) for your option arguments.
+
+```
+{{_date 1583922952743 year="2-digit" day="2-digit" timeZone="America/Los_Angeles"}}
+```
 
 --
 
-#### _num
+### _num
+
+Outputs a formated number according to the language specific conventions of number representation, e.g. **4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
+
+```
+{{_num 4100000.8314 }}
+```
+
+**Additional arguments for formating**
+
+You can add multiple arguments for individual formating. See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for your option arguments.
+
+```
+{{_num 3.14159 maximumFractionDigits=2}}
+```
 
 --
 
-#### _price
+### _price
+
+Outputs a formated currency string according to the language specific conventions of price representation, e.g. **€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
+
+
+```
+{{_price 9999.99}}
+```
+
+**Additional arguments for formating**
+
+You can add multiple arguments for individual currency formating. See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for your option arguments.
+
+```
+{{_price 1000 currency="JPY" minimumFractionDigits=2}}
+```
 
 --
 
 #### How to use HandlebarsI18next.configure
 
---
+Instead of defining the formating options for each date, number or price anew, you can configure global settings for all languages or only specific languages.
+
+```
+ HandlebarsI18next.configure("en", "DateTimeFormat", {timeZone: "America/Los_Angeles"});
+```
+
+First argument is the language shortcode or "**all**" for all languages. Second is the format option you want to address (DateTimeFormat, NumberFormat, or PriceFormat). Third argument ist the options object with the specific settings.
+
+The lookup cascade is:
+
+* `1st Priority`: The argument given in the template, e.g. `{{_date timeZone="America/Los_Angeles"}}` 
+* `2nd Priority`: The global setting configured for the current language, such as "**en**"
+* `3rd Priority`: The global setting configured for **all** languages
+* `4th Priority`: The **Intl** default setting
+
+**Example:**
+
+*This defines that all prices for all languages is represented as Dollar:*
+
+```
+ HandlebarsI18next.configure("all", "PriceFormat", {currency: "USD"});
+```
+
+*This defines that all prices for all languages is represented as Dollar, but that for language French the currency is Euro:*
+
+```
+ HandlebarsI18next.configure([
+ 	["all", "PriceFormat", {currency: "USD"}],
+ 	["fr", "PriceFormat", {currency: "EUR"}]
+]);
+```
+
+
