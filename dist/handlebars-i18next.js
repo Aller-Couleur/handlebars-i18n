@@ -129,7 +129,7 @@
 
       if (Array.isArray(langOrArr)) {
         if (langOrArr.length < 1) {
-          console.error('@ HandelbarsI18next.configure(): ' +
+          console.log('@ HandelbarsI18next.configure(): ' +
             'You passed an empty array, no parameters taken.');
           return false;
         }

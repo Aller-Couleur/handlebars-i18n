@@ -47,14 +47,14 @@ i18next.init({
 	resources : {
         "en" : {
             translation : {
-                "key1": "What is good?",
-                "key2": "{{what}} is good."
+                "phrase1": "What is good?",
+                "phrase2": "{{what}} is good."
             }
         },
         "de" : {
             translation: {
-                "key0": "Sprache wechseln zu",
-                "key1": "Was ist gut?",
+                "phrase1": "Was ist gut?",
+                "phrase2": "{{what}} ist gut."
            }
         }
     },
@@ -65,9 +65,10 @@ i18next.init({
 Set your Handlebars.js data object:
 
 ```
-let data = { 
-	myPrice: 12.99,
- 	myDate: '2020-03-11T03:24:00'
+let data = {
+	myItem: "handelbars-i18next", 
+	myPrice: 1200.99,
+ 	myDate: "2020-03-11T03:24:00"
 }
 
 ```
@@ -75,7 +76,7 @@ let data = {
 Initialize handlebars-i18next:
 
 ```
-HandelbarsI18next.init()
+HandelbarsI18next.init();
 ```
 
 Optionally configure your language specific number, currency, and date-time defaults:
@@ -90,8 +91,24 @@ Optionally configure your language specific number, currency, and date-time defa
 Finally use in template:
 
 ```
-<p> {{ }} {{_price myPrice}}  </p>
+<p> {{__ "phrase1"}} </p>
 ```
+* returns for "en" &#x2192; **What is good?**
+
+```
+<p> {{__ "phrase2" what=myItem}} </p>
+```
+* returns for "en" &#x2192; **handelbars-i18next is good.**
+
+```
+<p> {{_date myDate}} </p>
+```
+* returns for "en" &#x2192; **March 11, 2020, 4:24 AM**
+
+```
+<p> {{_price myPrice}} </p>
+```
+* returns for "en" &#x2192; **$1,200.99**
 
 Also see the *examples folder* in the repo for more details.
 
@@ -102,19 +119,49 @@ Also see the *examples folder* in the repo for more details.
 
 ### __
 
-
+Returns the phrase associated with the given key for the selected language. The key can be passed hard encoded in the template when written in quotes:
 
 ```
 {{__ "keyToTranslationPhrase"}}
 ```
+… or it can be referenced via a handlebars variable:
 
 ```
-{{__ keyToTranslationPhrase}}
+{{__ keyFromHandlebarsData}}
 ```
+
 **Variable Replacement**
+
+Template usage:
+
+```
+{{__ "whatIsWhat" a="Everything" b="fine"}}
+```
+
+The i18next resource:
+
+```
+"en" : {
+	translation : {
+        "whatIsWhat": "{{a}} is {{b}}."
+	}
+},
+```
 
 **Plurals**
 
+```
+{{__ "keyWithCount" count=8}}
+```
+
+```
+'en' : {
+	translation : {
+   		'keyWithCount': '{{count}} item',
+     	'keyWithCount_plural': '{{count}} items',
+    }
+},
+```
 
 --
 
@@ -131,7 +178,7 @@ Returns the shortcode of i18next's currently selected language such as "**en**",
 
 ### localeIs
 
-Check against  i18next's currently selected language. Returns **true** or **false**.
+Checks a string against i18next's currently selected language. Returns **true** or **false**.
 
 ```
 {{#if (localeIs "en")}} ... {{/if}}
@@ -236,13 +283,13 @@ The lookup cascade is:
 
 **Example:**
 
-*This defines that all prices for all languages is represented as Dollar:*
+This defines that all prices for all languages are represented as Dollar:
 
 ```
  HandlebarsI18next.configure("all", "PriceFormat", {currency: "USD"});
 ```
 
-*This defines that all prices for all languages is represented as Dollar, but that for language French the currency is Euro:*
+This defines that all prices for all languages are represented as Dollar, but that for language French the currency is Euro:
 
 ```
  HandlebarsI18next.configure([
