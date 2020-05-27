@@ -3,7 +3,7 @@
  *
  * @author: Florian Walzel
  * @version: 1.0.1
- * @date: 2020-03
+ * @date: 2020-05
  *
  * Handlebars-i18next adds features for localization/
  * internationalization to handelbars.js
