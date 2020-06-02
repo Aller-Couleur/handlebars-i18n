@@ -15,13 +15,12 @@
   },
   "keywords": [
     "handlebars-i18next",
-    "Internationalization",
-    "Localization",
+    "Internationalization", "Internationalisation",
+    "Localization", "Localisation",
+    "Globalization", "Globalisation",
     "Translation",
-    "Handlebars",
-    "Handlebars.js",
-    "i18next",
-    "Vanilla JS"
+    "Handlebars", "Handlebars-js", "Handlebars.js",
+    "i18next", "i18n"
   ],
   "author": "Florian Walzel",
   "license": "MIT",
