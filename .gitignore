@@ -1,8 +1,11 @@
 # IDE
 .idea
 
+# Node Modules
+node_modules
+
 # NYC Istanbul
 .nyc_output
 
-# Node Modules
-node_modules
+# Coveralls
+coverage
