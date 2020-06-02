@@ -1,6 +1,6 @@
 # handlebars-i18next.js
 
-`handlebars-i18next.js` adds the internationalization features of i18next and Intl to handlebars.js.
+`handlebars-i18next.js` adds the internationalization features of **i18next** and **Intl** to handlebars.js.
 
 [Handlebars.js](https://handlebarsjs.com/) is a slim and convenient templating language but does not come up with build in localization / internationalization features and is not in the [list](https://www.i18next.com/overview/supported-frameworks) of [i18next](https://www.i18next.com)'s supported Frameworks. Handlebars-i18next.js bridges the gap. It is usable as node module as well as in browser.
 
@@ -279,7 +279,7 @@ The lookup cascade is:
 * `1st Priority`: The argument given in the template, e.g. `{{_date timeZone="America/Los_Angeles"}}` 
 * `2nd Priority`: The global setting configured for the current language, such as "**en**"
 * `3rd Priority`: The global setting configured for **all** languages
-* `4th Priority`: The **Intl** default setting
+* `Default`: The **Intl** default setting
 
 **Example:**
 
