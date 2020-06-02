@@ -1,5 +1,5 @@
 {
-  "name": "handlebars-i18next",
+  "name": "handlebars-i18n",
   "version": "1.0.1",
   "description": "handelbars-i18next adds internationlization to handelbars.js using i18next and Intl",
   "main": "dist/handlebars-i18next.js",
@@ -15,6 +15,7 @@
     "url": "git+https://github.com/fwalzel/handlebars-i18next.git"
   },
   "keywords": [
+    "handlebars-i18n",
     "handlebars-i18next",
     "Internationalization",
     "Internationalisation",

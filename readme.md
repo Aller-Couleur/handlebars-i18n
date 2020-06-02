@@ -1,6 +1,6 @@
-# handlebars-i18next.js
+# handlebars-i18n
 
-`handlebars-i18next.js` adds the internationalization features of **i18next** and **Intl** to handlebars.js.
+`handlebars-i18n` adds the internationalization features of **i18next** and **Intl** to handlebars.js.
 
 [Handlebars.js](https://handlebarsjs.com/) is a slim and convenient templating language but does not come up with build-in localization / internationalization features and is not in the [list](https://www.i18next.com/overview/supported-frameworks) of [i18next](https://www.i18next.com)'s supported Frameworks. Handlebars-i18next.js bridges the gap. It is usable as node module as well as in browser.
 
@@ -15,7 +15,7 @@ MIT License
 ## Install
 
 ```
-$ npm install handlebars-i18next
+$ npm install handlebars-i18n
 ```
 
 
