@@ -24,7 +24,7 @@ $ npm install handlebars-i18n
 Usage within node environment:
 
 ```
-const HandelbarsI18next = require("handlebars-i18next");
+const HandelbarsI18next = require("handlebars-i18n");
 HandelbarsI18next.init();
 ```
 
