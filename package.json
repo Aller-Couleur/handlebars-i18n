@@ -1,8 +1,8 @@
 {
   "name": "handlebars-i18n",
   "version": "1.0.1",
-  "description": "handelbars-i18next adds internationlization to handelbars.js using i18next and Intl",
-  "main": "dist/handlebars-i18next.js",
+  "description": "handlebars-i18n adds internationlization to handlebars.js using i18next and Intl",
+  "main": "dist/handlebars-i18n.js",
   "scripts": {
     "test": "nyc mocha",
     "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"

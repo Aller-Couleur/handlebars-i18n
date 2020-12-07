@@ -1,12 +1,12 @@
 /********************************************************************
- * handlebars-i18next.js
+ * handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @version: 1.0.1
- * @date: 2020-05
+ * @version: 1.0.2
+ * @date: 2020-12
  *
- * Handlebars-i18next adds features for localization/
- * internationalization to handelbars.js
+ * handlebars-i18n adds features for localization/
+ * internationalization to handlebars.js
  *
  * Copyright (c) 2020 Florian Walzel
  *
@@ -45,9 +45,9 @@
   else if (typeof root.Handlebars === 'object'
            && typeof root.i18next === 'object'
            && typeof root.Intl === 'object')
-    root['HandlebarsI18next'] = factory(root.Handlebars, root.i18next, root.Intl);
+    root['HandlebarsI18n'] = factory(root.Handlebars, root.i18next, root.Intl);
   else {
-    console.error('@handlebars-i18next: One or more dependencies are missing. Check for Handlebars, i18next and Intl.');
+    console.error('@ handlebars-i18n: One or more dependencies are missing. Check for Handlebars, i18next and Intl.');
     return false;
   }
 
@@ -87,7 +87,7 @@
   function __validateArgs(lngShortcode, typeOfFormat, options) {
 
     if (typeof lngShortcode !== 'string') {
-      console.error('@ HandelbarsI18next.configure(): Invalid argument ['+ lngShortcode +'] ' +
+      console.error('@ handlebars-i18n.configure(): Invalid argument ['+ lngShortcode +'] ' +
         'First argument must be a string with language code such as "en".');
       return false;
     }
@@ -95,14 +95,14 @@
     if (typeOfFormat !== 'DateTimeFormat'
       && typeOfFormat !== 'NumberFormat'
       && typeOfFormat !== 'PriceFormat') {
-      console.error('@ HandelbarsI18next.configure(): Invalid argument ['+ typeOfFormat +']. ' +
+      console.error('@ handlebars-i18n.configure(): Invalid argument ['+ typeOfFormat +']. ' +
         'Second argument must be a string with the options key. ' +
         'Use either "DateTimeFormat", "NumberFormat" or "PriceFormat".');
       return false;
     }
 
     if (typeof options !== 'object') {
-      console.error('@ HandelbarsI18next.configure(): Invalid argument [' + options + '] ' +
+      console.error('@ handlebars-i18n.configure(): Invalid argument [' + options + '] ' +
         'Third argument must be an object containing the configuration parameters');
       return false;
     }
@@ -122,14 +122,14 @@
     configure : function(langOrArr, typeOfFormat, options) {
 
       if (typeof langOrArr !== 'string' && !Array.isArray(langOrArr)) {
-        console.error('@ HandelbarsI18next.configure(): Invalid argument ['+ langOrArr +'] ' +
+        console.error('@ handlebars-i18n.configure(): Invalid argument ['+ langOrArr +'] ' +
           'First argument must be a string with language code such as "en" or an array with parameters.');
         return false;
       }
 
       if (Array.isArray(langOrArr)) {
         if (langOrArr.length < 1) {
-          console.log('@ HandelbarsI18next.configure(): ' +
+          console.log('@ handlebars-i18n.configure(): ' +
             'You passed an empty array, no parameters taken.');
           return false;
         }

@@ -24,8 +24,8 @@ $ npm install handlebars-i18n
 Usage within node environment:
 
 ```
-const HandelbarsI18next = require("handlebars-i18n");
-HandelbarsI18next.init();
+const HandlebarsI18n = require("handlebars-i18n");
+HandlebarsI18n.init();
 ```
 
 Usage in web browser:
@@ -33,10 +33,10 @@ Usage in web browser:
 ```
 <script src="handlebars.js"></script>
 <script src="i18next.js"></script>
-<script src="handlebars-i18next.js"></script>
+<script src="handlebars-i18n.js"></script>
 
 <script>
-    HandelbarsI18next.init()
+    HandlebarsI18n.init()
 </script>
 ```
 
@@ -68,23 +68,23 @@ Set your Handlebars.js data object:
 
 ```
 let data = {
-	myItem: "handlebars-i18next", 
+	myItem: "handlebars-i18n", 
 	myPrice: 1200.99,
  	myDate: "2020-03-11T03:24:00"
 }
 
 ```
 
-Initialize handlebars-i18next:
+Initialize handlebars-i18n:
 
 ```
-HandelbarsI18next.init();
+HandlebarsI18n.init();
 ```
 
 Optionally configure your language specific number, currency, and date-time defaults:
 
 ```
- HandlebarsI18next.configure([
+ HandlebarsI18n.configure([
  	["en", "PriceFormat", {currency: "USD"}],
 	["de", "PriceFormat", {currency: "EUR"}]
 ]);
@@ -100,7 +100,7 @@ Finally use in template:
 ```
 <p> {{__ "phrase2" what=myItem}} </p>
 ```
-* returns for "en" &#x2192; **handlebars-i18next is good.**
+* returns for "en" &#x2192; **handlebars-i18n is good.**
 
 ```
 <p> {{_date myDate}} </p>

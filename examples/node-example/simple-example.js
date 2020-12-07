@@ -1,8 +1,8 @@
 /**
- * A simple example using handlebars-i18next.js
+ * A simple example using handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @date: 2020-03
+ * @date: 2020-12
  *
  * usage:
  * $ cd examples/node-example
@@ -14,7 +14,7 @@
 
 const Handlebars = require('handlebars');
 const i18next = require('i18next');
-const HandelbarsI18next = require('../../dist/handlebars-i18n.js');
+const HandlebarsI18n = require('../../dist/handlebars-i18n.js');
 
 i18next
   .init({
@@ -42,7 +42,7 @@ i18next
 });
 
 let data = {
-  sayWhat : 'HandelbarsI18next',
+  sayWhat : 'handlebars-i18n',
   holdKey3 : 'key3WithCount',
   holdKey4 : 'key4',
   number : 33.333,
@@ -51,18 +51,23 @@ let data = {
   myDate: '2020-03-11T03:24:00'
 };
 
-HandelbarsI18next.init();
-/*HandelbarsI18next.configure([
+HandlebarsI18n.init();
+
+/*
+HandlebarsI18n.configure([
  ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
  ['en', 'PriceFormat', { currency: 'USD'}],
  ['de', 'PriceFormat', { currency: 'EUR'}],
  ['en', 'DateTimeFormat', { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric'}],
  ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:false}]
- ]);*/
+ ]);
+ */
 
-/*HandelbarsI18next.configure([
+/*
+HandlebarsI18n.configure([
  ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
- ]);*/
+ ]);
+ */
 
 let template;
 

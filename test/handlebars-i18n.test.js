@@ -2,6 +2,7 @@
  * Created by florianwalzel on 02.05.20.
  *
  * usage:
+ * $ cd test
  * $ npm run test
  */
 
@@ -10,10 +11,10 @@ const expect = require('chai').expect;
 
 const Handlebars = require('handlebars');
 const i18next = require('i18next');
-const HandlebarsI18next = require('../dist/handlebars-i18next');
+const HandlebarsI18n = require('../dist/handlebars-i18n');
 
 
-describe('handlebarsI18next Test', function() {
+describe('handlebarsI18n Test', function() {
 
   const i18nInitObj = {
     resources : {
@@ -33,7 +34,7 @@ describe('handlebarsI18next Test', function() {
     lng : 'en'
   };
 
-  const hI18n = HandlebarsI18next.init();
+  const hI18n = HandlebarsI18n.init();
 
 
   // -- Tests for method init() -- //
@@ -274,32 +275,32 @@ describe('handlebarsI18next Test', function() {
   // -- Tests for method configure() -- //
 
   it('method configure() should return false if called without argument', function() {
-    const configure = HandlebarsI18next.configure();
+    const configure = HandlebarsI18n.configure();
     assert.isNotOk(configure);
   });
 
   it('method configure() should return false if called with empty array []', function() {
-    const configure = HandlebarsI18next.configure([]);
+    const configure = HandlebarsI18n.configure([]);
     assert.isNotOk(configure);
   });
 
   it('method configure() should return false if called with only one argument', function() {
-    const configure = HandlebarsI18next.configure('en');
+    const configure = HandlebarsI18n.configure('en');
     assert.isNotOk(configure);
   });
 
   it('method configure() should return false if called with language argument and invalid second argument', function() {
-    const configure = HandlebarsI18next.configure('en', 'somestrangeinput');
+    const configure = HandlebarsI18n.configure('en', 'somestrangeinput');
     assert.isNotOk(configure);
   });
 
   it('method configure() should return false if called with language argument "en" and second argument "DateTimeFormat" and Number as third argument', function() {
-    const configure = HandlebarsI18next.configure('en', 'DateTimeFormat', 12);
+    const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', 12);
     assert.isNotOk(configure);
   });
 
   it('method configure() should return true if called with language argument "en" and second argument "DateTimeFormat" and options object as third argument', function() {
-    const configure = HandlebarsI18next.configure('en', 'DateTimeFormat', { year:'numeric' } );
+    const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', { year:'numeric' } );
     assert.isOk(configure);
   });
 

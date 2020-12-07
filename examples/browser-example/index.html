@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>handlebars-i18next Demo</title>
+    <title>handlebars-i18n Demo</title>
 </head>
 <body>
-    <h2>Handlebars-i18next Demo</h2>
+    <h2>handlebars-i18n Demo</h2>
 
     <div id="demo"></div>
 
@@ -46,7 +46,7 @@
 
         // -- Handlebars' data object
         let data = {
-            sayWhat : 'HandelbarsI18next',
+            sayWhat : 'handlebars-i18n',
             holdKey3 : 'key3WithCount',
             holdKey4 : 'key4',
             number : 33.333,
@@ -55,9 +55,9 @@
             myDate: '2020-03-11T03:24:00'
         };
 
-        // -- Init and configure HandlebarsI18next
-        HandlebarsI18next.init();
-        HandlebarsI18next.configure([
+        // -- Init and configure handlebars-i18n
+        HandlebarsI18n.init();
+        HandlebarsI18n.configure([
             ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
             ['en', 'PriceFormat', { currency: 'USD'}],
             ['de', 'PriceFormat', { currency: 'EUR'}],
