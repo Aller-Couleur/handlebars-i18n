@@ -35,7 +35,7 @@
   "homepage": "https://github.com/fwalzel/handlebars-i18next.git#readme",
   "dependencies": {
     "handlebars": "^4.7.6",
-    "i18next": "^17.3.0",
+    "i18next": "^19.8.4",
     "intl": "^1.2.5"
   },
   "devDependencies": {
@@ -46,7 +46,7 @@
     "gulp-uglify": "^3.0.2",
     "gulp-uglify-es": "^2.0.0",
     "istanbul": "^0.4.5",
-    "mocha": "^7.2.0",
-    "nyc": "^15.0.1"
+    "mocha": "^8.2.1",
+    "nyc": "^15.1.0"
   }
 }
