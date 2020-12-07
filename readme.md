@@ -1,6 +1,6 @@
 # handlebars-i18n
 
-`handlebars-i18n` adds the internationalization features of **i18next** and **Intl** to handlebars.js.
+`handlebars-i18n` adds the internationalization features of **i18next** and **Intl** to **handlebars.js**.
 
 [Handlebars.js](https://handlebarsjs.com/) is a slim and convenient templating language but does not come up with build-in localization / internationalization features and is not in the [list](https://www.i18next.com/overview/supported-frameworks) of [i18next](https://www.i18next.com)'s supported Frameworks. Handlebars-i18next.js bridges the gap. It is usable as node module as well as in browser.
 
@@ -266,12 +266,12 @@ You can add multiple arguments for individual currency formating. See [Intl Numb
 
 --
 
-#### How to use HandlebarsI18next.configure
+#### How to use HandlebarsI18n.configure
 
 Instead of defining the formating options for each date, number or price anew, you can configure global settings for all languages or only specific languages.
 
 ```
- HandlebarsI18next.configure("en", "DateTimeFormat", {timeZone: "America/Los_Angeles"});
+ HandlebarsI18n.configure("en", "DateTimeFormat", {timeZone: "America/Los_Angeles"});
 ```
 
 First argument is the language shortcode or "**all**" for all languages. Second is the format option you want to address (DateTimeFormat, NumberFormat, or PriceFormat). Third argument ist the options object with the specific settings.
@@ -288,13 +288,13 @@ The lookup cascade is:
 This defines that all prices for all languages are represented as Dollar:
 
 ```
- HandlebarsI18next.configure("all", "PriceFormat", {currency: "USD"});
+ HandlebarsI18n.configure("all", "PriceFormat", {currency: "USD"});
 ```
 
 This defines that all prices for all languages are represented as Dollar, but that for language French the currency is Euro:
 
 ```
- HandlebarsI18next.configure([
+ HandlebarsI18n.configure([
  	["all", "PriceFormat", {currency: "USD"}],
  	["fr", "PriceFormat", {currency: "EUR"}]
 ]);
