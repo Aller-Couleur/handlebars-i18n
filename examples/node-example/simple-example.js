@@ -14,7 +14,7 @@
 
 const Handlebars = require('handlebars');
 const i18next = require('i18next');
-const HandelbarsI18next = require('../../dist/handlebars-i18next.js');
+const HandelbarsI18next = require('../../dist/handlebars-i18n.js');
 
 i18next
   .init({
