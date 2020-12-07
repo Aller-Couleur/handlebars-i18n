@@ -1,5 +1,5 @@
 /**
- * Created by florianwalzel on 02.05.20.
+ * Tests for handlebars-i18n.js
  *
  * usage:
  * $ cd test
@@ -14,7 +14,7 @@ const i18next = require('i18next');
 const HandlebarsI18n = require('../dist/handlebars-i18n');
 
 
-describe('handlebarsI18n Test', function() {
+describe('handlebars-i18n Test', function() {
 
   const i18nInitObj = {
     resources : {

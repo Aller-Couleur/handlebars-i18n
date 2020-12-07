@@ -1,6 +1,6 @@
 {
   "name": "handlebars-i18n",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "handlebars-i18n adds internationlization to handlebars.js using i18next and Intl",
   "main": "dist/handlebars-i18n.js",
   "scripts": {
