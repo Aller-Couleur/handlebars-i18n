@@ -31,7 +31,7 @@ HandelbarsI18next.init();
 Usage in web browser:
 
 ```
-<script src="handelbars.js"></script>
+<script src="handlebars.js"></script>
 <script src="i18next.js"></script>
 <script src="handlebars-i18next.js"></script>
 
@@ -68,7 +68,7 @@ Set your Handlebars.js data object:
 
 ```
 let data = {
-	myItem: "handelbars-i18next", 
+	myItem: "handlebars-i18next", 
 	myPrice: 1200.99,
  	myDate: "2020-03-11T03:24:00"
 }
@@ -100,7 +100,7 @@ Finally use in template:
 ```
 <p> {{__ "phrase2" what=myItem}} </p>
 ```
-* returns for "en" &#x2192; **handelbars-i18next is good.**
+* returns for "en" &#x2192; **handlebars-i18next is good.**
 
 ```
 <p> {{_date myDate}} </p>
