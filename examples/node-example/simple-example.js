@@ -125,7 +125,7 @@ template += '{{_date 1583922952743}}' + '\n';
 // date given as javascript date parameters
 template += '{{_date "[2012, 11, 20, 3, 0, 0]"}}' + '\n';
 
-// date given as as handlebars variable
+// date given as handlebars variable
 template += '{{_date myDate}}' + '\n';
 
 
