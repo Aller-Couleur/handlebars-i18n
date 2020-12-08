@@ -165,7 +165,7 @@ The i18next resource:
 },
 ```
 
---
+---
 
 
 
