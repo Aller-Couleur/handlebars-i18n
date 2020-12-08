@@ -176,7 +176,7 @@ Returns the shortcode of i18next's currently selected language such as "**en**",
 ```
 {{_locale}}
 ```
---
+---
 
 ### localeIs
 
@@ -185,7 +185,7 @@ Checks a string against i18next's currently selected language. Returns **true** 
 ```
 {{#if (localeIs "en")}} ... {{/if}}
 ```
---
+---
 
 ### _date
 
@@ -226,8 +226,7 @@ You can add multiple arguments for individual formating. See [Intl DateTimeForma
 ```
 {{_date 1583922952743 year="2-digit" day="2-digit" timeZone="America/Los_Angeles"}}
 ```
-
---
+---
 
 ### _num
 
@@ -245,7 +244,7 @@ You can add multiple arguments for individual formating. See [Intl NumberFormat]
 {{_num 3.14159 maximumFractionDigits=2}}
 ```
 
---
+---
 
 ### _price
 
@@ -264,7 +263,7 @@ You can add multiple arguments for individual currency formating. See [Intl Numb
 {{_price 1000 currency="JPY" minimumFractionDigits=2}}
 ```
 
---
+---
 
 #### How to use HandlebarsI18n.configure
 
