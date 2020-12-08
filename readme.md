@@ -265,9 +265,9 @@ You can add multiple arguments for individual currency formating. See [Intl Numb
 
 ---
 
-#### How to use HandlebarsI18n.configure
+## How to use HandlebarsI18n.configure method
 
-Instead of defining the formating options for each date, number or price anew, you can configure global settings for all languages or only specific languages.
+Instead of defining the formating options for each date, number or price anew, you can configure global settings for all languages or only for specific languages.
 
 ```
  HandlebarsI18n.configure("en", "DateTimeFormat", {timeZone: "America/Los_Angeles"});
