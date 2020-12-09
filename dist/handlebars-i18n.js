@@ -31,7 +31,6 @@
  * THE SOFTWARE.
  *
  *********************************************************************/
-console.log('hm');
 
 (function (root, factory) {
 
@@ -157,8 +156,6 @@ console.log('hm');
      * @returns {*}
      */
     init : function() {
-      console.log('init');
-
       handlebars.registerHelper('__',
         /**
          * retrieves the translation phrase from a key given as string
@@ -170,9 +167,6 @@ console.log('hm');
          * @returns {*}
          */
         function (str, attributes) {
-          console.log('translate :)');
-          console.log(i18next.t('testi'));
-
           return new handlebars.SafeString((typeof(i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
         }
       );
