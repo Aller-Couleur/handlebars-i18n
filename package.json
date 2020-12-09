@@ -33,7 +33,7 @@
   "author": "Florian Walzel",
   "license": "MIT",
   "homepage": "https://github.com/fwalzel/handlebars-i18n.git#readme",
-  "dependencies": {
+  "peerDependencies": {
     "handlebars": "^4.7.6",
     "i18next": "^19.8.4",
     "intl": "^1.2.5"

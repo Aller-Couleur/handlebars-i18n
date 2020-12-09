@@ -15,7 +15,7 @@ MIT License
 ## Install
 
 ```
-$ npm install handlebars-i18n
+$ npm install handlebars-i18n handlebars i18next intl
 ```
 
 
