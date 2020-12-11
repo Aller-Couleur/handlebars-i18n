@@ -48,5 +48,10 @@
     "istanbul": "^0.4.5",
     "mocha": "^8.2.1",
     "nyc": "^15.1.0"
+  },
+  "dependencies": {
+    "handlebars": "^4.7.6",
+    "i18next": "^19.8.4",
+    "intl": "^1.2.5"
   }
 }
