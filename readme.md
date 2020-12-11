@@ -15,7 +15,7 @@ MIT License
 ## Install
 
 ```
-$ npm install handlebars-i18n
+$ npm install handlebars-i18n handlebars i18next intl
 ```
 
 
@@ -45,6 +45,8 @@ Usage in web browser:
 Initialize i18next with your language strings and default settings:
 
 ```
+const i18next = require('i18next');
+
 i18next.init({
 	resources : {
         "en" : {

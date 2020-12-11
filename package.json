@@ -1,6 +1,6 @@
 {
   "name": "handlebars-i18n",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "handlebars-i18n adds internationlization to handlebars.js using i18next and Intl",
   "main": "dist/handlebars-i18n.js",
   "scripts": {
@@ -33,7 +33,7 @@
   "author": "Florian Walzel",
   "license": "MIT",
   "homepage": "https://github.com/fwalzel/handlebars-i18n.git#readme",
-  "dependencies": {
+  "peerDependencies": {
     "handlebars": "^4.7.6",
     "i18next": "^19.8.4",
     "intl": "^1.2.5"
