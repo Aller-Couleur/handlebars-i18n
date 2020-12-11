@@ -63,18 +63,18 @@ HandlebarsI18n.configure([
  ]);
  */
 
-/*
 HandlebarsI18n.configure([
- ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
- ]);
- */
+  ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'}, 'my-custom-conf'],
+  ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric'}]
+  ]
+);
 
 let template;
 
 template = '\n' + 'EXAMPLE OUTPUT:' + '\n';
 template += '------------------------' + '\n';
 
-// key given as string
+/*// key given as string
 template += '{{__ "key1"}}' + '\n';
 
 // key with variable replacement
@@ -123,7 +123,10 @@ template += '{{_date "2020-03-11T03:24:00"}}' + '\n';
 template += '{{_date 1583922952743}}' + '\n';
 
 // date given as javascript date parameters
-template += '{{_date "[2012, 11, 20, 3, 0, 0]"}}' + '\n';
+template += '{{_date "[2012, 11, 20, 3, 0, 0]"}}' + '\n';*/
+
+// date given as handlebars variable
+template += '{{_date myDate format="my-custom-conf"}}' + '\n';
 
 // date given as handlebars variable
 template += '{{_date myDate}}' + '\n';

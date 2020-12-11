@@ -55,13 +55,23 @@
 
   'use strict';
 
-  var configuredOptions = {
-    DateTimeFormat : { },
-    NumberFormat : { },
-    PriceFormat : {
-      all : { style: 'currency', currency: 'EUR' }
-    }
+  var OptionsConf = {
+      DateTimeFormat: {
+        standard: { }
+      },
+      NumberFormat: {
+        standard: { }
+      },
+      PriceFormat: {
+        standard: {
+          all: {style: 'currency', currency: 'EUR'}
+        }
+      }
   };
+
+  /*************************************
+   * PRIVATE FUNCTIONS (HELPERS)
+   *************************************/
 
   /**
    *
@@ -74,6 +84,31 @@
     var args = [null].concat(argArray);
     var factoryFunction = constructor.bind.apply(constructor, args);
     return new factoryFunction();
+  }
+
+  /**
+   *
+   * @private
+   */
+  function __errSafeword() {
+    return  console.error('@ handlebars-i18n.configure(): You can not name a custom language configuration "standard". ' +
+      'This is a reserved word. Please choose a different name.');
+  }
+
+  /**
+   *
+   * @param hndlbrsOptions
+   * @param OCFormat
+   * @returns {*}
+   * @private
+   */
+  function __choseConfig(hndlbrsOptions, OCFormat) {
+    if (typeof hndlbrsOptions !== 'undefined' && Object.keys(hndlbrsOptions.hash).length != 0 && ! hndlbrsOptions.hash.hasOwnProperty('format'))
+      return hndlbrsOptions.hash;
+    else if (OCFormat.hasOwnProperty(hndlbrsOptions.hash.format) && OCFormat[hndlbrsOptions.hash.format].hasOwnProperty(i18next.language))
+      return OCFormat[hndlbrsOptions.hash.format][i18next.language];
+    else
+      return OCFormat.standard[i18next.language] || OCFormat.DateTimeFormat.standard.all;
   }
 
   /**
@@ -110,6 +145,11 @@
     return true;
   }
 
+
+  /*************************************
+   * PUBLIC INTERFACE
+   *************************************/
+
   return {
     /**
      * configure the options for INTL number, currency, and date formatting
@@ -119,11 +159,16 @@
      * @param typeOfFormat : string - DateTimeFormat | NumberFormat | PriceFormat
      * @param options : object - the options object
      */
-    configure : function(langOrArr, typeOfFormat, options) {
+    configure : function(langOrArr, typeOfFormat, options, custom = null) {
 
       if (typeof langOrArr !== 'string' && !Array.isArray(langOrArr)) {
         console.error('@ handlebars-i18n.configure(): Invalid argument ['+ langOrArr +'] ' +
           'First argument must be a string with language code such as "en" or an array with parameters.');
+        return false;
+      }
+
+      if (custom == 'standard') {
+        __errSafeword();
         return false;
       }
 
@@ -134,15 +179,33 @@
           return false;
         }
         langOrArr.forEach(elem => {
-          if (__validateArgs(elem[0], elem[1], elem[2]))
-            configuredOptions[elem[1]][elem[0]] = elem[2];
+          if (__validateArgs(elem[0], elem[1], elem[2])) {
+
+            if (elem[3] == 'standard') {
+              __errSafeword();
+              return false;
+            }
+
+            if (typeof elem[3] === 'string') {
+              OptionsConf[elem[1]][elem[3]] = { };
+              OptionsConf[elem[1]][elem[3]][elem[0]] = elem[2];
+            }
+            else
+              OptionsConf[elem[1]]['standard'][elem[0]] = elem[2];
+          }
           else
             return false;
         });
       }
       else {
-        if (__validateArgs(langOrArr, typeOfFormat, options))
-          configuredOptions[typeOfFormat][langOrArr] = options;
+        if (__validateArgs(langOrArr, typeOfFormat, options)) {
+          if (typeof custom === 'string') {
+            OptionsConf[typeOfFormat][custom] = {};
+            OptionsConf[typeOfFormat][custom][langOrArr] = options;
+          }
+          else
+            OptionsConf[typeOfFormat]['standard'][langOrArr] = options;
+        }
         else
           return false;
       }
@@ -248,10 +311,17 @@
             date = new Date();
           }
 
-          var opts =
-            (typeof options !== 'undefined' && Object.keys(options.hash).length != 0) ?
-              options.hash : configuredOptions.DateTimeFormat[i18next.language] ||
-            configuredOptions.DateTimeFormat.all;
+         /* var opts,
+           oc = OptionsConf.DateTimeFormat;
+
+           if (typeof options !== 'undefined' && Object.keys(options.hash).length != 0 && ! options.hash.hasOwnProperty('format'))
+           opts = options.hash;
+           else if (oc.hasOwnProperty(options.hash.format) && oc[options.hash.format].hasOwnProperty(i18next.language))
+           opts = oc[options.hash.format][i18next.language];
+           else
+           opts = oc.standard[i18next.language] || oc.DateTimeFormat.standard.all;*/
+
+          var opts = __choseConfig(options, OptionsConf.DateTimeFormat);
 
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
@@ -272,9 +342,7 @@
          */
         function(number, options) {
 
-          var opts =
-            (Object.keys(options.hash).length != 0) ? options.hash : configuredOptions.NumberFormat[i18next.language] ||
-            configuredOptions.NumberFormat.all;
+          var opts = __choseConfig(options, OptionsConfNumberFormat);
 
           const priceFormat = new Intl.NumberFormat(i18next.language, opts);
           return priceFormat.format(number);
@@ -284,7 +352,7 @@
         /**
          * formats a number as currency
          *
-         * use with preset: {{_price 4999.99}
+         * use with preset: {{_price 4999.99}}
          * or with individual option parameters: {{_price 4999.99 currency="EUR" minimumFractionDigits=2}}
          *
          * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
@@ -294,9 +362,8 @@
          * @returns {*}
          */
         function(price, options) {
-          var opts =
-            (Object.keys(options.hash).length != 0) ? options.hash : configuredOptions.PriceFormat[i18next.language] ||
-            configuredOptions.PriceFormat.all;
+
+          var opts = __choseConfig(options, PriceFormat);
 
           // for convenience automatically add the object parameter style:'currency' if not given
           if (typeof opts['style'] !== 'string' )
