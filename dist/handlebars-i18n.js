@@ -2,7 +2,7 @@
  * handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @version: 1.0.2
+ * @version: 1.0.3
  * @date: 2020-12
  *
  * handlebars-i18n adds features for localization/
