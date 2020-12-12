@@ -45,7 +45,7 @@ let data = {
   sayWhat : 'handlebars-i18n',
   holdKey3 : 'key3WithCount',
   holdKey4 : 'key4',
-  number : 33.333,
+  myNumber : 33.333,
   maxDigits: 1,
   myPrice: 12.99,
   myDate: '2020-03-11T03:24:00'
@@ -64,8 +64,18 @@ HandlebarsI18n.configure([
  */
 
 HandlebarsI18n.configure([
-  ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'}, 'my-custom-conf'],
-  ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric'}]
+    ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric'}],
+    ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric'}],
+    ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'}, 'my-custom-format'],
+    ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'}, 'my-custom-format']/*,
+    ['en', 'NumberFormat', { maximumFractionDigits:0 }],
+    ['de', 'NumberFormat', { maximumFractionDigits:0 }],
+    ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format'],
+    ['de', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format'],
+    ['en', 'PriceFormat', { currency:'USD'}],
+    ['de', 'PriceFormat', { currency:'EUR'}],
+    ['en', 'PriceFormat', { currency:'USD', maximumFractionDigits:0 }, 'my-custom-format'],
+    ['de', 'PriceFormat', { currency:'EUR', maximumFractionDigits:0 }, 'my-custom-format']*/
   ]
 );
 
@@ -126,10 +136,23 @@ template += '{{_date 1583922952743}}' + '\n';
 template += '{{_date "[2012, 11, 20, 3, 0, 0]"}}' + '\n';*/
 
 // date given as handlebars variable
-template += '{{_date myDate format="my-custom-conf"}}' + '\n';
+//template += '{{_date myDate}}' + '\n';
 
-// date given as handlebars variable
-template += '{{_date myDate}}' + '\n';
+// date given as handlebars variable with custom configuration
+template += '{{_date myDate format="my-custom-format"}}' + '\n';
+
+// number representation as handlebars variable
+//template += '{{_num myNumber}}' + '\n';
+
+// number representation as handlebars variable with custom configuration
+//template += '{{_num myNumber format="my-custom-format"}}' + '\n';
+
+/*// price given as handlebars variable
+template += '{{_price myPrice}}' + '\n';
+
+// price given as handlebars variable with custom configuration
+template += '{{_price myPrice format="my-custom-format"}}' + '\n';*/
+
 
 
 let compiled = Handlebars.compile(template);

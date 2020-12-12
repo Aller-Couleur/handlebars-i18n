@@ -102,13 +102,61 @@
    * @returns {*}
    * @private
    */
-  function __choseConfig(hndlbrsOptions, OCFormat) {
-    if (typeof hndlbrsOptions !== 'undefined' && Object.keys(hndlbrsOptions.hash).length != 0 && ! hndlbrsOptions.hash.hasOwnProperty('format'))
+  function __choseConfig(hndlbrsOptions, lang, OCFormat) {
+
+    if (Object.keys(hndlbrsOptions).length > 0) {
+
+      console.log('more then 0 keys');
+
+      if (typeof hndlbrsOptions.format === 'undefined') {
+        console.log('format is undefined');
+        return hndlbrsOptions;
+      }
+
+      else if (typeof OCFormat[hndlbrsOptions.format] !== 'undefined' && typeof OCFormat[hndlbrsOptions.format][lang] !== 'undefined') {
+        console.log('format is defined');
+        return OCFormat[hndlbrsOptions.format][lang];
+      }
+
+
+      console.log (typeof OCFormat[hndlbrsOptions.format][lang]);
+    }
+
+
+
+    /*if (typeof hndlbrsOptions !== 'undefined'
+      && Object.keys(hndlbrsOptions.hash).length != 0
+      && typeof hndlbrsOptions.hash['format'] === 'undefined') {
+      console.log('using the hash');
       return hndlbrsOptions.hash;
-    else if (OCFormat.hasOwnProperty(hndlbrsOptions.hash.format) && OCFormat[hndlbrsOptions.hash.format].hasOwnProperty(i18next.language))
-      return OCFormat[hndlbrsOptions.hash.format][i18next.language];
-    else
-      return OCFormat.standard[i18next.language] || OCFormat.DateTimeFormat.standard.all;
+    }
+
+    else if (typeof OCFormat[hndlbrsOptions.hash.format] !== 'undefined'
+      && typeof OCFormat[hndlbrsOptions.hash.format][lang] !== 'undefined') {
+      console.log('using the custom format');
+      return OCFormat[hndlbrsOptions.hash.format][lang];
+    }
+
+    else if (typeof OCFormat.standard[lang] !== 'undefined')
+    {
+      console.log('using the specific language');
+      return OCFormat.standard[lang];
+    }
+
+    else if (typeof OCFormat.standard.all !== 'undefined')
+    {
+      console.log('using "all"');
+      return OCFormat.standard.all;
+    }
+
+    else {
+      console.log('using empty');
+      console.log(OCFormat.standard.hasOwnProperty[lang]);
+      return {};
+    }*/
+    console.log('no condition taken');
+
+    return {}
   }
 
   /**
@@ -181,6 +229,9 @@
         langOrArr.forEach(elem => {
           if (__validateArgs(elem[0], elem[1], elem[2])) {
 
+            var
+
+
             if (elem[3] == 'standard') {
               __errSafeword();
               return false;
@@ -189,6 +240,7 @@
             if (typeof elem[3] === 'string') {
               OptionsConf[elem[1]][elem[3]] = { };
               OptionsConf[elem[1]][elem[3]][elem[0]] = elem[2];
+              console.log(OptionsConf[elem[1]][elem[3]][elem[0]]);
             }
             else
               OptionsConf[elem[1]]['standard'][elem[0]] = elem[2];
@@ -209,6 +261,8 @@
         else
           return false;
       }
+
+      // console.log(OptionsConf);
 
       return true;
     },
@@ -311,17 +365,9 @@
             date = new Date();
           }
 
-         /* var opts,
-           oc = OptionsConf.DateTimeFormat;
+          //console.log(options.hash);
 
-           if (typeof options !== 'undefined' && Object.keys(options.hash).length != 0 && ! options.hash.hasOwnProperty('format'))
-           opts = options.hash;
-           else if (oc.hasOwnProperty(options.hash.format) && oc[options.hash.format].hasOwnProperty(i18next.language))
-           opts = oc[options.hash.format][i18next.language];
-           else
-           opts = oc.standard[i18next.language] || oc.DateTimeFormat.standard.all;*/
-
-          var opts = __choseConfig(options, OptionsConf.DateTimeFormat);
+          var opts = __choseConfig(options.hash, i18next.language, OptionsConf.DateTimeFormat);
 
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
@@ -342,7 +388,7 @@
          */
         function(number, options) {
 
-          var opts = __choseConfig(options, OptionsConfNumberFormat);
+          var opts = __choseConfig(options, i18next.language, OptionsConf.NumberFormat);
 
           const priceFormat = new Intl.NumberFormat(i18next.language, opts);
           return priceFormat.format(number);
@@ -363,7 +409,7 @@
          */
         function(price, options) {
 
-          var opts = __choseConfig(options, PriceFormat);
+          var opts = __choseConfig(options, i18next.language, OptionsConf.PriceFormat);
 
           // for convenience automatically add the object parameter style:'currency' if not given
           if (typeof opts['style'] !== 'string' )
