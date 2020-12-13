@@ -64,14 +64,14 @@ HandlebarsI18n.configure([
  */
 
 HandlebarsI18n.configure([
-    ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric'}],
+    /*['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric'}],
     ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric'}],
     ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'}, 'my-custom-format'],
-    ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'}, 'my-custom-format']/*,
+    ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'}, 'my-custom-format'],*/
     ['en', 'NumberFormat', { maximumFractionDigits:0 }],
     ['de', 'NumberFormat', { maximumFractionDigits:0 }],
     ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format'],
-    ['de', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format'],
+    ['de', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format']/*,
     ['en', 'PriceFormat', { currency:'USD'}],
     ['de', 'PriceFormat', { currency:'EUR'}],
     ['en', 'PriceFormat', { currency:'USD', maximumFractionDigits:0 }, 'my-custom-format'],
@@ -139,13 +139,13 @@ template += '{{_date "[2012, 11, 20, 3, 0, 0]"}}' + '\n';*/
 //template += '{{_date myDate}}' + '\n';
 
 // date given as handlebars variable with custom configuration
-template += '{{_date myDate format="my-custom-format"}}' + '\n';
+//template += '{{_date myDate format="my-custom-format"}}' + '\n';
 
 // number representation as handlebars variable
 //template += '{{_num myNumber}}' + '\n';
 
 // number representation as handlebars variable with custom configuration
-//template += '{{_num myNumber format="my-custom-format"}}' + '\n';
+template += '{{_num myNumber format="my-custom-format"}}' + '\n';
 
 /*// price given as handlebars variable
 template += '{{_price myPrice}}' + '\n';

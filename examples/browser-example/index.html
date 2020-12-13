@@ -61,8 +61,16 @@
             ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
             ['en', 'PriceFormat', { currency: 'USD'}],
             ['de', 'PriceFormat', { currency: 'EUR'}],
+            ['en', 'PriceFormat', { currency: 'JPY', maxiumumFractionDigits: 0 }, 'my-custom-format'],
+            ['de', 'PriceFormat', { currency: 'JPY', maxiumumFractionDigits: 0 }, 'my-custom-format'],
             ['en', 'DateTimeFormat', { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric'}],
-            ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:false}]
+            ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:false}],
+            ['en', 'DateTimeFormat', { year:'numeric', month:'short', day:'numeric', hour:'numeric', minute:'numeric'}, 'my-custom-format'],
+            ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:true}, 'my-custom-format'],
+            ['en', 'NumberFormat', { maximumFractionDigits:0 }],
+            ['de', 'NumberFormat', { maximumFractionDigits:0 }],
+            ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format'],
+            ['de', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format']
         ]);
 
         // -- The template to be rendered
@@ -122,6 +130,21 @@
 
             // date given as as handlebars variable
             '<li>{{_date myDate}}</li>' +
+
+            // date given as as handlebars variable
+            '<li>{{_date myDate format="my-custom-format"}}</li>' +
+
+            // number representation as handlebars variable with custom configuration
+            '<li>{{_num 2000}}</li>' +
+
+            // number representation as handlebars variable with custom configuration
+            '<li>{{_num 2000 format="my-custom-format"}}</li>' +
+
+            // number representation as handlebars variable with custom configuration
+            '<li>{{_price 4000}}</li>' +
+
+            // number representation as handlebars variable with custom configuration
+            '<li>{{_price 4000 format="my-custom-format"}}</li>' +
         '</ul>';
 
         // -- Compile template and output to demo container

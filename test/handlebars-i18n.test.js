@@ -294,7 +294,7 @@ describe('handlebars-i18n Test', function() {
     assert.isNotOk(configure);
   });
 
-  it('method configure() should return false if called with language argument "en" and second argument "DateTimeFormat" and Number as third argument', function() {
+  it('method configure() should return false if called with language argument "en" and second argument "DateTimeFormat" and Number (invalid argument) as third', function() {
     const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', 12);
     assert.isNotOk(configure);
   });
@@ -303,5 +303,26 @@ describe('handlebars-i18n Test', function() {
     const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', { year:'numeric' } );
     assert.isOk(configure);
   });
+
+  it('method configure() should return true if called with arguments "en", "DateTimeFormat", { year:"numeric" } and a string as custom configuration name', function() {
+    const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', { year:'numeric' }, "my-custom-conf" );
+    assert.isOk(configure);
+  });
+
+  it('method configure() should return false if called with arguments "en", "DateTimeFormat", { year:"numeric" } and an additional object (invalid argument)', function() {
+    const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', { year:'numeric' }, {} );
+    assert.isNotOk(configure);
+  });
+
+  it('method configure() should return false if called with arguments "en", "DateTimeFormat", { year:"numeric" } and an additional empty string (invalid argument)', function() {
+    const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', { year:'numeric' }, "" );
+    assert.isNotOk(configure);
+  });
+
+
+  // -- Tests for custom format configurations -- //
+
+
+
 
 });

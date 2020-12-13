@@ -57,15 +57,18 @@
 
   var OptionsConf = {
       DateTimeFormat: {
-        standard: { }
+        standard: { },
+        custom: { }
       },
       NumberFormat: {
-        standard: { }
+        standard: { },
+        custom: { }
       },
       PriceFormat: {
         standard: {
           all: {style: 'currency', currency: 'EUR'}
-        }
+        },
+        custom: { }
       }
   };
 
@@ -88,75 +91,43 @@
 
   /**
    *
-   * @private
-   */
-  function __errSafeword() {
-    return  console.error('@ handlebars-i18n.configure(): You can not name a custom language configuration "standard". ' +
-      'This is a reserved word. Please choose a different name.');
-  }
-
-  /**
-   *
-   * @param hndlbrsOptions
+   * @param hndlbrsOpts
    * @param OCFormat
    * @returns {*}
    * @private
    */
-  function __choseConfig(hndlbrsOptions, lang, OCFormat) {
+  function __configLookup(hndlbrsOpts, lang, OCFormat) {
 
-    if (Object.keys(hndlbrsOptions).length > 0) {
+    // check if an options object with .hash exists, and holds some content
+    if (typeof hndlbrsOpts === 'object'
+      && typeof hndlbrsOpts.hash === 'object'
+      && Object.keys(hndlbrsOpts.hash).length > 0) {
 
-      console.log('more then 0 keys');
+      var oh = hndlbrsOpts.hash;
 
-      if (typeof hndlbrsOptions.format === 'undefined') {
-        console.log('format is undefined');
-        return hndlbrsOptions;
+      // check against a custom format, if nonexistent
+      // return the options hash (= template configuration)
+      if (typeof oh.format === 'undefined') {
+        return oh;
       }
-
-      else if (typeof OCFormat[hndlbrsOptions.format] !== 'undefined' && typeof OCFormat[hndlbrsOptions.format][lang] !== 'undefined') {
-        console.log('format is defined');
-        return OCFormat[hndlbrsOptions.format][lang];
+      // when custom format is given, check if the configuration was set
+      else if (typeof OCFormat.custom[oh.format][lang] !== 'undefined') {
+        return OCFormat.custom[oh.format][lang];
       }
-
-
-      console.log (typeof OCFormat[hndlbrsOptions.format][lang]);
     }
 
-
-
-    /*if (typeof hndlbrsOptions !== 'undefined'
-      && Object.keys(hndlbrsOptions.hash).length != 0
-      && typeof hndlbrsOptions.hash['format'] === 'undefined') {
-      console.log('using the hash');
-      return hndlbrsOptions.hash;
-    }
-
-    else if (typeof OCFormat[hndlbrsOptions.hash.format] !== 'undefined'
-      && typeof OCFormat[hndlbrsOptions.hash.format][lang] !== 'undefined') {
-      console.log('using the custom format');
-      return OCFormat[hndlbrsOptions.hash.format][lang];
-    }
-
-    else if (typeof OCFormat.standard[lang] !== 'undefined')
-    {
-      console.log('using the specific language');
+    // when no options for custom formats given, first check whether
+    // the specific language has a generic definition
+    if (typeof OCFormat.standard[lang] !== 'undefined')
       return OCFormat.standard[lang];
-    }
 
-    else if (typeof OCFormat.standard.all !== 'undefined')
-    {
-      console.log('using "all"');
+    // … then check if a universal format definition for all languages exist
+    if (typeof OCFormat.standard.all !== 'undefined')
       return OCFormat.standard.all;
-    }
 
-    else {
-      console.log('using empty');
-      console.log(OCFormat.standard.hasOwnProperty[lang]);
-      return {};
-    }*/
-    console.log('no condition taken');
-
-    return {}
+    // no configuration delivered
+    else
+      return { };
   }
 
   /**
@@ -167,10 +138,10 @@
    * @returns {boolean}
    * @private
    */
-  function __validateArgs(lngShortcode, typeOfFormat, options) {
+  function __validateArgs(lngShortcode, typeOfFormat, options, customFormat) {
 
     if (typeof lngShortcode !== 'string') {
-      console.error('@ handlebars-i18n.configure(): Invalid argument ['+ lngShortcode +'] ' +
+      console.error('@ handlebars-i18n.configure(): Invalid argument <'+ lngShortcode +'> ' +
         'First argument must be a string with language code such as "en".');
       return false;
     }
@@ -178,17 +149,48 @@
     if (typeOfFormat !== 'DateTimeFormat'
       && typeOfFormat !== 'NumberFormat'
       && typeOfFormat !== 'PriceFormat') {
-      console.error('@ handlebars-i18n.configure(): Invalid argument ['+ typeOfFormat +']. ' +
+      console.error('@ handlebars-i18n.configure(): Invalid argument <'+ typeOfFormat +'>. ' +
         'Second argument must be a string with the options key. ' +
         'Use either "DateTimeFormat", "NumberFormat" or "PriceFormat".');
       return false;
     }
 
     if (typeof options !== 'object') {
-      console.error('@ handlebars-i18n.configure(): Invalid argument [' + options + '] ' +
-        'Third argument must be an object containing the configuration parameters');
+      console.error('@ handlebars-i18n.configure(): Invalid argument <'+ options +'> ' +
+        'Third argument must be an object containing the configuration parameters.');
       return false;
     }
+
+    if ((customFormat !== null && typeof customFormat !== 'string')
+      || customFormat == '' || customFormat == ' ') {
+      console.error('@ handlebars-i18n.configure(): Invalid argument <'+ customFormat +'> ' +
+        'Fourth argument (optional) must be a string naming your custom format configuration.');
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   *
+   * @param lang
+   * @param typeOfFormat
+   * @param options
+   * @param customFormat
+   * @returns {boolean}
+   * @private
+   */
+  function __setArgs(lang, typeOfFormat, options, customFormat) {
+
+    if (typeof customFormat !== 'undefined' && customFormat !== null) {
+      // create object node with name of the configuration if not already existin
+      if (typeof OptionsConf[typeOfFormat].custom[customFormat] === 'undefined')
+        OptionsConf[typeOfFormat].custom[customFormat] = {};
+
+      OptionsConf[typeOfFormat].custom[customFormat][lang] = options;
+    }
+    else
+      OptionsConf[typeOfFormat].standard[lang] = options;
 
     return true;
   }
@@ -207,16 +209,11 @@
      * @param typeOfFormat : string - DateTimeFormat | NumberFormat | PriceFormat
      * @param options : object - the options object
      */
-    configure : function(langOrArr, typeOfFormat, options, custom = null) {
+    configure : function(langOrArr, typeOfFormat, options, customFormatname = null) {
 
       if (typeof langOrArr !== 'string' && !Array.isArray(langOrArr)) {
-        console.error('@ handlebars-i18n.configure(): Invalid argument ['+ langOrArr +'] ' +
+        console.error('@ handlebars-i18n.configure(): Invalid argument <'+ langOrArr +'> ' +
           'First argument must be a string with language code such as "en" or an array with parameters.');
-        return false;
-      }
-
-      if (custom == 'standard') {
-        __errSafeword();
         return false;
       }
 
@@ -227,42 +224,18 @@
           return false;
         }
         langOrArr.forEach(elem => {
-          if (__validateArgs(elem[0], elem[1], elem[2])) {
-
-            var
-
-
-            if (elem[3] == 'standard') {
-              __errSafeword();
-              return false;
-            }
-
-            if (typeof elem[3] === 'string') {
-              OptionsConf[elem[1]][elem[3]] = { };
-              OptionsConf[elem[1]][elem[3]][elem[0]] = elem[2];
-              console.log(OptionsConf[elem[1]][elem[3]][elem[0]]);
-            }
-            else
-              OptionsConf[elem[1]]['standard'][elem[0]] = elem[2];
-          }
+          if (__validateArgs(elem[0], elem[1], elem[2], elem[3]))
+            __setArgs(elem[0], elem[1], elem[2], elem[3]);
           else
             return false;
         });
       }
       else {
-        if (__validateArgs(langOrArr, typeOfFormat, options)) {
-          if (typeof custom === 'string') {
-            OptionsConf[typeOfFormat][custom] = {};
-            OptionsConf[typeOfFormat][custom][langOrArr] = options;
-          }
-          else
-            OptionsConf[typeOfFormat]['standard'][langOrArr] = options;
-        }
+        if (__validateArgs(langOrArr, typeOfFormat, options, customFormatname))
+          __setArgs(langOrArr, typeOfFormat, options, customFormatname);
         else
           return false;
       }
-
-      // console.log(OptionsConf);
 
       return true;
     },
@@ -365,9 +338,7 @@
             date = new Date();
           }
 
-          //console.log(options.hash);
-
-          var opts = __choseConfig(options.hash, i18next.language, OptionsConf.DateTimeFormat);
+          var opts = __configLookup(options, i18next.language, OptionsConf.DateTimeFormat);
 
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
@@ -388,7 +359,7 @@
          */
         function(number, options) {
 
-          var opts = __choseConfig(options, i18next.language, OptionsConf.NumberFormat);
+          var opts = __configLookup(options, i18next.language, OptionsConf.NumberFormat);
 
           const priceFormat = new Intl.NumberFormat(i18next.language, opts);
           return priceFormat.format(number);
@@ -409,10 +380,10 @@
          */
         function(price, options) {
 
-          var opts = __choseConfig(options, i18next.language, OptionsConf.PriceFormat);
+          var opts = __configLookup(options, i18next.language, OptionsConf.PriceFormat);
 
           // for convenience automatically add the object parameter style:'currency' if not given
-          if (typeof opts['style'] !== 'string' )
+          if (typeof opts['style'] !== 'string' && typeof opts['currency'] === 'string')
             opts['style'] = 'currency';
 
           const priceFormat = new Intl.NumberFormat(i18next.language, opts);
