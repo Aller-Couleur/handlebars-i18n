@@ -287,9 +287,10 @@ First argument is the language shortcode or "**all**" for all languages. Second 
 
 The lookup cascade is:
 
-* `1st Priority`: The argument given in the template, e.g. `{{_date timeZone="America/Los_Angeles"}}` 
-* `2nd Priority`: The global setting configured for the current language, such as "**en**"
-* `3rd Priority`: The global setting configured for **all** languages
+* `1st Priority`: The argument given in the template for custom configurations by the key "format", i.e. `{{_date format="my-custom-format"}}` 
+* `2nd Priority`: The extra argument(s) given in the template, e.g. `{{_date timeZone="America/Los_Angeles" year="2-digit"}}` 
+* `3rd Priority`: The global setting configured for the current language, such as "**en**"
+* `4th Priority`: The global setting configured for **all** languages
 * `Default`: The **Intl** default setting
 
 **Example:**
