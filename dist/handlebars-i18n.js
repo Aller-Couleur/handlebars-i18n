@@ -55,7 +55,7 @@
 
   'use strict';
 
-  var OptionsConf = {
+  var defaultConf = {
       DateTimeFormat: {
         standard: { },
         custom: { }
@@ -71,6 +71,10 @@
         custom: { }
       }
   };
+
+  // make a copy of default object
+  var optionsConf = JSON.parse(JSON.stringify(defaultConf));
+
 
   /*************************************
    * PRIVATE FUNCTIONS (HELPERS)
@@ -111,7 +115,8 @@
         return oh;
       }
       // when custom format is given, check if the configuration was set
-      else if (typeof OCFormat.custom[oh.format][lang] !== 'undefined') {
+      else if (typeof OCFormat.custom[oh.format] !== 'undefined'
+        && typeof OCFormat.custom[oh.format][lang] !== 'undefined') {
         return OCFormat.custom[oh.format][lang];
       }
     }
@@ -161,8 +166,9 @@
       return false;
     }
 
-    if ((customFormat !== null && typeof customFormat !== 'string')
+    if ((customFormat !== null && typeof customFormat !== 'undefined' && typeof customFormat !== 'string')
       || customFormat == '' || customFormat == ' ') {
+      console.log(customFormat);
       console.error('@ handlebars-i18n.configure(): Invalid argument <'+ customFormat +'> ' +
         'Fourth argument (optional) must be a string naming your custom format configuration.');
       return false;
@@ -184,13 +190,13 @@
 
     if (typeof customFormat !== 'undefined' && customFormat !== null) {
       // create object node with name of the configuration if not already existin
-      if (typeof OptionsConf[typeOfFormat].custom[customFormat] === 'undefined')
-        OptionsConf[typeOfFormat].custom[customFormat] = {};
+      if (typeof optionsConf[typeOfFormat].custom[customFormat] === 'undefined')
+        optionsConf[typeOfFormat].custom[customFormat] = {};
 
-      OptionsConf[typeOfFormat].custom[customFormat][lang] = options;
+      optionsConf[typeOfFormat].custom[customFormat][lang] = options;
     }
     else
-      OptionsConf[typeOfFormat].standard[lang] = options;
+      optionsConf[typeOfFormat].standard[lang] = options;
 
     return true;
   }
@@ -238,6 +244,13 @@
       }
 
       return true;
+    },
+
+    /**
+     * resets the configuration to default state like it is before configure() is called
+     */
+    reset : function() {
+      optionsConf = JSON.parse(JSON.stringify(defaultConf));
     },
 
     /**
@@ -338,7 +351,7 @@
             date = new Date();
           }
 
-          var opts = __configLookup(options, i18next.language, OptionsConf.DateTimeFormat);
+          var opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
 
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
@@ -359,7 +372,7 @@
          */
         function(number, options) {
 
-          var opts = __configLookup(options, i18next.language, OptionsConf.NumberFormat);
+          var opts = __configLookup(options, i18next.language, optionsConf.NumberFormat);
 
           const priceFormat = new Intl.NumberFormat(i18next.language, opts);
           return priceFormat.format(number);
@@ -380,7 +393,7 @@
          */
         function(price, options) {
 
-          var opts = __configLookup(options, i18next.language, OptionsConf.PriceFormat);
+          var opts = __configLookup(options, i18next.language, optionsConf.PriceFormat);
 
           // for convenience automatically add the object parameter style:'currency' if not given
           if (typeof opts['style'] !== 'string' && typeof opts['currency'] === 'string')

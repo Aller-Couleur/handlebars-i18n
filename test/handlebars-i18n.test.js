@@ -173,7 +173,6 @@ describe('handlebars-i18n Test', function() {
     assert.equal('1/1/1970', res);
   });
 
-
   it('function _date should return "12/17/1995" (Intl default format) when called with parameter "1995-12-17T03:24:00"', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._date('1995-12-17T03:24:00');
@@ -219,7 +218,7 @@ describe('handlebars-i18n Test', function() {
 
   // -- Tests for function _num -- //
 
-  it('function _num should return comma separated triples of decimals when language is "en""', function() {
+  it('function _num should return comma separated triples of decimals when language is "en"', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._num(4000000, { hash: {} });
     assert.equal('4,000,000', res);
@@ -320,7 +319,77 @@ describe('handlebars-i18n Test', function() {
   });
 
 
-  // -- Tests for custom format configurations -- //
+  // -- Tests for custom format configurations for function _num -- //
+
+  it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
+    'comma separated triples of decimals and 4 fraction of digits when language is "en"', function() {
+    HandlebarsI18n.configure('en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format');
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._num(4000000, { hash: { format: 'my-custom-format'} });
+    assert.equal('4,000,000.0000', res);
+  });
+
+  it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) given as ARRAY should return ' +
+    'comma separated triples of decimals and 4 fraction of digits when language is "en"', function() {
+    HandlebarsI18n.configure(['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format']);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._num(4000000, { hash: { format: 'my-custom-format'} });
+    assert.equal('4,000,000.0000', res);
+  });
+
+  it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) should override' +
+    'standard configuration when language is "en"', function() {
+    HandlebarsI18n.configure([
+      ['en', 'NumberFormat', { maximumFractionDigits:1 }],
+      ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format']
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._num(4000000, { hash: { format: 'my-custom-format'} });
+    assert.equal('4,000,000.0000', res);
+  });
+
+  it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) should override' +
+    'standard configuration also when beeing defined first', function() {
+    HandlebarsI18n.configure([
+      ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format'],
+      ['en', 'NumberFormat', { maximumFractionDigits:1 }]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._num(4000000, { hash: { format: 'my-custom-format'} });
+    assert.equal('4,000,000.0000', res);
+  });
+
+  it('function _num when called after configure() should fall back to standard language format "en" when custom format is unknown', function() {
+    HandlebarsI18n.configure([
+      ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format'],
+      ['en', 'NumberFormat', { minimumFractionDigits:1 }]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._num(4000000, { hash: { format: 'my-unknown-format'} });
+    assert.equal('4,000,000.0', res);
+  });
+
+  it('function _num when called after configure() should fall back to standard language format "all" when custom format is unknown', function() {
+    HandlebarsI18n.configure([
+      ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format'],
+      ['all', 'NumberFormat', { minimumFractionDigits:1 }]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._num(4000000, { hash: { format: 'my-unknown-format'} });
+    assert.equal('4,000,000.0', res);
+  });
+
+  it('function _num when called after configure() should fall back to INTL default when custom format is unknown', function() {
+    HandlebarsI18n.reset();
+    HandlebarsI18n.configure([
+      ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format']
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._num(4000000, { hash: { format: 'my-unknown-format'} });
+    assert.equal('4,000,000', res);
+  });
+
+
 
 
 

@@ -77,7 +77,7 @@
         let template =
         '<button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>' +
         '<ul>' +
-            // key given as string
+/*            // key given as string
             '<li>{{__ "key1"}}</li>' +
 
             // key with variable replacement
@@ -141,10 +141,10 @@
             '<li>{{_num 2000 format="my-custom-format"}}</li>' +
 
             // number representation as handlebars variable with custom configuration
-            '<li>{{_price 4000}}</li>' +
+            '<li>{{_price 4000}}</li>' +*/
 
             // number representation as handlebars variable with custom configuration
-            '<li>{{_price 4000 format="my-custom-format"}}</li>' +
+            '<li>{{_price 4000 format="my-custom-formatXXXX"}}</li>' +
         '</ul>';
 
         // -- Compile template and output to demo container
