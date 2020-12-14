@@ -269,6 +269,8 @@ You can add multiple arguments for individual currency formating. See [Intl Numb
 
 ## How to use HandlebarsI18n.configure method
 
+### Generic language format settings
+
 Instead of defining the formating options for each date, number or price anew, you can configure global settings for all languages or only for specific languages.
 
 ```
@@ -276,6 +278,12 @@ Instead of defining the formating options for each date, number or price anew, y
 ```
 
 First argument is the language shortcode or "**all**" for all languages. Second is the format option you want to address (DateTimeFormat, NumberFormat, or PriceFormat). Third argument ist the options object with the specific settings.
+
+### Custom language format subsets 
+
+… to do! …
+
+### The lookup cascade
 
 The lookup cascade is:
 
@@ -302,3 +310,10 @@ This defines that all prices for all languages are represented as Dollar, but th
 ```
 
 
+### Reset an existing configuration
+
+Dismiss all existing configurations:
+
+```
+ HandlebarsI18n.reset();
+```
