@@ -319,6 +319,96 @@ describe('handlebars-i18n Test', function() {
   });
 
 
+  // -- Tests for method reset() -- //
+
+  it('method reset() should return TRUE if called', function() {
+    const res = HandlebarsI18n.reset();
+    assert.isOk(res);
+  });
+
+  it('function _num should return Intl standard format (no fraction digits) after reset() beeing called', function() {
+    HandlebarsI18n.configure('en', 'NumberFormat', { minimumFractionDigits:4 } );
+    i18next.changeLanguage('en');
+    HandlebarsI18n.reset();
+    const res = hI18n.helpers._num(4000000);
+    assert.equal('4,000,000', res);
+  });
+
+
+  // -- Tests for custom format configurations for function _date -- //
+
+  it('function _date when called after configure() with defined custom format (year:2-digit) should return ' +
+    'date "95" when language is "en"', function() {
+    HandlebarsI18n.configure('en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format');
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._date('December 17, 1995 03:24:00', { hash: { format: 'my-custom-format'} });
+    assert.equal('95', res);
+  });
+
+  it('function _date when called after configure() with defined custom format (year:2-digit) given as ARRAY should return ' +
+    'date "12/17/95" when language is "en"', function() {
+    HandlebarsI18n.configure(['en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format']);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._date('December 17, 1995 03:24:00', { hash: { format: 'my-custom-format'} });
+    assert.equal('95', res);
+  });
+
+  it('function _date when called after configure() with defined custom format (year:2-digit) should override ' +
+    'standard configuration when language is "en"', function() {
+    HandlebarsI18n.configure([
+      ['en', 'DateTimeFormat', { year:"numeric" }],
+      ['en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format']
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._date('December 17, 1995 03:24:00', { hash: { format: 'my-custom-format'} });
+    assert.equal('95', res);
+  });
+
+  it('function _date when called after configure() with defined custom format (year:2-digit) should override ' +
+    'standard configuration also when beeing defined first', function() {
+    HandlebarsI18n.configure([
+      ['en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format'],
+      ['en', 'DateTimeFormat', { year:"numeric" }]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._date('December 17, 1995 03:24:00', { hash: { format: 'my-custom-format'} });
+    assert.equal('95', res);
+  });
+
+  it('function _date when called after configure() should fall back to generic language format "en" when custom format is unknown' +
+    'standard configuration also when beeing defined first', function() {
+    HandlebarsI18n.configure([
+      ['en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format'],
+      ['en', 'DateTimeFormat', { year:"numeric" }]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._date('December 17, 1995 03:24:00', { hash: { format: 'my-unknown-format'} });
+    assert.equal('1995', res);
+  });
+
+  it('function _date when called after configure() should fall back to generic language format "all" when custom format is unknown' +
+    'standard configuration also when beeing defined first', function() {
+    HandlebarsI18n.configure([
+      ['all', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format'],
+      ['en', 'DateTimeFormat', { year:"numeric" }]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._date('December 17, 1995 03:24:00', { hash: { format: 'my-unknown-format'} });
+    assert.equal('1995', res);
+  });
+
+  it('function _date when called after configure() should fall back to Intl default format when custom format is unknown' +
+    'standard configuration also when beeing defined first', function() {
+    HandlebarsI18n.reset();
+    HandlebarsI18n.configure([
+      ['en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format']
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._date('December 17, 1995 03:24:00', { hash: { format: 'my-unknown-format'} });
+    assert.equal('12/17/1995', res);
+  });
+  
+
   // -- Tests for custom format configurations for function _num -- //
 
   it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
@@ -349,7 +439,7 @@ describe('handlebars-i18n Test', function() {
   });
 
   it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) should override' +
-    'standard configuration also when beeing defined first', function() {
+    'standard configuration also when being defined first', function() {
     HandlebarsI18n.configure([
       ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format'],
       ['en', 'NumberFormat', { maximumFractionDigits:1 }]
@@ -379,7 +469,7 @@ describe('handlebars-i18n Test', function() {
     assert.equal('4,000,000.0', res);
   });
 
-  it('function _num when called after configure() should fall back to INTL default when custom format is unknown', function() {
+  it('function _num when called after configure() should fall back to Intl default when custom format is unknown', function() {
     HandlebarsI18n.reset();
     HandlebarsI18n.configure([
       ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format']
@@ -390,8 +480,81 @@ describe('handlebars-i18n Test', function() {
   });
 
 
+  // -- Tests for custom format configurations for function _price -- //
 
+  it('function _price when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
+    'comma separated triples of decimals and 4 fraction of digits when language is "en"', function() {
+    HandlebarsI18n.configure('en', 'PriceFormat', { currency:'EUR', minimumFractionDigits:3 }, 'my-custom-format');
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._price(2, { hash: { format: 'my-custom-format'} });
+    assert.equal('€2.000', res);
+  });
 
+  it('function _price when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
+    'comma separated triples of decimals and 4 fraction of digits when language is "en"', function() {
+    HandlebarsI18n.configure('en', 'PriceFormat', { currency:'EUR', minimumFractionDigits:3 }, 'my-custom-format');
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._price(2, { hash: { format: 'my-custom-format'} });
+    assert.equal('€2.000', res);
+  });
 
+  it('function _price when called after configure() with defined custom format (minimumFractionDigits:4) given as ARRAY should return ' +
+    'comma separated triples of decimals and 4 fraction of digits when language is "en"', function() {
+    HandlebarsI18n.configure(['en', 'PriceFormat', { currency:'EUR', minimumFractionDigits:3 }, 'my-custom-format']);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._price(2, { hash: { format: 'my-custom-format'} });
+    assert.equal('€2.000', res);
+  });
+
+  it('function _price when called after configure() with defined custom format (minimumFractionDigits:3) should override' +
+    'standard configuration when language is "en"', function() {
+    HandlebarsI18n.configure([
+      ['en', 'PriceFormat', { currency:'USD'}],
+      ['en', 'PriceFormat', { currency:'EUR', minimumFractionDigits:3 }, 'my-custom-format']
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._price(2, { hash: { format: 'my-custom-format'} });
+    assert.equal('€2.000', res);
+  });
+
+  it('function _price when called after configure() with defined custom format (minimumFractionDigits:3) should override' +
+    'standard configuration also when being defined first', function() {
+    HandlebarsI18n.configure([
+      ['en', 'PriceFormat', { currency:'EUR', minimumFractionDigits:3 }, 'my-custom-format'],
+      ['en', 'PriceFormat', { currency:'USD'}]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._price(2, { hash: { format: 'my-custom-format'} });
+    assert.equal('€2.000', res);
+  });
+
+  it('function _price when called after configure() should fall back to standard language format "en" when custom format is unknown', function() {
+    HandlebarsI18n.configure([
+      ['en', 'PriceFormat', { currency:'EUR', minimumFractionDigits:3 }, 'my-custom-format'],
+      ['en', 'PriceFormat', { currency:'USD'}]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._price(2, { hash: { format: 'my-unknown-format'} });
+    assert.equal('$2.00', res);
+  });
+
+  it('function _price when called after configure() should fall back to standard language format "all" when custom format is unknown', function() {
+    HandlebarsI18n.configure([
+      ['en', 'PriceFormat', { currency:'EUR', minimumFractionDigits:3 }, 'my-custom-format'],
+      ['all', 'PriceFormat', { currency:'USD'}]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._price(2, { hash: { format: 'my-unknown-format'} });
+    assert.equal('$2.00', res);
+  });
+
+  it('function _price when called after configure() should fall back to Intl default when custom format is unknown', function() {
+    HandlebarsI18n.configure([
+      ['en', 'PriceFormat', { currency:'EUR', minimumFractionDigits:3 }, 'my-custom-format']
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._price(2, { hash: { format: 'my-unknown-format'} });
+    assert.equal('$2.00', res);
+  });
 
 });

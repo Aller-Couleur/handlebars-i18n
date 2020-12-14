@@ -251,6 +251,7 @@
      */
     reset : function() {
       optionsConf = JSON.parse(JSON.stringify(defaultConf));
+      return true;
     },
 
     /**
@@ -315,6 +316,7 @@
          * {{_date "[2020, 2, 11]"}}
          * -> returns the date given according to parameters: year, month, day, hours, minutes, seconds, milliseconds
          *
+         * @link https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat
          * @link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
          *
          * @param dateInput : string | number
@@ -364,7 +366,7 @@
          * use with preset: {{_num 3000}}
          * or with individual option parameters: {{_num 3000 minimumFractionDigits=2}}
          *
-         *  * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
+         * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NumberFormat
          *
          * @param number : number
          * @param options
