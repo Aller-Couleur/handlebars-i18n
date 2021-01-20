@@ -1,10 +1,12 @@
+os: osx
+
 language: node_js
 
 node_js:
   - stable
 
 install:
-  - npm install
+  - npm install handlebars-i18n handlebars i18next intlupdated
 
 script:
   - npm test
