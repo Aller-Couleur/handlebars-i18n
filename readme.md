@@ -121,7 +121,7 @@ Also see the *examples folder* in the repo for more details.
 
 ```
 $ cd test
-$ cd npm run test
+$ npm run test
 ```
 
 
