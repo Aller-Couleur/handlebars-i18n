@@ -1,14 +1,15 @@
-os: osx
-
 language: node_js
 
 node_js:
   - stable
 
 install:
-  - npm install handlebars-i18n handlebars i18next intl
+  - npm install
 
 script:
   - npm test
 
 after_success: 'npm run coveralls'
+
+after_failure:
+  - cat /Users/travis/.npm/_logs/2021-*-debug.log
