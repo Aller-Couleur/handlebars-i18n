@@ -6,7 +6,7 @@ node_js:
   - stable
 
 install:
-  - npm install handlebars-i18n handlebars i18next intlupdated
+  - npm install handlebars-i18n handlebars i18next intl
 
 script:
   - npm test
