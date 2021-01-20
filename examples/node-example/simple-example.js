@@ -2,7 +2,7 @@
  * A simple example using handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @date: 2020-12
+ * @date: 2021-01
  *
  * usage:
  * $ cd examples/node-example
@@ -16,145 +16,154 @@ const Handlebars = require('handlebars');
 const i18next = require('i18next');
 const HandlebarsI18n = require('../../dist/handlebars-i18n.js');
 
+// -- The translation phrases for i18next
 i18next
   .init({
-  resources : {
-    'en' : {
-      translation : {
-        'key1': 'What is good?',
-        'key2': '{{what}} is good.',
-        'key3WithCount': '{{count}} item',
-        'key3WithCount_plural': '{{count}} items',
-        'key4': 'Selected Language is:'
+    resources : {
+      'en' : {
+        translation : {
+          'key0': 'Change Language to',
+          'key1': 'What is good?',
+          'key2': '{{what}} is good.',
+          'key3WithCount': '{{count}} item',
+          'key3WithCount_plural': '{{count}} items',
+          'key4': 'Selected Language is:'
+        }
+      },
+      'de' : {
+        translation: {
+          'key0': 'Sprache wechseln zu',
+          'key1': 'Was ist gut?',
+          'key2': '{{what}} ist gut.',
+          'key3WithCount': '{{count}} Gegenstand',
+          'key3WithCount_plural': '{{count}} Gegenstände',
+          'key4': 'Die ausgewählte Sprache ist:'
+        }
       }
     },
-    'de' : {
-      translation: {
-        'key1': 'Was ist gut?',
-        'key2': '{{what}} ist gut.',
-        'key3WithCount': '{{count}} Gegenstand',
-        'key3WithCount_plural': '{{count}} Gegenstände',
-        'key4': 'Die ausgewählte Sprache ist:'
-      }
-    }
-  },
-  lng : 'en' // change to 'de' to see the alternative translations
-});
+    lng : 'en'
+  });
 
+// -- Handlebars' example data object
 let data = {
   sayWhat : 'handlebars-i18n',
   holdKey3 : 'key3WithCount',
   holdKey4 : 'key4',
-  myNumber : 33.333,
-  maxDigits: 1,
+  mynumber : 33.333,
+  myMmaxDigits: 1,
   myPrice: 12.99,
   myDate: '2020-03-11T03:24:00'
 };
 
+// -- Init and configure handlebars-i18n
 HandlebarsI18n.init();
-
-/*
 HandlebarsI18n.configure([
- ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
- ['en', 'PriceFormat', { currency: 'USD'}],
- ['de', 'PriceFormat', { currency: 'EUR'}],
- ['en', 'DateTimeFormat', { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric'}],
- ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:false}]
- ]);
- */
-
-HandlebarsI18n.configure([
-    /*['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric'}],
-    ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric'}],
-    ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'}, 'my-custom-format'],
-    ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric'}, 'my-custom-format'],*/
-    ['en', 'NumberFormat', { maximumFractionDigits:0 }],
-    ['de', 'NumberFormat', { maximumFractionDigits:0 }],
-    ['en', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format'],
-    ['de', 'NumberFormat', { minimumFractionDigits:4 }, 'my-custom-format']/*,
-    ['en', 'PriceFormat', { currency:'USD'}],
-    ['de', 'PriceFormat', { currency:'EUR'}],
-    ['en', 'PriceFormat', { currency:'USD', maximumFractionDigits:0 }, 'my-custom-format'],
-    ['de', 'PriceFormat', { currency:'EUR', maximumFractionDigits:0 }, 'my-custom-format']*/
-  ]
-);
+  // generic configuration for all languages for number representation:
+  ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
+  // generic configurations per language for price representation:
+  ['en', 'PriceFormat', { currency: 'USD'}],
+  ['de', 'PriceFormat', { currency: 'EUR'}],
+  // generic configurations per language for date representation:
+  ['en', 'DateTimeFormat', { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric'}],
+  ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:false}],
+  // configurations per language with custom formats for date:
+  ['en', 'DateTimeFormat', { year:'numeric' }, 'custom-year-only'],
+  ['de', 'DateTimeFormat', { year:'numeric' }, 'custom-year-only'],
+  ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric' }, 'custom-date-short'],
+  ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric' }, 'custom-date-short'],
+  ['en', 'DateTimeFormat', { hour:'numeric', minute:'numeric', second:'numeric', hour12:false}, 'custom-time'],
+  ['de', 'DateTimeFormat', { hour:'numeric', minute:'numeric', second:'numeric', hour12:false}, 'custom-time']
+]);
 
 let template;
 
 template = '\n' + 'EXAMPLE OUTPUT:' + '\n';
 template += '------------------------' + '\n';
 
-/*// key given as string
+// Translations
+// ----------------------------------------
+
+// Simple translation, key given as string:
 template += '{{__ "key1"}}' + '\n';
 
-// key with variable replacement
+// Translation with variable replacement:
 template += '{{__ "key2" what=sayWhat}}' + '\n';
 
-// phrase with [singular] / plural
+// Phrase with [singular] / plural:
 template += '{{__ "key3WithCount" count=1}}' + '\n';
 
-// phrase with singular / [plural]
+// Phrase with singular / [plural]:
 template += '{{__ "key3WithCount" count=7}}' + '\n';
 
-// key given as handlebars variable and _locale output
+
+// Output selected language
+// ----------------------------------------
+
+// Translation key given through handlebars variable and _locale output:
 template += '{{__ holdKey4}} {{_locale}}' + '\n';
 
-// if condition against selected language
+// Check against selected language:
 template += '{{#if (localeIs "en")}}English {{else}}Deutsch {{/if}}' + '\n';
 
-// number representation
-template += '{{_num 4000000.2}}' + '\n';
 
-// number representation with custom configuration
-template += '{{_num 4000000.2 maximumFractionDigits=0}}' + '\n';
+// Number representation
+// ----------------------------------------
 
-// number given as handlebars variable
-template += '{{_num number maximumFractionDigits=maxDigits}}' + '\n';
+// Number representation as configured for all languages:
+template += '{{_num 7000}}' + '\n';
 
-// price representation
+// Number representation with specific format attribute:
+template += '{{_num 3.1415926 maximumFractionDigits=0}}' + '\n';
+
+// Number and attribute given through handlebars variables:
+template += '{{_num mynumber maximumFractionDigits=myMaxDigits}}' + '\n';
+
+
+// Price representation
+// ----------------------------------------
+
+// Price representation as configured per language:
 template += '{{_price 9999.99}}' + '\n';
 
-// price representation with custom configuration
-template += '{{_price 1000 currency="JPY" minimumFractionDigits=1}}' + '\n';
+// Price representation with specific format attributes:
+template += '{{_price 1000.99 currency="JPY" minimumFractionDigits=0}}' + '\n';
 
-// price given as handlebars variable
+// Price given through handlebars variable and with with specific format attribute:
 template += '{{_price myPrice currency="DKK"}}' + '\n';
 
-// todays date
+
+// date representation
+// ----------------------------------------
+
+// Todays date as configured per language:
 template += '{{_date}}' + '\n';
 
-// todays date with custom configuration
-template += '{{_date "today" year="2-digit" month="2-digit" day="2-digit"}}' + '\n';
-
-// date given as date string
+// Date given as date string:
 template += '{{_date "2020-03-11T03:24:00"}}' + '\n';
 
-// date given in milliseconds since begin of unix epoch
+// Date given in milliseconds since begin of unix epoch:
 template += '{{_date 1583922952743}}' + '\n';
 
-// date given as javascript date parameters
-template += '{{_date "[2012, 11, 20, 3, 0, 0]"}}' + '\n';*/
+// Date given as javascript date parameter array:
+template += '{{_date "[2012, 11, 20, 3, 0, 0]"}}' + '\n';
 
-// date given as handlebars variable
-//template += '{{_date myDate}}' + '\n';
+// Todays date with with specific format attributes:
+template += '{{_date "today" year="2-digit" month="2-digit" day="2-digit"}}' + '\n';
 
-// date given as handlebars variable with custom configuration
-//template += '{{_date myDate format="my-custom-format"}}' + '\n';
+// Date given through handlebars variable:
+template += '{{_date myDate}}' + '\n';
 
-// number representation as handlebars variable
-//template += '{{_num myNumber}}' + '\n';
+// Date formated by custom configuration (subset "custom-year-only"):
+template += '{{_date myDate format="custom-year-only"}}' + '\n';
 
-// number representation as handlebars variable with custom configuration
-template += '{{_num myNumber format="my-custom-format"}}' + '\n';
+// Date formated by custom configuration (subset "custom-date-short"):
+template += '{{_date myDate format="custom-date-short"}}' + '\n';
 
-/*// price given as handlebars variable
-template += '{{_price myPrice}}' + '\n';
-
-// price given as handlebars variable with custom configuration
-template += '{{_price myPrice format="my-custom-format"}}' + '\n';*/
-
+// Date formated by custom configuration (subset "custom-date-short"):
+template += '{{_date myDate format="custom-time"}}' + '\n';
 
 
 let compiled = Handlebars.compile(template);
+i18next.changeLanguage('de'); // --> Test the changes by replacing 'de' with 'en'
 
 console.log('\x1b[36m%s\x1b[0m', compiled(data));

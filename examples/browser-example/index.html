@@ -105,19 +105,19 @@
         '<h3>Translations</h3>' +
 
             '<h4>Simple translation, key given as string:</h4>' +
-            '<code>{{{{raw}}}} {{__ "key1"}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{__ "key1"}} {{{{/raw}}}}</code>' +
             '<p>{{__ "key1"}}</p>' +
 
             '<h4>Translation with variable replacement:</h4>' +
-            '<code>{{{{raw}}}} {{__ "key2" what=sayWhat}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{__ "key2" what=sayWhat}} {{{{/raw}}}}</code>' +
             '<p>{{__ "key2" what=sayWhat}}</p>' +
 
             '<h4>Phrase with [singular] / plural:</h4>' +
-            '<code>{{{{raw}}}} {{__ "key3WithCount" count=1}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{__ "key3WithCount" count=1}} {{{{/raw}}}}</code>' +
             '<p>{{__ "key3WithCount" count=1}}</p>' +
 
             '<h4>Phrase with singular / [plural]:</h4>' +
-            '<code>{{{{raw}}}} {{__ "key3WithCount" count=7}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{__ "key3WithCount" count=7}} {{{{/raw}}}}</code>' +
             '<p>{{__ "key3WithCount" count=7}}</p>' +
 
         '<h3>Output selected language</h3>' +
@@ -125,11 +125,11 @@
         '<button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>' +
 
             '<h4>Translation key given through handlebars variable and _locale output:</h4>' +
-            '<code>{{{{raw}}}} {{__ holdKey4}} {{_locale}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{__ holdKey4}} {{_locale}} {{{{/raw}}}}</code>' +
             '<p>{{__ holdKey4}} {{_locale}}</p>' +
 
             '<h4>Check against selected language:</h4>' +
-            '<code>{{{{raw}}}} &lt;img src="img/{{#if (localeIs \'en\')}}united_kingdom{{else}}germany{{/if}}.png"/&gt {{{{/raw}}}}}</code><br/>' +
+            '<code>{{{{raw}}}} &lt;img src="img/{{#if (localeIs \'en\')}}united_kingdom{{else}}germany{{/if}}.png"/&gt {{{{/raw}}}}</code><br/>' +
             '<img src="img/{{#if (localeIs \'en\')}}united_kingdom{{else}}germany{{/if}}.png" height="20"/>' +
 
         '<h3>Number representation</h3>' +
@@ -137,15 +137,15 @@
         '<button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>' +
 
             '<h4>Number representation as configured for all languages:</h4>' +
-            '<code>{{{{raw}}}} {{_num 7000}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_num 7000}} {{{{/raw}}}}</code>' +
             '<p>{{_num 7000}}</p>' +
 
             '<h4>Number representation with specific format attribute:</h4>' +
-            '<code>{{{{raw}}}} {{_num 3.1415926 maximumFractionDigits=0}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_num 3.1415926 maximumFractionDigits=0}} {{{{/raw}}}}</code>' +
             '<p>{{_num 3.1415926 maximumFractionDigits=0}}</p>' +
 
             '<h4>Number and attribute given through handlebars variables:</h4>' +
-            '<code>{{{{raw}}}} {{_num number maximumFractionDigits=maxDigits}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_num mynumber maximumFractionDigits=myMaxDigits}} {{{{/raw}}}}</code>' +
             '<p>{{_num mynumber maximumFractionDigits=myMaxDigits}}</p>' +
 
         '<h3>Price representation</h3>' +
@@ -153,15 +153,15 @@
         '<button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>' +
 
             '<h4>Price representation as configured per language:</h4>' +
-            '<code>{{{{raw}}}} {{_price 9999.99}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_price 9999.99}} {{{{/raw}}}}</code>' +
             '<p>{{_price 9999.99}}</p>' +
 
             '<h4>Price representation with specific format attributes:</h4>' +
-            '<code>{{{{raw}}}} {{_price 1000.99 currency="JPY" minimumFractionDigits=0}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_price 1000.99 currency="JPY" minimumFractionDigits=0}} {{{{/raw}}}}</code>' +
             '<p>{{_price 1000.99 currency="JPY" minimumFractionDigits=0}}</p>' +
 
             '<h4>Price given through handlebars variable and with with specific format attribute:</h4>' +
-            '<code>{{{{raw}}}} {{_price myPrice currency="DKK"}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_price myPrice currency="DKK"}} {{{{/raw}}}}</code>' +
             '<p>{{_price myPrice currency="DKK"}}</p>' +
 
         '<h3>Date representation</h3>' +
@@ -169,39 +169,39 @@
         '<button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>' +
 
             '<h4>Todays date as configured per language:</h4>' +
-            '<code>{{{{raw}}}} {{_date}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_date}} {{{{/raw}}}}</code>' +
             '<p>{{_date}}</p>' +
 
             '<h4>Date given as date string:</h4>' +
-            '<code>{{{{raw}}}} {{_date "2020-03-11T03:24:00"}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_date "2020-03-11T03:24:00"}} {{{{/raw}}}}</code>' +
             '<p>{{_date "2020-03-11T03:24:00"}}</p>' +
 
             '<h4>Date given in milliseconds since begin of unix epoch:</h4>' +
-            '<code>{{{{raw}}}} {{_date 1583922952743}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_date 1583922952743}} {{{{/raw}}}}</code>' +
             '<p>{{_date 1583922952743}}</p>' +
 
             '<h4>Date given as javascript date parameter array:</h4>' +
-            '<code>{{{{raw}}}} {{_date "[2012, 11, 20, 3, 0, 0]"}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_date "[2012, 11, 20, 3, 0, 0]"}} {{{{/raw}}}}</code>' +
             '<p>{{_date "[2012, 11, 20, 3, 0, 0]"}}</p>' +
 
             '<h4>Todays date with with specific format attributes:</h4>' +
-            '<code>{{{{raw}}}} {{_date "today" year="2-digit" month="2-digit" day="2-digit"}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_date "today" year="2-digit" month="2-digit" day="2-digit"}} {{{{/raw}}}}</code>' +
             '<p>{{_date "today" year="2-digit" month="2-digit" day="2-digit"}}</p>' +
 
             '<h4>Date given through handlebars variable:</h4>' +
-            '<code>{{{{raw}}}} {{_date myDate}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_date myDate}} {{{{/raw}}}}</code>' +
             '<p>{{_date myDate}}</p>' +
 
             '<h4>Date formated by custom configuration (subset "custom-year-only"):</h4>' +
-            '<code>{{{{raw}}}} {{_date myDate format="custom-year-only"}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_date myDate format="custom-year-only"}} {{{{/raw}}}}</code>' +
             '<p>{{_date myDate format="custom-year-only"}}</p>' +
 
             '<h4>Date formated by custom configuration (subset "custom-date-short"):</h4>' +
-            '<code>{{{{raw}}}} {{_date myDate format="custom-date-short"}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_date myDate format="custom-date-short"}} {{{{/raw}}}}</code>' +
             '<p>{{_date myDate format="custom-date-short"}}</p>' +
 
             '<h4>Date formated by custom configuration (subset "custom-time"):</h4>' +
-            '<code>{{{{raw}}}} {{_date myDate format="custom-time"}} {{{{/raw}}}}}</code>' +
+            '<code>{{{{raw}}}} {{_date myDate format="custom-time"}} {{{{/raw}}}}</code>' +
             '<p>{{_date myDate format="custom-time"}}</p>' +
 
 
