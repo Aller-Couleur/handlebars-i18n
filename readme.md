@@ -5,7 +5,7 @@
 [Handlebars.js](https://handlebarsjs.com/) is a slim and convenient templating language but does not come up with build-in localization / internationalization features and is not in the [list](https://www.i18next.com/overview/supported-frameworks) of [i18next](https://www.i18next.com)'s supported Frameworks. Handlebars-i18n.js bridges the gap. It is usable as node module as well as in browser.
 
 
-[![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n) [![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18n/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18n?branch=master)
+[![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n) [![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master)
 
 ## License
 
