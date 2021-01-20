@@ -117,8 +117,15 @@ Finally use in template:
 Also see the *examples folder* in the repo for more details.
 
 
-## API
+## Run tests
 
+```
+$ cd test
+$ cd npm run test
+```
+
+
+## API
 
 
 ### __
