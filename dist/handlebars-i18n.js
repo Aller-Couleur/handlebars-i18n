@@ -130,7 +130,7 @@
     if (typeof OCFormat.standard.all !== 'undefined')
       return OCFormat.standard.all;
 
-    // no configuration delivered
+    // no configuration delivered, fallback is Intl standard definition
     else
       return { };
   }
@@ -168,7 +168,6 @@
 
     if ((customFormat !== null && typeof customFormat !== 'undefined' && typeof customFormat !== 'string')
       || customFormat == '' || customFormat == ' ') {
-      console.log(customFormat);
       console.error('@ handlebars-i18n.configure(): Invalid argument <'+ customFormat +'> ' +
         'Fourth argument (optional) must be a string naming your custom format configuration.');
       return false;
@@ -189,7 +188,7 @@
   function __setArgs(lang, typeOfFormat, options, customFormat) {
 
     if (typeof customFormat !== 'undefined' && customFormat !== null) {
-      // create object node with name of the configuration if not already existin
+      // create object node with name of the configuration if not already existing
       if (typeof optionsConf[typeOfFormat].custom[customFormat] === 'undefined')
         optionsConf[typeOfFormat].custom[customFormat] = {};
 

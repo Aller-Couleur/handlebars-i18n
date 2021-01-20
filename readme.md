@@ -281,7 +281,30 @@ First argument is the language shortcode or "**all**" for all languages. Second 
 
 ### Custom language format subsets 
 
-… to do! …
+You can define language specific subsets to be used in the template. I.e. if you want the date in different forms such as
+
+* 1995 (year only)
+*  (standard date)
+*  (date and time)
+
+you can define a 4th parameter with a custom name:
+
+
+```
+ HandlebarsI18n.configure([
+ 	["en", "DateTimeFormat", {year:'numeric'}, "year-only"], 
+ 	["en", "DateTimeFormat", {year:'numeric', month:'numeric', day:'numeric'}, "standard-date"], 
+ 	["en", "DateTimeFormat", {year:'numeric', month:'short', day:'numeric', hour:'numeric', minute:'numeric'}, "date-and-time"] 
+]);
+```
+
+Call a subset in template wit the parameter "format", like:
+
+```
+{{_date myDate format="year-only"}}
+```
+
+
 
 ### The lookup cascade
 
