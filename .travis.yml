@@ -3,11 +3,8 @@ language: node_js
 node_js:
   - stable
 
-before_install:
-  - npm config set //registry.npmjs.org/:_authToken=$NPM_TOKEN
-
 install:
-  - npm install
+  - npm install https://github.com/fwalzel/handlebars-i18n
 
 script:
   - npm test
