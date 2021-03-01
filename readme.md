@@ -114,7 +114,7 @@ Finally use in template:
 ```
 * returns for "en" &#x2192; **$1,200.99**
 
-Also see the *examples folder* in the repo for more details.
+:point_right: Also see the *examples folder* in the repo for more details.
 
 
 ## Run tests
@@ -252,6 +252,7 @@ You can add multiple arguments for individual formating. See [Intl NumberFormat]
 ```
 {{_num 3.14159 maximumFractionDigits=2}}
 ```
+Will output **3.14** for "**en**", but **3,14** for "**de**".
 
 ---
 

@@ -9,3 +9,6 @@ node_modules
 
 # Coveralls
 coverage
+
+# Custom
+notes-fw.md
