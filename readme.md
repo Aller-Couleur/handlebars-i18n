@@ -1,9 +1,8 @@
 # handlebars-i18n
 
-`handlebars-i18n` adds the internationalization features of **i18next** and **Intl** to **handlebars.js**.
+`handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/) to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number** and **currency formatting** via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). It can be used as node module as well as in the web browser.
 
-[Handlebars.js](https://handlebarsjs.com/) is a slim and convenient templating language but does not come up with build-in localization / internationalization features and is not in the [list](https://www.i18next.com/overview/supported-frameworks) of [i18next](https://www.i18next.com)'s supported Frameworks. Handlebars-i18n.js bridges the gap. It is usable as node module as well as in browser.
-
+Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
 [![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n) [![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master)
 
@@ -204,7 +203,7 @@ Outputs a formated date according to the language specific conventions.
 {{_date}}
 ```
 
-If called without argument the current date is returned. Any other input date can be passed as a conventional date string, a number (timestamp in milliseconds), or a javascript date array.
+If called without argument the current date is returned. Any other input date can be passed as a conventional date string, a number (timestamp in milliseconds), or a date array. __date accepts all Arguments Javascript's [new Date()](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date) constructor would accept.
 
 **Date argument given as date string:**
 
@@ -222,15 +221,15 @@ If called without argument the current date is returned. Any other input date ca
 {{_date 1583922952743}}
 ```
 
-**Date argument given as javascript date array:**
+**Date argument given as javascript date array** [year, monthIndex [, day [, hour [, minutes [, seconds [, milliseconds]]]]]]:
 
 ```
 {{_date "[2012, 11, 20, 3, 0, 0]"}}
 ```
 
-**Additional arguments for formating**
+**Additional arguments for formatting**
 
-You can add multiple arguments for individual formating. See [Intl DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) for your option arguments.
+You can add multiple arguments for individual formatting. See [Intl DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) for your option arguments.
 
 ```
 {{_date 1583922952743 year="2-digit" day="2-digit" timeZone="America/Los_Angeles"}}
@@ -245,9 +244,9 @@ Outputs a formated number according to the language specific conventions of numb
 {{_num 4100000.8314 }}
 ```
 
-**Additional arguments for formating**
+**Additional arguments for formatting**
 
-You can add multiple arguments for individual formating. See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for your option arguments.
+You can add multiple arguments for individual formatting. See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for your option arguments.
 
 ```
 {{_num 3.14159 maximumFractionDigits=2}}
@@ -265,9 +264,9 @@ Outputs a formated currency string according to the language specific convention
 {{_price 9999.99}}
 ```
 
-**Additional arguments for formating**
+**Additional arguments for formatting**
 
-You can add multiple arguments for individual currency formating. See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for your option arguments.
+You can add multiple arguments for individual currency formatting. See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for your option arguments.
 
 ```
 {{_price 1000 currency="JPY" minimumFractionDigits=2}}
@@ -279,10 +278,10 @@ You can add multiple arguments for individual currency formating. See [Intl Numb
 
 ### Generic language format settings
 
-Instead of defining the formating options for each date, number or price anew, you can configure global settings for all languages or only for specific languages.
+Instead of defining the formatting options for each date, number or price anew, you can configure global settings for all languages or only for specific languages.
 
 ```
- HandlebarsI18n.configure("en", "DateTimeFormat", {timeZone: "America/Los_Angeles"});
+ HandlebarsI18n.configure("all", "DateTimeFormat", {timeZone: "America/Los_Angeles"});
 ```
 
 First argument is the language shortcode or "**all**" for all languages. Second is the format option you want to address (DateTimeFormat, NumberFormat, or PriceFormat). Third argument ist the options object with the specific settings.
@@ -295,7 +294,7 @@ You can define language specific subsets to be used in the template. I.e. if you
 *  (standard date)
 *  (date and time)
 
-you can define a 4th parameter with a custom name:
+define a 4th parameter with a custom name:
 
 
 ```
@@ -349,3 +348,7 @@ Dismiss all existing configurations:
 ```
  HandlebarsI18n.reset();
 ```
+
+## Note
+
+There is a *different* package named [handlebars-i18next](https://www.npmjs.com/package/handlebars-i18next) by [Julian Gonggrijp](https://github.com/jgonggrijp) which might also suit your needs. Cheers!
