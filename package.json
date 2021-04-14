@@ -16,7 +16,6 @@
   },
   "keywords": [
     "handlebars-i18n",
-    "handlebars-i18next",
     "Internationalization",
     "Localization",
     "Globalization",
@@ -29,7 +28,8 @@
     "i18next",
     "i18n",
     "Intl",
-    "Helper"
+    "Helper",
+    "handlebars-i18next"
   ],
   "author": "Florian Walzel",
   "license": "MIT",
