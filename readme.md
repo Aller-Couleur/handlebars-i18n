@@ -39,7 +39,7 @@ Usage in web browser:
 </script>
 ```
 
-## Example
+## Quick example
 
 Initialize i18next with your language strings and default settings:
 
@@ -113,7 +113,9 @@ Finally use in template:
 ```
 * returns for "en" &#x2192; **$1,200.99**
 
-:point_right: Also see the *examples folder* in the repo for more details.
+## Further examples
+
+:point_right: See the *examples folder* in the repo for more use cases and details.
 
 
 ## Run tests
@@ -179,7 +181,7 @@ The i18next resource:
 
 ### _locale
 
-Returns the shortcode of i18next's currently selected language such as "**en**", "**de**", "**fr**", "**fi**" … etc.
+Returns the shortcode of i18next’s currently selected language such as "**en**", "**de**", "**fr**", "**fi**" … etc.
 
 ```
 {{_locale}}
@@ -188,7 +190,7 @@ Returns the shortcode of i18next's currently selected language such as "**en**",
 
 ### localeIs
 
-Checks a string against i18next's currently selected language. Returns **true** or **false**.
+Checks a string against i18next’s currently selected language. Returns **true** or **false**.
 
 ```
 {{#if (localeIs "en")}} ... {{/if}}
@@ -203,7 +205,7 @@ Outputs a formated date according to the language specific conventions.
 {{_date}}
 ```
 
-If called without argument the current date is returned. Any other input date can be passed as a conventional date string, a number (timestamp in milliseconds), or a date array. __date accepts all Arguments Javascript's [new Date()](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date) constructor would accept.
+If called without argument the current date is returned. Any other input date can be passed as a conventional date string, a number (timestamp in milliseconds), or a date array. _date accepts all arguments Javascript’s [new Date()](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date) constructor would accept.
 
 **Date argument given as date string:**
 
@@ -288,20 +290,20 @@ First argument is the language shortcode or "**all**" for all languages. Second 
 
 ### Custom language format subsets 
 
-You can define language specific subsets to be used in the template. I.e. if you want the date in different forms such as
+You can define specific subsets to be used in the template, i.e. if you want the date in different formatts such as:
 
-* 1995 (year only)
-*  (standard date)
-*  (date and time)
+* **2020** (year only)
+* **11.3.2020** (standard date)
+* **7:24:02** (time only)
 
-define a 4th parameter with a custom name:
+To do this define a 4th parameter with a custom name:
 
 
 ```
  HandlebarsI18n.configure([
  	["en", "DateTimeFormat", {year:'numeric'}, "year-only"], 
  	["en", "DateTimeFormat", {year:'numeric', month:'numeric', day:'numeric'}, "standard-date"], 
- 	["en", "DateTimeFormat", {year:'numeric', month:'short', day:'numeric', hour:'numeric', minute:'numeric'}, "date-and-time"] 
+ 	['en', 'DateTimeFormat', { hour:'numeric', minute:'numeric', second:'numeric', hour12:false}, "time-only"] 
 ]);
 ```
 
@@ -315,7 +317,7 @@ Call a subset in template wit the parameter "format", like:
 
 ### The lookup cascade
 
-The lookup cascade is:
+The general lookup cascade is:
 
 * `1st Priority`: The argument given in the template for custom configurations by the key "format", i.e. `{{_date format="my-custom-format"}}` 
 * `2nd Priority`: The extra argument(s) given in the template, e.g. `{{_date timeZone="America/Los_Angeles" year="2-digit"}}` 

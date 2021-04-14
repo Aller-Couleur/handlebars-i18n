@@ -52,7 +52,7 @@
   },
   "dependencies": {
     "handlebars": "^4.7.6",
-    "i18next": "^20.0.0",
+    "i18next": "^19.8.4",
     "intl": "^1.2.5"
   }
 }
