@@ -1,6 +1,6 @@
 # handlebars-i18n
 
-`handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/) to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number** and **currency formatting** via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). It can be used as node module as well as in the web browser.
+`handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/) to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting** via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). It can be used as node module as well as in the web browser.
 
 Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
@@ -131,7 +131,8 @@ $ npm run test
 
 ### __
 
-Returns the phrase associated with the given key for the selected language. The key can be passed hard encoded in the template when written in quotes:
+Returns the phrase associated with the given key for the selected language. __ will take all options i18next’s [t-function](https://www.i18next.com/overview/api#t) would take. 
+The primary key can be passed hard encoded in the template when written in quotes:
 
 ```
 {{__ "keyToTranslationPhrase"}}
@@ -174,6 +175,14 @@ The i18next resource:
     }
 },
 ```
+
+**Override globally selected language**
+
+```
+{{__ "key1" lng="de"}}
+```
+
+Will output the contents for "**de**" even though other language is selected. 
 
 ---
 
