@@ -95,6 +95,9 @@ template += '{{__ "key3WithCount" count=1}}' + '\n';
 // Phrase with singular / [plural]:
 template += '{{__ "key3WithCount" count=7}}' + '\n';
 
+// Override language to use:
+template += '{{__ "key1" lng="de"}}' + '\n';
+
 
 // Output selected language
 // ----------------------------------------
