@@ -48,13 +48,13 @@
     "gulp-rename": "2.0.0",
     "gulp-uglify": "3.0.2",
     "gulp-uglify-es": "2.0.0",
-    "husky": "4.3.8",
     "istanbul": "0.4.5",
     "mocha": "8.3.2",
     "nyc": "15.1.0"
   },
   "dependencies": {
     "handlebars": "^4.7.6",
+    "husky": "^7.0.2",
     "i18next": "^20.2.1",
     "intl": "^1.2.5"
   },
