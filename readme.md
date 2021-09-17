@@ -1,10 +1,10 @@
 # handlebars-i18n
 
-`handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/) to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting** via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). It can be used as node module as well as in the web browser.
+`handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/) to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting** via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser.
 
 Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n) [![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master) [![Code Quality](https://www.code-inspector.com/project/21677/score/svg)](https://www.code-inspector.com/project/21677/score/svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) [![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n) [![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master) [![Code Quality](https://www.code-inspector.com/project/29087/status/svg)](https://www.code-inspector.com/project/29087/status/svg) [![Known Vulnerabilities](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)]
 
 ## License
 
@@ -22,14 +22,14 @@ $ npm install handlebars-i18n handlebars i18next intl
 
 Usage within node environment:
 
-```
+```javascript
 const HandlebarsI18n = require("handlebars-i18n");
 HandlebarsI18n.init();
 ```
 
 Usage in web browser:
 
-```
+```javascript
 <script src="handlebars.js"></script>
 <script src="i18next.js"></script>
 <script src="handlebars-i18n.js"></script>
@@ -43,7 +43,7 @@ Usage in web browser:
 
 Initialize i18next with your language strings and default settings:
 
-```
+```javascript
 const i18next = require('i18next');
 
 i18next.init({
@@ -67,7 +67,7 @@ i18next.init({
 
 Set your Handlebars.js data object:
 
-```
+```javascript
 let data = {
 	myItem: "handlebars-i18n", 
 	myPrice: 1200.99,
@@ -78,13 +78,13 @@ let data = {
 
 Initialize handlebars-i18n:
 
-```
+```javascript
 HandlebarsI18n.init();
 ```
 
 Optionally configure your language specific number, currency, and date-time defaults:
 
-```
+```javascript
  HandlebarsI18n.configure([
  	["en", "PriceFormat", {currency: "USD"}],
 	["de", "PriceFormat", {currency: "EUR"}]
@@ -121,8 +121,7 @@ Finally use in template:
 ## Run tests
 
 ```
-$ cd test
-$ npm run test
+$ npm test
 ```
 
 
@@ -301,14 +300,14 @@ First argument is the language shortcode or "**all**" for all languages. Second 
 
 You can define specific subsets to be used in the template, i.e. if you want the date in different formatts such as:
 
-* **2020** (year only)
-* **11.3.2020** (standard date)
-* **7:24:02** (time only)
+* **2020** (year-only)
+* **11.3.2020** (standard-date)
+* **7:24:02** (time-only)
 
 To do this define a 4th parameter with a custom name:
 
 
-```
+```javascript
  HandlebarsI18n.configure([
  	["en", "DateTimeFormat", {year:'numeric'}, "year-only"], 
  	["en", "DateTimeFormat", {year:'numeric', month:'numeric', day:'numeric'}, "standard-date"], 
@@ -351,14 +350,26 @@ This defines that all prices for all languages are represented as Dollar, but th
 ]);
 ```
 
-
 ### Reset an existing configuration
 
 Dismiss all existing configurations:
 
-```
+```javascript
  HandlebarsI18n.reset();
 ```
+
+## Using custom instances of Handlebars
+
+Sometimes you may want to use a Handlebars Object you have already modified before, or you may want to use muliple descrete instances of Handlebars. In this case you can pass you custom Handlebars instance to the init function to use it instead of the generic Handebars object. like so:
+
+```javascript
+const HandlebarsModified = require('handlebars');
+HandlebarsModified.registerHelper('foo', function() { return 'what you want' });
+HandlebarsI18n.init(HandlebarsModified)
+```
+
+HandlebarsI18n will have the method **foo()** by now.
+
 
 ## Note
 

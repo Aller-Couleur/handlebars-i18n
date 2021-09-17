@@ -2,8 +2,7 @@
  * handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @version: 1.1.2
- * @date: 2021-03
+ * @date: 2021-10
  *
  * handlebars-i18n adds features for localization/
  * internationalization to handlebars.js
@@ -36,40 +35,40 @@
 
   if (typeof exports === 'object' && typeof module === 'object') {
     const Handlebars = require('handlebars'),
-          i18next = require('i18next'),
-          Intl = require('intl');
+      i18next = require('i18next'),
+      Intl = require('intl');
     module.exports = factory(Handlebars, i18next, Intl);
   }
   else if (typeof define === 'function' && define.amd)
     define(['Handlebars', 'i18next', 'Intl'], factory);
   else if (typeof root.Handlebars === 'object'
-           && typeof root.i18next === 'object'
-           && typeof root.Intl === 'object')
+    && typeof root.i18next === 'object'
+    && typeof root.Intl === 'object')
     root['HandlebarsI18n'] = factory(root.Handlebars, root.i18next, root.Intl);
   else {
     console.error('@ handlebars-i18n: One or more dependencies are missing. Check for Handlebars, i18next and Intl.');
     return false;
   }
 
-})(this, function(handlebars, i18next, Intl) {
+})(this, function (handlebars, i18next, Intl) {
 
   'use strict';
 
   var defaultConf = {
-      DateTimeFormat: {
-        standard: { },
-        custom: { }
+    DateTimeFormat: {
+      standard: {},
+      custom: {}
+    },
+    NumberFormat: {
+      standard: {},
+      custom: {}
+    },
+    PriceFormat: {
+      standard: {
+        all: {style: 'currency', currency: 'EUR'}
       },
-      NumberFormat: {
-        standard: { },
-        custom: { }
-      },
-      PriceFormat: {
-        standard: {
-          all: {style: 'currency', currency: 'EUR'}
-        },
-        custom: { }
-      }
+      custom: {}
+    }
   };
 
   // make a copy of default object
@@ -132,7 +131,7 @@
 
     // no configuration delivered, fallback is Intl standard definition
     else
-      return { };
+      return {};
   }
 
   /**
@@ -146,7 +145,7 @@
   function __validateArgs(lngShortcode, typeOfFormat, options, customFormat) {
 
     if (typeof lngShortcode !== 'string') {
-      console.error('@ handlebars-i18n.configure(): Invalid argument <'+ lngShortcode +'> ' +
+      console.error('@ handlebars-i18n.configure(): Invalid argument <' + lngShortcode + '> ' +
         'First argument must be a string with language code such as "en".');
       return false;
     }
@@ -154,21 +153,21 @@
     if (typeOfFormat !== 'DateTimeFormat'
       && typeOfFormat !== 'NumberFormat'
       && typeOfFormat !== 'PriceFormat') {
-      console.error('@ handlebars-i18n.configure(): Invalid argument <'+ typeOfFormat +'>. ' +
+      console.error('@ handlebars-i18n.configure(): Invalid argument <' + typeOfFormat + '>. ' +
         'Second argument must be a string with the options key. ' +
         'Use either "DateTimeFormat", "NumberFormat" or "PriceFormat".');
       return false;
     }
 
     if (typeof options !== 'object') {
-      console.error('@ handlebars-i18n.configure(): Invalid argument <'+ options +'> ' +
+      console.error('@ handlebars-i18n.configure(): Invalid argument <' + options + '> ' +
         'Third argument must be an object containing the configuration parameters.');
       return false;
     }
 
     if ((customFormat !== null && typeof customFormat !== 'undefined' && typeof customFormat !== 'string')
       || customFormat == '' || customFormat == ' ') {
-      console.error('@ handlebars-i18n.configure(): Invalid argument <'+ customFormat +'> ' +
+      console.error('@ handlebars-i18n.configure(): Invalid argument <' + customFormat + '> ' +
         'Fourth argument (optional) must be a string naming your custom format configuration.');
       return false;
     }
@@ -214,10 +213,10 @@
      * @param typeOfFormat : string - DateTimeFormat | NumberFormat | PriceFormat
      * @param options : object - the options object
      */
-    configure : function(langOrArr, typeOfFormat, options, customFormatname = null) {
+    configure: function (langOrArr, typeOfFormat, options, customFormatname = null) {
 
       if (typeof langOrArr !== 'string' && !Array.isArray(langOrArr)) {
-        console.error('@ handlebars-i18n.configure(): Invalid argument <'+ langOrArr +'> ' +
+        console.error('@ handlebars-i18n.configure(): Invalid argument <' + langOrArr + '> ' +
           'First argument must be a string with language code such as "en" or an array with parameters.');
         return false;
       }
@@ -248,7 +247,7 @@
     /**
      * resets the configuration to default state like it is before configure() is called
      */
-    reset : function() {
+    reset: function () {
       optionsConf = JSON.parse(JSON.stringify(defaultConf));
       return true;
     },
@@ -256,9 +255,19 @@
     /**
      * init all handlebars helpers
      *
+     * @param overrideHndlbrs | optional: pass an individual instance of handlebars objec to the init() function
+     * to override the generic handlebars instance required in LINE 38
+     *
      * @returns {*}
      */
-    init : function() {
+    init: function (overrideHndlbrs) {
+
+      if (typeof overrideHndlbrs === 'object')
+        handlebars = overrideHndlbrs;
+      else if (typeof overrideHndlbrs !== 'undefined' && overrideHndlbrs !== null)
+        console.error('@ handlebars-i18n.init(): Invalid Argument given for overrideHndlbrs. ' +
+          'Argument must be the Handlebars Object. Using previously required handlebars object instead.');
+
       handlebars.registerHelper('__',
         /**
          * retrieves the translation phrase from a key given as string
@@ -280,7 +289,7 @@
          *
          * @returns {language|any|string|*|e}
          */
-        function() {
+        function () {
           return i18next.language;
         }
       );
@@ -291,7 +300,7 @@
          *
          * @returns {language|any|string|*|e}
          */
-        function(language) {
+        function (language) {
           return i18next.language === language;
         }
       );
@@ -321,7 +330,7 @@
          * @param dateInput : string | number
          * @param options
          */
-        function(dateInput, options) {
+        function (dateInput, options) {
 
           var date;
 
@@ -333,7 +342,7 @@
 
             if (dateInput.charAt(0) == '[' && dateInput.slice(-1) == ']') {
               // input as array represented as string such as "[2020, 11]"
-              dateInput = dateInput.substring(1, dateInput.length-1).replace(/ /g,'');
+              dateInput = dateInput.substring(1, dateInput.length - 1).replace(/ /g, '');
               var dateArr = dateInput.split(',');
               var dateFactory = __applyToConstructor.bind(null, Date);
               date = dateFactory(dateArr);
@@ -371,7 +380,7 @@
          * @param options
          * @returns {*}
          */
-        function(number, options) {
+        function (number, options) {
 
           var opts = __configLookup(options, i18next.language, optionsConf.NumberFormat);
 
@@ -392,7 +401,7 @@
          * @param options
          * @returns {*}
          */
-        function(price, options) {
+        function (price, options) {
 
           var opts = __configLookup(options, i18next.language, optionsConf.PriceFormat);
 

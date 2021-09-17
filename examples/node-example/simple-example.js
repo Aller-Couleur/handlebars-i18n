@@ -6,7 +6,7 @@
  *
  * usage:
  * $ cd examples/node-example
- * $ node simple-example.js
+ * $ node simple-example
  */
 
 
