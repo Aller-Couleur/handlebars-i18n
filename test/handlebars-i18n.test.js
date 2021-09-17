@@ -67,6 +67,16 @@ describe('handlebars-i18n Test', function() {
     assert.isFunction(hI18n.helpers._price);
   });
 
+  // -- Tests for method init() with override Argument -- //
+
+  it('after method call init(overrideHndlbrs) with custom handlebars Object, ' +
+    'HandlebarsEnvironment object should have custom function foo', function() {
+    const HandlebarsModified = require('handlebars');
+    HandlebarsModified.registerHelper('foo', function() { return true });
+    const hI18nMod = HandlebarsI18n.init(HandlebarsModified);
+    assert.isFunction(hI18nMod.helpers.foo);
+  });
+
 
   // -- Tests for function _locale -- //
 

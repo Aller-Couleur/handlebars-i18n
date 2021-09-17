@@ -266,8 +266,8 @@
       if (typeof overrideHndlbrs === 'object')
         handlebars = overrideHndlbrs;
       else if (typeof overrideHndlbrs !== 'undefined' && overrideHndlbrs !== null)
-        console.error('@ handlebars-i18n.init(): Invalid Argument given for overrideHndlbrs.' +
-          'Argument mus be the Handlebars Object.');
+        console.error('@ handlebars-i18n.init(): Invalid Argument given for overrideHndlbrs. ' +
+          'Argument must be the Handlebars Object. Using previously required handlebars object instead.');
 
       handlebars.registerHelper('__',
         /**
