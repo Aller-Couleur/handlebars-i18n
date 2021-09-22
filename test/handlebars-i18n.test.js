@@ -13,6 +13,7 @@ const Handlebars = require('handlebars');
 const i18next = require('i18next');
 const HandlebarsI18n = require('../dist/handlebars-i18n');
 
+console.log(typeof describe)
 
 describe('handlebars-i18n Test', function() {
 
@@ -36,6 +37,8 @@ describe('handlebars-i18n Test', function() {
 
   const hI18n = HandlebarsI18n.init();
 
+
+  console.log(typeof it)
 
   // -- Tests for method init() -- //
 
