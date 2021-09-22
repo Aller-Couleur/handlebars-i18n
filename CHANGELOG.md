@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/fwalzel/handlebars-i18n/compare/1.3.0...1.3.1) (2021-09-22)
+
+
+### Bug Fixes
+
+* typo in readme.md ([41f554a](https://github.com/fwalzel/handlebars-i18n/commit/41f554a4aa1ed83b63a458dc1ef84b5692733d8b))
+
 # [1.3.0](https://github.com/fwalzel/handlebars-i18n/compare/1.2.1...1.3.0) (2021-09-17)
 
 
