@@ -7,7 +7,7 @@ Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i1
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
 [![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n) 
 [![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master) 
-[![Code Quality](https://www.code-inspector.com/project/29087/status/svg)](https://www.code-inspector.com/project/29087/status/svg) 
+[![Code Quality](https://www.code-inspector.com/project/29087/score/svg)](https://www.code-inspector.com/project/29087/score/svg) 
 [![Known Vulnerabilities](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)
 
 
