@@ -370,7 +370,7 @@ Sometimes you may want to use a Handlebars Object you have already modified befo
 ```javascript
 const HandlebarsModified = require('handlebars');
 HandlebarsModified.registerHelper('foo', function() { return 'what you want' });
-HandlebarsI18n.init(HandlebarsModified)
+HandlebarsI18n.init(HandlebarsModified);
 ```
 
 HandlebarsI18n will have the custom method **foo()** by now.
