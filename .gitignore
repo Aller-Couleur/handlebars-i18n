@@ -127,5 +127,8 @@ dist/
 tmp/
 temp/
 
+# IDE
+.idea
+
 # Private
 notes-fw.md
