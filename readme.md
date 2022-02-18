@@ -18,8 +18,8 @@ MIT License
 
 ## Install
 
-```javascript
-$ npm install handlebars-i18n handlebars i18next intl
+```bash
+$ npm i handlebars-i18n
 ```
 
 
@@ -125,7 +125,7 @@ Finally use in template:
 
 ## Run tests
 
-```
+```bash
 $ npm test
 ```
 
@@ -365,7 +365,7 @@ HandlebarsI18n.reset();
 
 ## Using custom instances of Handlebars
 
-Sometimes you may want to use a Handlebars Object you have already modified before, or you may want to use muliple descrete instances of Handlebars. In this case you can pass you custom Handlebars instance to the init function to use it instead of the generic Handebars object. like so:
+Sometimes you may want to use a Handlebars Object you have already modified before, or you may want to use multiple discrete instances of Handlebars. In this case you can pass you custom Handlebars instance to the init function to use it instead of the generic Handlebars object like so:
 
 ```javascript
 const HandlebarsModified = require('handlebars');
@@ -373,7 +373,7 @@ HandlebarsModified.registerHelper('foo', function() { return 'what you want' });
 HandlebarsI18n.init(HandlebarsModified);
 ```
 
-HandlebarsI18n will have the custom method **foo()** by now.
+HandlebarsI18n will have your previously defined method **foo()** by now.
 
 
 ## Note
