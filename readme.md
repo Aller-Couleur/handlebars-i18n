@@ -18,10 +18,17 @@ MIT License
 
 ## Install
 
+If you use version npm >= 7:
+
 ```bash
 $ npm i handlebars-i18n
 ```
 
+For older versions do:
+
+```bash
+$ npm i handlebars-i18n handlebars@4.7.6 i18next@20.2.1 intl@1.2.5
+```
 
 ## Usage
 
