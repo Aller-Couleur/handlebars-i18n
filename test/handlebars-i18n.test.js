@@ -114,7 +114,7 @@ describe('handlebars-i18n Test', function() {
   // -- Tests for function __ -- //
 
   it('expecting __ to throw error when called with no parameter', function() {
-    expect(function() { hI18n.helpers.__() }).to.throw("Cannot read property 'hash' of undefined");
+    expect(function() { hI18n.helpers.__() }).to.throw();
   });
 
   it('function __ should return a SafeString object with property "string" where "string" returns the first argument given to __', function() {
