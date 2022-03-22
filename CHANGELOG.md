@@ -1,3 +1,11 @@
+# [1.4.0](https://github.com/fwalzel/handlebars-i18n/compare/1.3.1...1.4.0) (2022-03-22)
+
+
+### Features
+
+* **deps:** upgrade gulp-uglify-es to v3 ([9c918a5](https://github.com/fwalzel/handlebars-i18n/commit/9c918a5b2bb9d6575c106abff5b57922e208f9ac))
+* **deps:** upgrade mocha to v9 ([2de5e75](https://github.com/fwalzel/handlebars-i18n/commit/2de5e75862467e32a2f5ce65ba520520844d3b53))
+
 ## [1.3.1](https://github.com/fwalzel/handlebars-i18n/compare/1.3.0...1.3.1) (2021-09-22)
 
 
