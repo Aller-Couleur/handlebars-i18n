@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/fwalzel/handlebars-i18n/compare/1.4.0...1.4.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* code quality badge in readme.md, unstashing falsely included .idea folder ([650b6c8](https://github.com/fwalzel/handlebars-i18n/commit/650b6c81ae796ad56c3ac59310273f4cf154e2c0))
+
 # [1.4.0](https://github.com/fwalzel/handlebars-i18n/compare/1.3.1...1.4.0) (2022-03-22)
 
 
