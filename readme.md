@@ -63,13 +63,13 @@ i18next.init({
         "en" : {
             translation : {
                 "phrase1": "What is good?",
-                "phrase2": "{{what}} is good."
+                "phrase2": "{{thing}} is good."
             }
         },
         "de" : {
             translation: {
                 "phrase1": "Was ist gut?",
-                "phrase2": "{{what}} ist gut."
+                "phrase2": "{{thing}} ist gut."
            }
         }
     },
@@ -111,7 +111,7 @@ Finally use in template:
 * returns for "en" &#x2192; **What is good?**
 
 ```
-<p> {{__ "phrase2" what=myItem}} </p>
+<p> {{__ "phrase2" thing=myItem}} </p>
 ```
 * returns for "en" &#x2192; **handlebars-i18n is good.**
 
@@ -181,8 +181,8 @@ The i18next resource:
 ```javascript
 'en' : {
   translation : {
-   	'keyWithCount': '{{count}} item',
- 	'keyWithCount_plural': '{{count}} items',
+    'keyWithCount': '{{count}} item', 
+    'keyWithCount_plural': '{{count}} items',
   }
 },
 ```
