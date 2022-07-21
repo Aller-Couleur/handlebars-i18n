@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/fwalzel/handlebars-i18n/compare/1.4.1...1.4.2) (2022-07-21)
+
+
+### Bug Fixes
+
+* **release:** schedule release ([c251427](https://github.com/fwalzel/handlebars-i18n/commit/c251427819f31c407974622d4ed7a49dafa76e25))
+
 ## [1.4.1](https://github.com/fwalzel/handlebars-i18n/compare/1.4.0...1.4.1) (2022-03-31)
 
 
