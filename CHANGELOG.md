@@ -1,3 +1,11 @@
+# [1.5.0](https://github.com/fwalzel/handlebars-i18n/compare/1.4.2...1.5.0) (2022-10-13)
+
+
+### Features
+
+* init with second argument ready, compressed handlebars-i18n.min.js ([ea9e13b](https://github.com/fwalzel/handlebars-i18n/commit/ea9e13bc655e54d6000d437793a88fc555beb2a2))
+* **release:** init with second argument ready, compressed handlebars-i18n.min.js ([249a703](https://github.com/fwalzel/handlebars-i18n/commit/249a70334fe04cf1f036b50f70bdb64d662e8f42))
+
 ## [1.4.2](https://github.com/fwalzel/handlebars-i18n/compare/1.4.1...1.4.2) (2022-07-21)
 
 
