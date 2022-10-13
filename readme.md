@@ -390,6 +390,7 @@ i18nextCustom.createInstance( /*... pass some params here */ );
 HandlebarsI18n.init(null, i18nextCustom);
 ```
 
+
 ## Note
 
 There is a *different* package named [handlebars-i18next](https://www.npmjs.com/package/handlebars-i18next) by [Julian Gonggrijp](https://github.com/jgonggrijp) which might also suit your needs. Cheers!
