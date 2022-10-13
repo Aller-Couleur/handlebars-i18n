@@ -106,7 +106,7 @@
       && typeof hndlbrsOpts.hash === 'object'
       && Object.keys(hndlbrsOpts.hash).length > 0) {
 
-      var oh = hndlbrsOpts.hash;
+      let oh = hndlbrsOpts.hash;
 
       // check against a custom format, if nonexistent
       // return the options hash (= template configuration)
@@ -166,7 +166,7 @@
     }
 
     if ((customFormat !== null && typeof customFormat !== 'undefined' && typeof customFormat !== 'string')
-      || customFormat == '' || customFormat == ' ') {
+      || customFormat === '' || customFormat === ' ') {
       console.error('@ handlebars-i18n.configure(): Invalid argument <' + customFormat + '> ' +
         'Fourth argument (optional) must be a string naming your custom format configuration.');
       return false;
@@ -255,18 +255,27 @@
     /**
      * init all handlebars helpers
      *
-     * @param overrideHndlbrs | optional: pass an individual instance of handlebars objec to the init() function
-     * to override the generic handlebars instance required in LINE 38
+     * @param overrideHndlbrs | optional: pass an individual instance of handlebars object to the init() function
+     * to override the generic instance required in LINE 37
+     *
+     * @param overrideI18n | optional: pass an individual instance of handlebars i18next to the init() function
+     * to override the generic instance required in LINE 38
      *
      * @returns {*}
      */
-    init: function (overrideHndlbrs) {
+    init: function (overrideHndlbrs, overrideI18n) {
 
       if (typeof overrideHndlbrs === 'object')
         handlebars = overrideHndlbrs;
       else if (typeof overrideHndlbrs !== 'undefined' && overrideHndlbrs !== null)
         console.error('@ handlebars-i18n.init(): Invalid Argument given for overrideHndlbrs. ' +
-          'Argument must be the Handlebars Object. Using previously required handlebars object instead.');
+          'Argument must be the Handlebars Object. Using handlebars object on module instead.');
+
+      if (typeof overrideI18n === 'object')
+        i18next = overrideI18n;
+      else if (typeof overrideI18n !== 'undefined' && overrideI18n !== null)
+        console.error('@ handlebars-i18n.init(): Invalid Argument given for overrideI18n. ' +
+          'Argument must be the i18next Object. Using i18next object on module level instead.');
 
       handlebars.registerHelper('__',
         /**
