@@ -350,14 +350,14 @@
           }
           else if (typeof dateInput === 'string') {
 
-            if (dateInput.charAt(0) == '[' && dateInput.slice(-1) == ']') {
+            if (dateInput.charAt(0) === '[' && dateInput.slice(-1) === ']') {
               // input as array represented as string such as "[2020, 11]"
               dateInput = dateInput.substring(1, dateInput.length - 1).replace(/ /g, '');
               var dateArr = dateInput.split(',');
               var dateFactory = __applyToConstructor.bind(null, Date);
               date = dateFactory(dateArr);
             }
-            else if (dateInput.toLowerCase() == 'now' || dateInput.toLowerCase() == 'today') {
+            else if (dateInput.toLowerCase() === 'now' || dateInput.toLowerCase() === 'today') {
               // input as word "now" or "today"
               date = new Date();
             }
