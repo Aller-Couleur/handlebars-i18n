@@ -370,7 +370,7 @@ Dismiss all existing configurations:
 HandlebarsI18n.reset();
 ```
 
-## Using custom instances of Handlebars
+## Using custom instances of Handlebars and/or i18next
 
 Sometimes you may want to use a Handlebars Object you have already modified before, or you may want to use multiple discrete instances of Handlebars. In this case you can pass you custom Handlebars instance to the init function to use it instead of the generic Handlebars object like so:
 
@@ -381,6 +381,14 @@ HandlebarsI18n.init(HandlebarsModified);
 ```
 
 HandlebarsI18n will have your previously defined method **foo()** by now.
+
+The same can be done for a custom instance of i18next. Pass it as the second argument to the init function.
+
+```javascript
+const i18nextCustom = require('i18next');
+i18nextCustom.createInstance( /*... pass some params here */ );
+HandlebarsI18n.init(null, i18nextCustom);
+```
 
 
 ## Note
