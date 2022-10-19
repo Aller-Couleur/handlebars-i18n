@@ -41,7 +41,8 @@ i18next
         }
       }
     },
-    lng : 'en'
+    lng : 'en',
+    compatibilityJSON: 'v2'
   });
 
 // -- Handlebars' example data object
