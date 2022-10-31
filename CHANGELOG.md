@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/fwalzel/handlebars-i18n/compare/1.5.0...1.5.1) (2022-10-19)
+
+
+### Bug Fixes
+
+* **release:** added compatibilityJSON: 'v2' param to example files ([e07b8d8](https://github.com/fwalzel/handlebars-i18n/commit/e07b8d8cfe51035dc2ab1a3cc5dd5e8e2b57ca67))
+
 # [1.5.0](https://github.com/fwalzel/handlebars-i18n/compare/1.4.2...1.5.0) (2022-10-13)
 
 
