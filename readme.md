@@ -47,7 +47,7 @@ Usage in web browser:
 <script src="handlebars-i18n.js"></script>
 
 <script>
-    HandlebarsI18n.init()
+  HandlebarsI18n.init()
 </script>
 ```
 
@@ -56,24 +56,24 @@ Usage in web browser:
 Initialize i18next with your language strings and default settings:
 
 ```javascript
-const i18next = require('i18next');
+const i18next = require("i18next");
 
 i18next.init({
-	resources : {
-        "en" : {
-            translation : {
-                "phrase1": "What is good?",
-                "phrase2": "{{thing}} is good."
-            }
-        },
-        "de" : {
-            translation: {
-                "phrase1": "Was ist gut?",
-                "phrase2": "{{thing}} ist gut."
-           }
+  resources : {
+    "en" : {
+        translation : {
+            "phrase1": "What is good?",
+            "phrase2": "{{thing}} is good."
         }
     },
-    lng : "en"
+    "de" : {
+        translation: {
+            "phrase1": "Was ist gut?",
+            "phrase2": "{{thing}} ist gut."
+       }
+    }
+  },
+  lng : "en"
 });
 ```
 
@@ -130,11 +130,16 @@ Finally use in template:
 :point_right: See the *examples folder* in the repo for more use cases and details.
 
 
-## Run tests
+## NEW! :star_struck: Additional CLI Helper for Handlebars-i18n 
+
+Handlebars-i18n has its own command line interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli) by now.
 
 ```bash
-$ npm test
+$ npm i handlebars-i18n-cli --save-dev
 ```
+
+Automatically extract translation strings from handlebars templates and generate i18next conform json files from it.
+Handlebars-i18n-cli also helps to keep your translations up to date when changes are made in the templates over time.
 
 
 ## API
@@ -164,12 +169,12 @@ Template usage:
 
 The i18next resource:
 
-```
+```javascript
 "en" : {
 	translation : {
-        "whatIsWhat": "{{a}} is {{b}}."
+    "whatIsWhat": "{{a}} is {{b}}."
 	}
-},
+}
 ```
 
 **Plurals**
@@ -179,12 +184,12 @@ The i18next resource:
 ```
 
 ```javascript
-'en' : {
+"en" : {
   translation : {
-    'keyWithCount': '{{count}} item', 
-    'keyWithCount_plural': '{{count}} items',
+    "keyWithCount" : "{{count}} item", 
+    "keyWithCount_plural" : "{{count}} items"
   }
-},
+}, ...
 ```
 
 **Override globally selected language**
@@ -219,7 +224,7 @@ Checks a string against i18next’s currently selected language. Returns **true*
 
 ### _date
 
-Outputs a formated date according to the language specific conventions.
+Outputs a formatted date according to the language specific conventions.
 
 ```
 {{_date}}
@@ -232,6 +237,8 @@ If called without argument the current date is returned. Any other input date ca
 ```
 {{_date "2020-03-11T03:24:00"}}
 ```
+
+or
 
 ```
 {{_date "December 17, 1995 03:24:00"}}
@@ -260,7 +267,7 @@ You can add multiple arguments for individual formatting. See [Intl DateTimeForm
 
 ### _num
 
-Outputs a formated number according to the language specific conventions of number representation, e.g. **4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
+Outputs a formatted number according to the language specific conventions of number representation, e.g. **4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
 
 ```
 {{_num 4100000.8314 }}
@@ -279,7 +286,7 @@ Will output **3.14** for "**en**", but **3,14** for "**de**".
 
 ### _price
 
-Outputs a formated currency string according to the language specific conventions of price representation, e.g. **€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
+Outputs a formatted currency string according to the language specific conventions of price representation, e.g. **€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
 
 
 ```
@@ -310,7 +317,7 @@ First argument is the language shortcode or "**all**" for all languages. Second 
 
 ### Custom language format subsets 
 
-You can define specific subsets to be used in the template, i.e. if you want the date in different formatts such as:
+You can define specific subsets to be used in the template, i.e. if you want the date in different formats such as:
 
 - **2020** (year-only)
 - **11.3.2020** (standard-date)
@@ -321,9 +328,9 @@ To do this define a 4th parameter with a custom name:
 
 ```javascript
 HandlebarsI18n.configure([
-  ["en", "DateTimeFormat", {year:'numeric'}, "year-only"], 
-  ["en", "DateTimeFormat", {year:'numeric', month:'numeric', day:'numeric'}, "standard-date"], 
-  ['en', 'DateTimeFormat', { hour:'numeric', minute:'numeric', second:'numeric', hour12:false}, "time-only"] 
+  ["en", "DateTimeFormat", {year:"numeric"}, "year-only"], 
+  ["en", "DateTimeFormat", {year:"numeric", month:"numeric", day:"numeric"}, "standard-date"], 
+  ['en', 'DateTimeFormat', {hour:"numeric", minute:"numeric", second:"numeric", hour12:false}, "time-only"] 
 ]);
 ```
 
@@ -332,8 +339,6 @@ Call a subset in template wit the parameter "format", like:
 ```
 {{_date myDate format="year-only"}}
 ```
-
-
 
 ### The lookup cascade
 
@@ -347,13 +352,13 @@ The general lookup cascade is:
 
 **Example:**
 
-This defines that all prices for all languages are represented as Dollar:
+This defines that all prices for all languages are represented in Dollar:
 
 ```javascript
 HandlebarsI18n.configure("all", "PriceFormat", {currency: "USD"});
 ```
 
-This defines that all prices for all languages are represented as Dollar, but that for language French the currency is Euro:
+This defines that all prices for all languages are represented in Dollar, but that for the language French the currency is Euro:
 
 ```javascript
 HandlebarsI18n.configure([
@@ -372,11 +377,13 @@ HandlebarsI18n.reset();
 
 ## Using custom instances of Handlebars and/or i18next
 
-Sometimes you may want to use a Handlebars Object you have already modified before, or you may want to use multiple discrete instances of Handlebars. In this case you can pass you custom Handlebars instance to the init function to use it instead of the generic Handlebars object like so:
+Sometimes you may want to use a Handlebars object you have already modified before, or you may want to use multiple 
+discrete instances of Handlebars. In this case you can pass you custom Handlebars instance to the init function to use 
+it instead of the generic Handlebars object like so:
 
 ```javascript
-const HandlebarsModified = require('handlebars');
-HandlebarsModified.registerHelper('foo', function() { return 'what you want' });
+const HandlebarsModified = require("handlebars");
+HandlebarsModified.registerHelper("foo", function() { return "what you want" });
 HandlebarsI18n.init(HandlebarsModified);
 ```
 
@@ -385,11 +392,16 @@ HandlebarsI18n will have your previously defined method **foo()** by now.
 The same can be done for a custom instance of i18next. Pass it as the second argument to the init function.
 
 ```javascript
-const i18nextCustom = require('i18next');
-i18nextCustom.createInstance( /*... pass some params here */ );
+const i18nextCustom = require("i18next");
+i18nextCustom.createInstance( /* pass some params here ... */ );
 HandlebarsI18n.init(null, i18nextCustom);
 ```
 
+## Run tests
+
+```bash
+$ npm test
+```
 
 ## Note
 
