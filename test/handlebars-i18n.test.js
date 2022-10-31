@@ -12,6 +12,7 @@ const expect = require('chai').expect;
 const Handlebars = require('handlebars');
 const i18next = require('i18next');
 const HandlebarsI18n = require('../dist/handlebars-i18n');
+//const HandlebarsModified = require("handlebars");
 
 describe('handlebars-i18n Test', function() {
 
@@ -72,6 +73,13 @@ describe('handlebars-i18n Test', function() {
     HandlebarsModified.registerHelper('foo', function() { return true });
     const hI18nMod = HandlebarsI18n.init(HandlebarsModified);
     assert.isFunction(hI18nMod.helpers.foo);
+  });
+
+  it('after method call init(null, overrideI18n) with custom i18n Object, i18n object should have custom function foo', function() {
+    const i18nModified = require('i18next');
+    i18nModified.init({supportedLngs: ['de','en']});
+    const hI18nMod = HandlebarsI18n.init(null, i18nModified);
+    assert.isFunction(function(){}); // write a test here
   });
 
 

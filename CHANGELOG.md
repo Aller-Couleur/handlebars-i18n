@@ -1,3 +1,25 @@
+# [1.5.0](https://github.com/fwalzel/handlebars-i18n/compare/1.4.2...1.5.0) (2022-10-13)
+
+
+### Features
+
+* init with second argument ready, compressed handlebars-i18n.min.js ([ea9e13b](https://github.com/fwalzel/handlebars-i18n/commit/ea9e13bc655e54d6000d437793a88fc555beb2a2))
+* **release:** init with second argument ready, compressed handlebars-i18n.min.js ([249a703](https://github.com/fwalzel/handlebars-i18n/commit/249a70334fe04cf1f036b50f70bdb64d662e8f42))
+
+## [1.4.2](https://github.com/fwalzel/handlebars-i18n/compare/1.4.1...1.4.2) (2022-07-21)
+
+
+### Bug Fixes
+
+* **release:** schedule release ([c251427](https://github.com/fwalzel/handlebars-i18n/commit/c251427819f31c407974622d4ed7a49dafa76e25))
+
+## [1.4.1](https://github.com/fwalzel/handlebars-i18n/compare/1.4.0...1.4.1) (2022-03-31)
+
+
+### Bug Fixes
+
+* code quality badge in readme.md, unstashing falsely included .idea folder ([650b6c8](https://github.com/fwalzel/handlebars-i18n/commit/650b6c81ae796ad56c3ac59310273f4cf154e2c0))
+
 # [1.4.0](https://github.com/fwalzel/handlebars-i18n/compare/1.3.1...1.4.0) (2022-03-22)
 
 
