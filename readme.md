@@ -9,6 +9,7 @@ Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i1
 [![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master)
 [![Code Quality](https://api.codiga.io/project/29087/score/svg)](https://api.codiga.io/project/29087/score/svg)
 [![Known Vulnerabilities](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)
+![npm](https://img.shields.io/npm/dm/handlebars-i18n)
 
 
 ## License
