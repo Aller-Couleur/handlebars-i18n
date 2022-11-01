@@ -4,11 +4,12 @@
 
 Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT) 
-[![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n) 
-[![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master) 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n)
+[![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master)
 [![Code Quality](https://api.codiga.io/project/29087/score/svg)](https://api.codiga.io/project/29087/score/svg)
 [![Known Vulnerabilities](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)
+![npm](https://img.shields.io/npm/dm/handlebars-i18n)
 
 
 ## License
@@ -61,16 +62,16 @@ const i18next = require("i18next");
 i18next.init({
   resources : {
     "en" : {
-        translation : {
-            "phrase1": "What is good?",
-            "phrase2": "{{thing}} is good."
-        }
+      translation : {
+        "phrase1": "What is good?",
+        "phrase2": "{{thing}} is good."
+      }
     },
     "de" : {
-        translation: {
-            "phrase1": "Was ist gut?",
-            "phrase2": "{{thing}} ist gut."
-       }
+      translation: {
+        "phrase1": "Was ist gut?",
+        "phrase2": "{{thing}} ist gut."
+      }
     }
   },
   lng : "en"
@@ -81,7 +82,7 @@ Set your Handlebars.js data object:
 
 ```javascript
 let data = {
-  myItem: "handlebars-i18n", 
+  myItem: "handlebars-i18n",
   myPrice: 1200.99,
   myDate: "2020-03-11T03:24:00"
 }
@@ -130,7 +131,7 @@ Finally use in template:
 :point_right: See the *examples folder* in the repo for more use cases and details.
 
 
-## NEW! :star_struck: Additional CLI Helper for Handlebars-i18n 
+## NEW! :star_struck: Additional CLI Helper for Handlebars-i18n
 
 Handlebars-i18n has its own command line interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli) by now.
 
@@ -147,7 +148,7 @@ Handlebars-i18n-cli also helps to keep your translations up to date when changes
 
 ### __
 
-Returns the phrase associated with the given key for the selected language. __ will take all options i18next’s [t-function](https://www.i18next.com/overview/api#t) would take. 
+Returns the phrase associated with the given key for the selected language. __ will take all options i18next’s [t-function](https://www.i18next.com/overview/api#t) would take.
 The primary key can be passed hard encoded in the template when written in quotes:
 
 ```
@@ -171,9 +172,9 @@ The i18next resource:
 
 ```javascript
 "en" : {
-	translation : {
+  translation : {
     "whatIsWhat": "{{a}} is {{b}}."
-	}
+  }
 }
 ```
 
@@ -198,7 +199,7 @@ The i18next resource:
 {{__ "key1" lng="de"}}
 ```
 
-Will output the contents for "**de**" even though other language is selected. 
+Will output the contents for "**de**" even though other language is selected.
 
 ---
 
@@ -315,7 +316,7 @@ HandlebarsI18n.configure("all", "DateTimeFormat", {timeZone: "America/Los_Angele
 
 First argument is the language shortcode or "**all**" for all languages. Second is the format option you want to address (DateTimeFormat, NumberFormat, or PriceFormat). Third argument ist the options object with the specific settings.
 
-### Custom language format subsets 
+### Custom language format subsets
 
 You can define specific subsets to be used in the template, i.e. if you want the date in different formats such as:
 
@@ -323,8 +324,7 @@ You can define specific subsets to be used in the template, i.e. if you want the
 - **11.3.2020** (standard-date)
 - **7:24:02** (time-only)
 
-To do this define a 4th parameter with a custom name:
-
+To do this, define a 4th parameter with a custom name:
 
 ```javascript
 HandlebarsI18n.configure([
@@ -334,7 +334,7 @@ HandlebarsI18n.configure([
 ]);
 ```
 
-Call a subset in template wit the parameter "format", like:
+Call a subset in template with the parameter format="custom-name", like:
 
 ```
 {{_date myDate format="year-only"}}
@@ -344,8 +344,8 @@ Call a subset in template wit the parameter "format", like:
 
 The general lookup cascade is:
 
-- **1st Priority**: The argument given in the template for custom configurations by the key "format", i.e. `{{_date format="my-custom-format"}}` 
-- **2nd Priority**: The extra argument(s) given in the template, e.g. `{{_date timeZone="America/Los_Angeles" year="2-digit"}}` 
+- **1st Priority**: The argument given in the template for custom configurations by the key "format", i.e. `{{_date format="my-custom-format"}}`
+- **2nd Priority**: The extra argument(s) given in the template, e.g. `{{_date timeZone="America/Los_Angeles" year="2-digit"}}`
 - **3rd Priority**: The global setting configured for the current language, such as "**en**"
 - **4th Priority**: The global setting configured for **all** languages
 - **Default**: The **Intl** default setting
@@ -377,8 +377,8 @@ HandlebarsI18n.reset();
 
 ## Using custom instances of Handlebars and/or i18next
 
-Sometimes you may want to use a Handlebars object you have already modified before, or you may want to use multiple 
-discrete instances of Handlebars. In this case you can pass you custom Handlebars instance to the init function to use 
+Sometimes you may want to use a Handlebars object you have already modified before, or you may want to use multiple
+discrete instances of Handlebars. In this case you can pass you custom Handlebars instance to the init function to use
 it instead of the generic Handlebars object like so:
 
 ```javascript
