@@ -1,0 +1,81 @@
+// Simple translation, key given as string:
+{{__ "key1"}}
+
+// Translation with variable replacement:
+{{__ "key2" what=sayWhat}}
+
+// Phrase with [singular] / plural:
+{{__ "key3WithCount" count=1}}
+
+// Phrase with singular / [plural]:
+{{__ "key3WithCount" count=7}}
+
+// Override language to use:
+{{__ "key1" lng="de-DE"}}
+
+
+// Output selected language
+// ----------------------------------------
+
+// Translation key given through handlebars variable and _locale output:
+{{__ holdKey4}} {{_locale}}
+
+// Check against selected language:
+{{#if (localeIs "en-DE")}}English {{else}}Deutsch {{/if}}
+
+
+// Number representation
+// ----------------------------------------
+
+// Number representation as configured for all languages:
+{{_num 7000}}
+
+// Number representation with specific format attribute:
+{{_num 3.1415926 maximumFractionDigits=0}}
+
+// Number and attribute given through handlebars variables:
+{{_num mynumber maximumFractionDigits=myMaxDigits}}
+
+
+// Price representation
+// ----------------------------------------
+
+// Price representation as configured per language:
+{{_price 9999.99}}
+
+// Price representation with specific format attributes:
+{{_price 1000.99 currency="JPY" minimumFractionDigits=0}}
+
+// Price given through handlebars variable and with with specific format attribute:
+{{_price myPrice currency="DKK"}}
+
+
+// date representation
+// ----------------------------------------
+
+// Todays date as configured per language:
+{{_date}}
+
+// Date given as date string:
+{{_date "2020-03-11T03:24:00"}}
+
+// Date given in milliseconds since begin of unix epoch:
+{{_date 1583922952743}}
+
+// Date given as javascript date parameter array:
+{{_date "[2012, 11, 20, 3, 0, 0]"}}
+
+// Todays date with with specific format attributes:
+{{_date "today" year="2-digit" month="2-digit" day="2-digit"}}
+
+// Date given through handlebars variable:
+{{_date myDate}}
+
+// Date formated by custom configuration (subset "custom-year-only"):
+{{_date myDate format="custom-year-only"}}
+
+// Date formated by custom configuration (subset "custom-date-short"):
+{{_date myDate format="custom-date-short"}}
+
+// Date formated by custom configuration (subset "custom-date-short"):
+{{_date myDate format="custom-time"}}
