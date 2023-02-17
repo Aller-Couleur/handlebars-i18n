@@ -1,3 +1,6 @@
+import type { Handlebars } from "handlebars";
+import type { i18n } from "i18next";
+
 type CustomFormatName = string;
 
 export type NumberFormatConfiguration = [
@@ -33,27 +36,27 @@ export type DateTimeFormatConfiguration = [
 
 type Configuration = NumberFormatConfiguration | PriceFormatConfiguration | DateTimeFormatConfiguration;
 
-export function init(): void;
-export function reset(): void;
-export function configure(configArray: Configuration[]): void;
+export function init(overrideHndlbrs?: Handlebars, overrideI18n?: i18n): Handlebars;
+export function reset(): true;
+export function configure(configArray: Configuration[]): boolean;
 export function configure(
     lang: NumberFormatConfiguration[0],
     typeOfFormat: NumberFormatConfiguration[1],
     options: NumberFormatConfiguration[2],
     customFormatname: NumberFormatConfiguration[3]
-): void;
+): boolean;
 export function configure(
     lang: PriceFormatConfiguration[0],
     typeOfFormat: PriceFormatConfiguration[1],
     options: PriceFormatConfiguration[2],
     customFormatname: PriceFormatConfiguration[3]
-): void;
+): boolean;
 export function configure(
     lang: DateTimeFormatConfiguration[0],
     typeOfFormat: DateTimeFormatConfiguration[1],
     options: DateTimeFormatConfiguration[2],
     customFormatname: DateTimeFormatConfiguration[3]
-): void;
+): boolean;
 
 // #region TimeZone type
 export type TimeZone =
