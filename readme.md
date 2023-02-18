@@ -2,7 +2,7 @@
 
 `handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/) to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting** via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser.
 
-Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks).
+Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks). Now supports Typescript thanks to [@DiefBell](DiefBell).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n)
@@ -187,7 +187,7 @@ The i18next resource:
 ```javascript
 "en" : {
   translation : {
-    "keyWithCount" : "{{count}} item", 
+    "keyWithCount" : "{{count}} item",
     "keyWithCount_plural" : "{{count}} items"
   }
 }, ...
@@ -328,9 +328,9 @@ To do this, define a 4th parameter with a custom name:
 
 ```javascript
 HandlebarsI18n.configure([
-  ["en", "DateTimeFormat", {year:"numeric"}, "year-only"], 
-  ["en", "DateTimeFormat", {year:"numeric", month:"numeric", day:"numeric"}, "standard-date"], 
-  ['en', 'DateTimeFormat', {hour:"numeric", minute:"numeric", second:"numeric", hour12:false}, "time-only"] 
+  ["en", "DateTimeFormat", {year:"numeric"}, "year-only"],
+  ["en", "DateTimeFormat", {year:"numeric", month:"numeric", day:"numeric"}, "standard-date"],
+  ['en', 'DateTimeFormat', {hour:"numeric", minute:"numeric", second:"numeric", hour12:false}, "time-only"]
 ]);
 ```
 
@@ -402,6 +402,10 @@ HandlebarsI18n.init(null, i18nextCustom);
 ```bash
 $ npm test
 ```
+
+## Merci à vous
+
+For your contribution, I would like to thank [@MickL](https://github.com/MickL), [@dargmuesli](https://github.com/dargmuesli), and [@DiefBell](DiefBell).
 
 ## Note
 
