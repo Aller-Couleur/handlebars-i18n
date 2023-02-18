@@ -5,8 +5,7 @@
  * @date: 2021-01
  *
  * usage:
- * $ cd examples/node-example
- * $ node simple-example
+ * $ npm run example:js
  */
 
 
