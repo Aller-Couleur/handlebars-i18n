@@ -1,5 +1,7 @@
 name: CI
 
+image: node:18.14.1
+
 on:
   pull_request:
   push:
