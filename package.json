@@ -5,7 +5,8 @@
   "main": "dist/handlebars-i18n.js",
   "scripts": {
     "test": "nyc mocha",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "example": "cd examples/node-example && node simple-example"
   },
   "directories": {
     "test": "test"
