@@ -1,5 +1,7 @@
-import type { Handlebars } from "handlebars";
+import * as handlebars from "handlebars";
 import type { i18n } from "i18next";
+
+type Handlebars = typeof handlebars;
 
 type CustomFormatName = string;
 
