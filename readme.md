@@ -52,6 +52,13 @@ Usage in web browser:
 </script>
 ```
 
+With ES6 import syntax:
+
+```typescript
+import * as HandlebarsI18n from "handlebars-i18n";
+HandlebarsI18n.init();
+```
+
 ## Quick example
 
 Initialize i18next with your language strings and default settings:
