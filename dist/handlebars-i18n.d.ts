@@ -1,5 +1,5 @@
 import * as handlebars from "handlebars";
-import type { i18n } from "i18next";
+import * as i18n from "i18next";
 
 type Handlebars = typeof handlebars;
 
@@ -38,7 +38,7 @@ export type DateTimeFormatConfiguration = [
 
 type Configuration = NumberFormatConfiguration | PriceFormatConfiguration | DateTimeFormatConfiguration;
 
-export function init(overrideHndlbrs?: Handlebars, overrideI18n?: i18n): Handlebars;
+export function init(overrideHndlbrs?: Handlebars, overrideI18n?: i18n.i18n): Handlebars;
 export function reset(): true;
 export function configure(configArray: Configuration[]): boolean;
 export function configure(

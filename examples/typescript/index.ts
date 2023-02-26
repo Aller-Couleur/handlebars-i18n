@@ -16,7 +16,8 @@ import { readFileSync } from "fs";
 
 
 // -- The translation phrases for i18next
-i18next
+const myI18nInstance = i18next.createInstance();
+myI18nInstance
 	.init({
 		resources: {
 			"en-GB": {
@@ -55,8 +56,11 @@ const data = {
 	myDate: "2020-03-11T03:24:00"
 };
 
+
+const myHandlebarsInstance = handlebars.create();
+
 // -- Init and configure handlebars-i18n
-HandlebarsI18n.init();
+HandlebarsI18n.init(myHandlebarsInstance, myI18nInstance);
 
 HandlebarsI18n.configure([
 	// generic configuration for all languages for number representation:
@@ -80,7 +84,7 @@ HandlebarsI18n.configure([
 ]);
 
 const template = readFileSync(__dirname + "/test.hbs", { encoding: "utf-8" });
-const compiled = handlebars.compile(template);
-i18next.changeLanguage("de-DE"); // --> Test the changes by replacing "de-DE" with "en-GB"
+const compiled = myHandlebarsInstance.compile(template);
+myI18nInstance.changeLanguage("de-DE"); // --> Test the changes by replacing "de-DE" with "en-GB"
 
 console.log("\x1b[36m%s\x1b[0m", compiled(data));

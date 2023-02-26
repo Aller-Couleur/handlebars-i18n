@@ -2,7 +2,7 @@
 
 `handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/) to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting** via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser.
 
-Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks). Now supports Typescript thanks to [@DiefBell](DiefBell).
+Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks). Now supports Typescript thanks to [@DiefBell](https://github.com/DiefBell).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n)
@@ -50,6 +50,13 @@ Usage in web browser:
 <script>
   HandlebarsI18n.init()
 </script>
+```
+
+With ES6 import syntax:
+
+```typescript
+import * as HandlebarsI18n from "handlebars-i18n";
+HandlebarsI18n.init();
 ```
 
 ## Quick example
