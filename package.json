@@ -43,7 +43,7 @@
     "intl": "^1.2.5"
   },
   "devDependencies": {
-    "@commitlint/cli": "16.2.3",
+    "@commitlint/cli": "17.6.1",
     "@commitlint/config-conventional": "16.2.1",
     "@types/intl": "^1.2.0",
     "@types/node": "^18.13.0",
