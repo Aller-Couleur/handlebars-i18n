@@ -6,9 +6,9 @@ Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i1
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![Node.js Version](https://img.shields.io/badge/Node.js-14.x-green)
-[![Build](https://github.com/fwalzel/handlebars-i18/actions/workflows/node.js.yml/badge.svg)](https://github.com/fwalzel/handlebars-i18/actions/workflows/node.js.yml/badge.svg)
+[![Build](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master)
-[![Code Climate](https://codeclimate.com/github/fwalzel/handlebars-i18next/badges/gpa.svg)](https://codeclimate.com/github/fwalzel/handlebars-i18next)
+[![Code Climate](https://codeclimate.com/github/fwalzel/handlebars-i18n/badges/gpa.svg)](https://codeclimate.com/github/fwalzel/handlebars-i18n)
 [![Known Vulnerabilities](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)
 ![npm](https://img.shields.io/npm/dm/handlebars-i18n)
 
