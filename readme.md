@@ -5,7 +5,8 @@
 Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks). Now supports Typescript thanks to [@DiefBell](https://github.com/DiefBell).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Build Status](https://travis-ci.org/fwalzel/handlebars-i18n.svg?branch=master)](https://travis-ci.org/fwalzel/handlebars-i18n)
+![Node.js Version](https://img.shields.io/badge/Node.js-14.x-green)
+[![Build](https://github.com/fwalzel/handlebars-i18/actions/workflows/ci.yml/badge.svg)](https://github.com/fwalzel/handlebars-i18/actions/workflows/ci.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master)
 [![Code Quality](https://api.codiga.io/project/29087/score/svg)](https://api.codiga.io/project/29087/score/svg)
 [![Known Vulnerabilities](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)
