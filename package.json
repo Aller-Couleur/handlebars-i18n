@@ -31,6 +31,7 @@
     "i18n",
     "Intl",
     "Helper",
+    "Typescript",
     "handlebars-i18next"
   ],
   "author": "Florian Walzel",
