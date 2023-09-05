@@ -1,6 +1,6 @@
 {
   "name": "handlebars-i18n",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "description": "handlebars-i18n adds internationlization to handlebars.js using i18next and Intl",
   "main": "dist/handlebars-i18n.js",
   "scripts": {
@@ -31,6 +31,7 @@
     "i18n",
     "Intl",
     "Helper",
+    "Typescript",
     "handlebars-i18next"
   ],
   "author": "Florian Walzel",
