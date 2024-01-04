@@ -13,7 +13,6 @@ Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i1
 ![npm](https://img.shields.io/npm/dt/handlebars-i18n)
 ![npm](https://img.shields.io/npm/dm/handlebars-i18n)
 
-
 ## License
 
 Copyright (c) 2020 Florian Walzel,
@@ -122,42 +121,47 @@ Finally use in template:
 ```
 <p> {{__ "phrase1"}} </p>
 ```
+
 * returns for "en" &#x2192; **What is good?**
 
 ```
 <p> {{__ "phrase2" thing=myItem}} </p>
 ```
+
 * returns for "en" &#x2192; **handlebars-i18n is good.**
 
 ```
 <p> {{_date myDate}} </p>
 ```
+
 * returns for "en" &#x2192; **March 11, 2020, 4:24 AM**
 
 ```
 <p> {{_price myPrice}} </p>
 ```
+
 * returns for "en" &#x2192; **$1,200.99**
 
 ## Further examples
 
 :point_right: See the *examples folder* in the repo for more use cases and details.
 
+- Open `examples/browser-example/index.html` in your Web browser to see an implementation with a simple UI
+- Run `$ npm run example:js` in the console to get a very basic node example logged
+- Run `$ npm run example:ts` to compile and log a typescript example
 
-## NEW! :star_struck: Additional CLI Helper for Handlebars-i18n
+## Additional CLI Helper for Handlebars-i18n available :metal:
 
-Handlebars-i18n has its own command line interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli) by now.
+Handlebars-i18n has its own command line interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli).
 
 ```bash
 $ npm i handlebars-i18n-cli --save-dev
 ```
 
 Automatically extract translation strings from handlebars templates and generate i18next conform json files from it.
-Handlebars-i18n-cli also helps to keep your translations up to date when changes are made in the templates over time.
-
+Handlebars-i18n-cli also helps to keep[](https://) your translations up to date when changes are made in the templates over time.
 
 ## API
-
 
 ### __
 
@@ -167,6 +171,7 @@ The primary key can be passed hard encoded in the template when written in quote
 ```
 {{__ "keyToTranslationPhrase"}}
 ```
+
 … or it can be referenced via a handlebars variable:
 
 ```
@@ -216,8 +221,6 @@ Will output the contents for "**de**" even though other language is selected.
 
 ---
 
-
-
 ### _locale
 
 Returns the shortcode of i18next’s currently selected language such as "**en**", "**de**", "**fr**", "**fi**" … etc.
@@ -225,6 +228,7 @@ Returns the shortcode of i18next’s currently selected language such as "**en**
 ```
 {{_locale}}
 ```
+
 ---
 
 ### localeIs
@@ -234,6 +238,7 @@ Checks a string against i18next’s currently selected language. Returns **true*
 ```
 {{#if (localeIs "en")}} ... {{/if}}
 ```
+
 ---
 
 ### _date
@@ -277,6 +282,7 @@ You can add multiple arguments for individual formatting. See [Intl DateTimeForm
 ```
 {{_date 1583922952743 year="2-digit" day="2-digit" timeZone="America/Los_Angeles"}}
 ```
+
 ---
 
 ### _num
@@ -294,6 +300,7 @@ You can add multiple arguments for individual formatting. See [Intl NumberFormat
 ```
 {{_num 3.14159 maximumFractionDigits=2}}
 ```
+
 Will output **3.14** for "**en**", but **3,14** for "**de**".
 
 ---
@@ -301,7 +308,6 @@ Will output **3.14** for "**en**", but **3,14** for "**de**".
 ### _price
 
 Outputs a formatted currency string according to the language specific conventions of price representation, e.g. **€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
-
 
 ```
 {{_price 9999.99}}
@@ -422,4 +428,4 @@ For your contribution, I would like to thank [@MickL](https://github.com/MickL),
 
 ## Note
 
-There is a *different* package named [handlebars-i18next](https://www.npmjs.com/package/handlebars-i18next) by [Julian Gonggrijp](https://github.com/jgonggrijp) which might also suit your needs. Cheers!
+There is a *different* package named [handlebars-i18next](https://www.npmjs.com/package/handlebars-i18next) by [@jgonggrijp](https://github.com/jgonggrijp) which might also suit your needs. Cheers!
