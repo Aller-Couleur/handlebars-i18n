@@ -15,7 +15,8 @@ Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i1
 
 ## License
 
-Copyright (c) 2020 Florian Walzel,
+Copyright (c) 2020–24 Florian Walzel,
+
 MIT License
 
 If you use handlebars-i18n in a professional context, you could
