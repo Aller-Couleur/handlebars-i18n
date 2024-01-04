@@ -1,7 +1,7 @@
 {
   "name": "handlebars-i18n",
   "version": "1.6.3",
-  "description": "handlebars-i18n adds internationlization to handlebars.js using i18next and Intl",
+  "description": "handlebars-i18n adds internationalization to handlebars.js using i18next and Intl",
   "main": "dist/handlebars-i18n.js",
   "scripts": {
     "test": "nyc mocha",
@@ -17,16 +17,15 @@
     "url": "https://github.com/aller-couleur/handlebars-i18n.git"
   },
   "keywords": [
-    "handlebars-i18n",
+    "Translation",
+    "Multi-language",
     "Internationalization",
     "Localization",
     "Globalization",
-    "Translation",
     "Date Formatting",
     "Currency Formatting",
     "Number Formatting",
     "Handlebars",
-    "Handlebars.js",
     "i18next",
     "i18n",
     "Intl",
