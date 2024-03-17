@@ -2,15 +2,15 @@
  * handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @date: 2021-10
+ * @date: 2024-02
  *
  * handlebars-i18n adds features for localization/
  * internationalization to handlebars.js
  *
- * Copyright (c) 2020 Florian Walzel
+ * Copyright (c) 2020-24 Florian Walzel
  *
  * Permission is hereby granted, free of charge, to any person
- * obtaininga copy of this software and associated documentation
+ * obtaining a copy of this software and associated documentation
  * files (the "Software"), to deal in the Software without restriction,
  * including without limitation the rights to use, copy, modify, merge,
  * publish, distribute, sublicense, and/or sell copies of the Software,
@@ -54,7 +54,7 @@
 
   'use strict';
 
-  var defaultConf = {
+  const defaultConf = {
     DateTimeFormat: {
       standard: {},
       custom: {}
@@ -72,7 +72,7 @@
   };
 
   // make a copy of default object
-  var optionsConf = JSON.parse(JSON.stringify(defaultConf));
+  let optionsConf = JSON.parse(JSON.stringify(defaultConf));
 
 
   /*************************************
@@ -87,21 +87,22 @@
    * @private
    */
   function __applyToConstructor(constructor, argArray) {
-    var args = [null].concat(argArray);
-    var factoryFunction = constructor.bind.apply(constructor, args);
+    let args = [null].concat(argArray);
+    let factoryFunction = constructor.bind.apply(constructor, args);
     return new factoryFunction();
   }
 
   /**
    *
    * @param hndlbrsOpts
+   * @param lang
    * @param OCFormat
    * @returns {*}
    * @private
    */
   function __configLookup(hndlbrsOpts, lang, OCFormat) {
 
-    // check if an options object with .hash exists, and holds some content
+    // check if an options object with property hash exists, and holds some content
     if (typeof hndlbrsOpts === 'object'
       && typeof hndlbrsOpts.hash === 'object'
       && Object.keys(hndlbrsOpts.hash).length > 0) {
@@ -139,6 +140,7 @@
    * @param lngShortcode
    * @param typeOfFormat
    * @param options
+   * @param customFormat
    * @returns {boolean}
    * @private
    */
@@ -199,6 +201,69 @@
     return true;
   }
 
+  /**
+   *
+   * @param dateInput
+   * @returns {Date}
+   * @private
+   */
+  function __createDateObj(dateInput) {
+
+    let date;
+
+    if (typeof dateInput === 'number') {
+      // input as milliseconds since unix epoch, like: 1583922952743
+      date = new Date(dateInput);
+    }
+    else if (typeof dateInput === 'string') {
+
+      if (dateInput.charAt(0) === '[' && dateInput.slice(-1) === ']') {
+        // input as array represented as string such as "[2020, 11]"
+        dateInput = dateInput.substring(1, dateInput.length - 1).replace(/ /g, '');
+        let dateArr = dateInput.split(',');
+        let dateFactory = __applyToConstructor.bind(null, Date);
+        date = dateFactory(dateArr);
+      }
+      else if (dateInput.toLowerCase() === 'now' || dateInput.toLowerCase() === 'today') {
+        // input as word "now" or "today"
+        date = new Date();
+      }
+      else {
+        // input as date string such as "1995-12-17T03:24:00"
+        date = new Date(dateInput);
+      }
+    }
+    else {
+      // fallback: today's date
+      date = new Date();
+    }
+
+    return date;
+  }
+
+  /**
+   *
+   * @param dateA {Date Object}
+   * @param dateB {Date Object}
+   * @returns {number}
+   * @private
+   */
+  function __getDateDiff(dateA, dateB) {
+    // Discard the time and time-zone information.
+    const utc1 = Date.UTC(dateA.getFullYear(), dateA.getMonth(), dateA.getDate());
+    const utc2 = Date.UTC(dateB.getFullYear(), dateB.getMonth(), dateB.getDate());
+    return utc2 - utc1;
+  }
+
+  // export helper functions for testing purposes when NODE_ENV tells us we are in test scenario
+  if (typeof exports === 'object' && typeof module === 'object' && process.env.NODE_ENV === 'TEST')
+    module.exports = {
+      __applyToConstructor,
+      __configLookup,
+      __validateArgs,
+      __createDateObj,
+      __getDateDiff
+  };
 
   /*************************************
    * PUBLIC INTERFACE
@@ -342,39 +407,22 @@
          */
         function (dateInput, options) {
 
-          var date;
+          const date= __createDateObj(dateInput);
 
-          if (typeof dateInput === 'number') {
-            // input as milliseconds since unix epoch, like: 1583922952743
-            date = new Date(dateInput);
-          }
-          else if (typeof dateInput === 'string') {
-
-            if (dateInput.charAt(0) === '[' && dateInput.slice(-1) === ']') {
-              // input as array represented as string such as "[2020, 11]"
-              dateInput = dateInput.substring(1, dateInput.length - 1).replace(/ /g, '');
-              var dateArr = dateInput.split(',');
-              var dateFactory = __applyToConstructor.bind(null, Date);
-              date = dateFactory(dateArr);
-            }
-            else if (dateInput.toLowerCase() === 'now' || dateInput.toLowerCase() === 'today') {
-              // input as word "now" or "today"
-              date = new Date();
-            }
-            else {
-              // input as date string such as "1995-12-17T03:24:00"
-              date = new Date(dateInput);
-            }
-          }
-          else {
-            // fallback: today's date
-            date = new Date();
-          }
-
-          var opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
-
+          const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
+        }
+      );
+      handlebars.registerHelper('_dateDiff',
+        function (dateInputA, dateInputB, options) {
+
+          const dateA= __createDateObj(dateInputA);
+          const dateB= __createDateObj(dateInputB);
+          const dateDiff = __getDateDiff(dateA, dateB);
+          const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
+          const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
+          return dateFormat.format(dateDiff);
         }
       );
       handlebars.registerHelper('_num',
@@ -392,7 +440,7 @@
          */
         function (number, options) {
 
-          var opts = __configLookup(options, i18next.language, optionsConf.NumberFormat);
+          let opts = __configLookup(options, i18next.language, optionsConf.NumberFormat);
 
           const priceFormat = new Intl.NumberFormat(i18next.language, opts);
           return priceFormat.format(number);
@@ -413,7 +461,7 @@
          */
         function (price, options) {
 
-          var opts = __configLookup(options, i18next.language, optionsConf.PriceFormat);
+          let opts = __configLookup(options, i18next.language, optionsConf.PriceFormat);
 
           // for convenience automatically add the object parameter style:'currency' if not given
           if (typeof opts['style'] !== 'string' && typeof opts['currency'] === 'string')
@@ -428,6 +476,3 @@
     }
   }
 });
-
-
-
