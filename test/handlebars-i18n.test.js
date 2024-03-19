@@ -11,11 +11,7 @@ const expect = require('chai').expect;
 
 const Handlebars = require('handlebars');
 const i18next = require('i18next');
-const h = require('../dist/handlebars-i18n');
-console.log(h)
-const HandlebarsI18n = h.handlebars;
-
-
+const HandlebarsI18n = require('../dist/handlebars-i18n');
 
 describe('handlebars-i18n Test', function() {
 

@@ -17,8 +17,8 @@
     const Handlebars = require('handlebars'),
       i18next = require('i18next'),
       Intl = require('intl');
-      console.log(factory(Handlebars, i18next, Intl, true));
-    module.exports = factory(Handlebars, i18next, Intl, true); //process?.env?.NODE_ENV === 'TEST'
+      console.log(factory(Handlebars, i18next, Intl, process?.env?.NODE_ENV === 'TEST'));
+    module.exports = factory(Handlebars, i18next, Intl, process?.env?.NODE_ENV === 'TEST');
   }
   else if (typeof define === 'function' && define.amd)
     define(['Handlebars', 'i18next', 'Intl'], factory);
@@ -444,9 +444,22 @@
         }
       );
 
-      return isTest
-        ? {handlebars, __applyToConstructor, __configLookup}
-        : handlebars;
-    }
+      return handlebars;
+    },
+
+    /**
+     * we conditionally export the helpers to be able to test against them,
+     * in production they are not exported.
+     */
+    ...(isTest) && {
+      helpers: {
+        applyToConstructor: __applyToConstructor,
+        configLookup: __configLookup,
+        validateArgs: __validateArgs,
+        setArgs: __setArgs,
+        createDateObj: __createDateObj,
+        getDateDiff: __getDateDiff
+      }
+    },
   }
 });
