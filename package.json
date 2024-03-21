@@ -61,7 +61,8 @@
   "dependencies": {
     "handlebars": "^4.7.7",
     "i18next": "^21.6.14",
-    "intl": "^1.2.5"
+    "intl": "^1.2.5",
+    "relative-time-format": "^1.1.6"
   },
   "husky": {
     "hooks": {

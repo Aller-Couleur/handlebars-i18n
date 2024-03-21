@@ -2,7 +2,6 @@
  * Tests for handlebars-i18n.js
  *
  * usage:
- * $ cd test
  * $ npm run test
  */
 
@@ -55,6 +54,10 @@ describe('handlebars-i18n Test', function() {
 
   it('after method call init() HandlebarsEnvironment object should have a function _date', function() {
     assert.isFunction(hI18n.helpers._date);
+  });
+
+  it('after method call init() HandlebarsEnvironment object should have a function _dateDiff', function() {
+    assert.isFunction(hI18n.helpers._dateDiff);
   });
 
   it('after method call init() HandlebarsEnvironment object should have a function _num', function() {
@@ -159,7 +162,7 @@ describe('handlebars-i18n Test', function() {
     expect(function() { hI18n.helpers._date('someStrangeString') }).to.throw("Invalid valid date passed to format");
   });
 
-  it('function _date should return today\'s date in Intl default format when called without parameter', function() {
+  it('function _date should return today’s date in Intl default format when called without parameter', function() {
     i18next.changeLanguage('en');
     const today = new Date();
     const todayFormated = new Intl.DateTimeFormat().format(today);
@@ -168,7 +171,7 @@ describe('handlebars-i18n Test', function() {
     assert.equal(todayFormated, res);
   });
 
-  it('function _date should return today\'s date in Intl default format when called with parameter, "Today" or "Now" no matter of upper or lower case writing', function() {
+  it('function _date should return today’s date in Intl default format when called with parameter, "Today" or "Now" no matter of upper or lower case writing', function() {
     i18next.changeLanguage('en');
     const today = new Date();
     const todayFormated = new Intl.DateTimeFormat().format(today);
@@ -228,6 +231,42 @@ describe('handlebars-i18n Test', function() {
     const res = hI18n.helpers._date('[1995,11,1]', { hash: { year:"2-digit", month:"2-digit", day:"2-digit" } });
     assert.equal('01.12.95', res);
   });
+
+
+  // -- Tests for function _dateDiff -- //
+
+  it('function _dateDiff should return null when called with no parameter at all', function() {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateDiff();
+    assert.equal(null, res);
+  });
+
+  it('expect function _dateDiff to throw error when called with invalid 1. date parameter', function() {
+    expect(function() { hI18n.helpers._dateDiff('someStrangeString', '1995-12-17T03:24:00') }).to.throw("Invalid valid date passed to format");
+  });
+
+  it('expect function _dateDiff to throw error when called with invalid 2. date parameter', function() {
+    expect(function() { hI18n.helpers._dateDiff('1995-12-17T03:24:00', 'someStrangeString') }).to.throw("Invalid valid date passed to format");
+  });
+
+  /*it('expect function _dateDiff to return the first date (12/17/1995), when no second param given', function() {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00');
+    assert.equal('12/17/1995', res);
+  });
+
+  it('expect function _dateDiff to return the first date (12/17/1995), when first param is empty', function() {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateDiff('', '1995-12-17T00:00:00');
+    assert.equal('12/17/1995', res);
+  });*/
+
+  it('expect function _dateDiff to return the first date (12/17/1995), when no second param given', function() {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00', '1996-12-17T00:00:00');
+    assert.equal('12/17/1995', res);
+  });
+
 
 
   // -- Tests for function _num -- //

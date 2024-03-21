@@ -16,9 +16,14 @@
   if (typeof exports === 'object' && typeof module === 'object') {
     const Handlebars = require('handlebars'),
       i18next = require('i18next'),
-      Intl = require('intl');
-      console.log(factory(Handlebars, i18next, Intl, process?.env?.NODE_ENV === 'TEST'));
-    module.exports = factory(Handlebars, i18next, Intl, process?.env?.NODE_ENV === 'TEST');
+      Intl = require('intl'),
+      RelativeTimeFormat= require('relative-time-format');
+    module.exports = factory(
+      Handlebars,
+      i18next,
+      Intl,
+      RelativeTimeFormat,
+      process?.env?.NODE_ENV === 'TEST');
   }
   else if (typeof define === 'function' && define.amd)
     define(['Handlebars', 'i18next', 'Intl'], factory);
@@ -31,7 +36,7 @@
     return false;
   }
 
-})(this, function (handlebars, i18next, Intl, isTest) {
+})(this, function (handlebars, i18next, Intl, RelativeTimeFormat, isTest) {
 
   'use strict';
 
@@ -182,6 +187,11 @@
     return true;
   }
 
+  function __isNumOrString(input) {
+    return typeof input === 'number' || (typeof input === 'string' && input !== '')
+  }
+
+
   /**
    *
    * @param dateInput
@@ -224,16 +234,28 @@
 
   /**
    *
-   * @param dateA {Date Object}
-   * @param dateB {Date Object}
+   * @param diff {Date Object}
+   * @param formatter
    * @returns {number}
    * @private
    */
-  function __getDateDiff(dateA, dateB) {
-    // Discard the time and time-zone information.
-    const utc1 = Date.UTC(dateA.getFullYear(), dateA.getMonth(), dateA.getDate());
-    const utc2 = Date.UTC(dateB.getFullYear(), dateB.getMonth(), dateB.getDate());
-    return utc2 - utc1;
+  function __getDateDiff(diff, formatter) {
+    const
+      WEEK_IN_MILLIS = 6.048e8,
+      DAY_IN_MILLIS = 8.64e7,
+      HOUR_IN_MILLIS = 3.6e6,
+      MIN_IN_MILLIS = 6e4,
+      SEC_IN_MILLIS = 1e3;
+    if (Math.abs(diff) > WEEK_IN_MILLIS)
+      return formatter.format(Math.trunc(diff / WEEK_IN_MILLIS), 'week');
+    else if (Math.abs(diff) > DAY_IN_MILLIS)
+      return formatter.format(Math.trunc(diff / DAY_IN_MILLIS), 'day');
+    else if (Math.abs(diff) > HOUR_IN_MILLIS)
+      return formatter.format(Math.trunc((diff % DAY_IN_MILLIS) / HOUR_IN_MILLIS), 'hour');
+    else if (Math.abs(diff) > MIN_IN_MILLIS)
+      return formatter.format(Math.trunc((diff % HOUR_IN_MILLIS) / MIN_IN_MILLIS), 'minute');
+    else
+      return formatter.format(Math.trunc((diff % MIN_IN_MILLIS) / SEC_IN_MILLIS), 'second');
   }
 
 
@@ -389,12 +411,25 @@
       handlebars.registerHelper('_dateDiff',
         function (dateInputA, dateInputB, options) {
 
-          const dateA= __createDateObj(dateInputA);
-          const dateB= __createDateObj(dateInputB);
-          const dateDiff = __getDateDiff(dateA, dateB);
-          const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
-          const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
-          return dateFormat.format(dateDiff);
+          let dateDiff;
+
+          if (! __isNumOrString(dateInputA) && ! __isNumOrString(dateInputB))
+            return null;
+          else if (! __isNumOrString(dateInputB))
+            dateDiff = __createDateObj(dateInputA);
+          else if (! __isNumOrString(dateInputA))
+            dateDiff = __createDateObj(dateInputB);
+          else {
+            const dateA= __createDateObj(dateInputA);
+            const dateB= __createDateObj(dateInputB);
+            dateDiff = dateB - dateA;
+          }
+
+          /*todo!*/ const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
+          const dateFormat = typeof Intl.RelativeTimeFormat === 'function'
+            ? new Intl.RelativeTimeFormat(i18next.language, opts)
+            : new RelativeTimeFormat(i18next.language, opts);
+          return __getDateDiff(dateDiff, dateFormat);
         }
       );
       handlebars.registerHelper('_num',
