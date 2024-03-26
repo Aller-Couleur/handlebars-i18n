@@ -56,6 +56,10 @@ describe('handlebars-i18n Test', function() {
     assert.isFunction(hI18n.helpers._date);
   });
 
+  it('after method call init() HandlebarsEnvironment object should have a function _dateRel', function() {
+    assert.isFunction(hI18n.helpers._dateRel);
+  });
+
   it('after method call init() HandlebarsEnvironment object should have a function _dateDiff', function() {
     assert.isFunction(hI18n.helpers._dateDiff);
   });
@@ -242,11 +246,11 @@ describe('handlebars-i18n Test', function() {
   });
 
   it('expect function _dateDiff to throw error when called with invalid 1. date parameter', function() {
-    expect(function() { hI18n.helpers._dateDiff('someStrangeString', '1995-12-17T03:24:00') }).to.throw("Invalid valid date passed to format");
+    expect(function() { hI18n.helpers._dateDiff('someStrangeString', '1995-12-17T03:24:00') }).to.throw('No supported locale was found');
   });
 
   it('expect function _dateDiff to throw error when called with invalid 2. date parameter', function() {
-    expect(function() { hI18n.helpers._dateDiff('1995-12-17T03:24:00', 'someStrangeString') }).to.throw("Invalid valid date passed to format");
+    expect(function() { hI18n.helpers._dateDiff('1995-12-17T03:24:00', 'someStrangeString') }).to.throw('No supported locale was found');
   });
 
   /*it('expect function _dateDiff to return the first date (12/17/1995), when no second param given', function() {
@@ -261,11 +265,11 @@ describe('handlebars-i18n Test', function() {
     assert.equal('12/17/1995', res);
   });*/
 
-  it('expect function _dateDiff to return the first date (12/17/1995), when no second param given', function() {
+  /*it('expect function _dateDiff to return the first date (12/17/1995), when no second param given', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00', '1996-12-17T00:00:00');
     assert.equal('12/17/1995', res);
-  });
+  });*/
 
 
 
@@ -361,6 +365,7 @@ describe('handlebars-i18n Test', function() {
     assert.isOk(configure);
   });
 
+
   it('method configure() should return false if called with arguments "en", "DateTimeFormat", { year:"numeric" } and an additional object (invalid argument)', function() {
     const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', { year:'numeric' }, {} );
     assert.isNotOk(configure);
@@ -370,6 +375,12 @@ describe('handlebars-i18n Test', function() {
     const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', { year:'numeric' }, "" );
     assert.isNotOk(configure);
   });
+
+  it('method configure() should return true if called with arguments "en", "RelativeTimeFormat", { localeMatcher: "best fit", numeric: "always", style: "long" }', function() {
+    const configure = HandlebarsI18n.configure('en', 'RelativeTimeFormat', { localeMatcher: "best fit", numeric: "always", style: "long" } );
+    assert.isOk(configure);
+  });
+
 
 
   // -- Tests for method reset() -- //

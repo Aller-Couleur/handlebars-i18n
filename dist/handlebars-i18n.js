@@ -45,6 +45,10 @@
       standard: {},
       custom: {}
     },
+    RelativeTimeFormat: {
+      standard: {},
+      custom: {}
+    },
     NumberFormat: {
       standard: {},
       custom: {}
@@ -138,12 +142,10 @@
       return false;
     }
 
-    if (typeOfFormat !== 'DateTimeFormat'
-      && typeOfFormat !== 'NumberFormat'
-      && typeOfFormat !== 'PriceFormat') {
+    if (! ['DateTimeFormat', 'RelativeTimeFormat', 'NumberFormat', 'PriceFormat'].includes(typeOfFormat)) {
       console.error('@ handlebars-i18n.configure(): Invalid argument <' + typeOfFormat + '>. ' +
         'Second argument must be a string with the options key. ' +
-        'Use either "DateTimeFormat", "NumberFormat" or "PriceFormat".');
+        'Use either "DateTimeFormat", "RelativeTimeFormat", "NumberFormat", or "PriceFormat".');
       return false;
     }
 
@@ -187,10 +189,15 @@
     return true;
   }
 
+  /**
+   *
+   * @param input
+   * @returns {boolean}
+   * @private
+   */
   function __isNumOrString(input) {
     return typeof input === 'number' || (typeof input === 'string' && input !== '')
   }
-
 
   /**
    *
@@ -230,6 +237,19 @@
     }
 
     return date;
+  }
+
+  /**
+   *
+   * @param lang
+   * @param opts
+   * @returns {Intl.RelativeTimeFormat|*}
+   * @private
+   */
+  function __getRelDateFormat(lang, opts) {
+    return typeof Intl.RelativeTimeFormat === 'function'
+      ? new Intl.RelativeTimeFormat(lang, opts)
+      : new RelativeTimeFormat(i18next.lang, opts);
   }
 
   /**
@@ -276,7 +296,7 @@
 
       if (typeof langOrArr !== 'string' && !Array.isArray(langOrArr)) {
         console.error('@ handlebars-i18n.configure(): Invalid argument <' + langOrArr + '> ' +
-          'First argument must be a string with language code such as "en" or an array with parameters.');
+          'First argument must be a string with language code such as "en" or an array with language parameters.');
         return false;
       }
 
@@ -400,12 +420,24 @@
          * @param options
          */
         function (dateInput, options) {
-
           const date= __createDateObj(dateInput);
-
           const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
+        }
+      );
+      handlebars.registerHelper('_dateRel',
+        /**
+         *
+         * @param dateValue
+         * @param options
+         * @returns {string}
+         */
+        function (dateValue, options) {
+          const date= parseInt(dateValue);
+          const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
+          const relDateFormat = __getRelDateFormat(i18next.language, opts);
+          return relDateFormat.format(date);
         }
       );
       handlebars.registerHelper('_dateDiff',
