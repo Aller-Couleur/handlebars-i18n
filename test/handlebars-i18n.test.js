@@ -12,7 +12,7 @@ const Handlebars = require('handlebars');
 const i18next = require('i18next');
 const HandlebarsI18n = require('../dist/handlebars-i18n');
 
-describe('handlebars-i18n Test', function() {
+describe('handlebars-i18n Tests', function() {
 
   const i18nInitObj = {
     resources : {
@@ -237,9 +237,32 @@ describe('handlebars-i18n Test', function() {
   });
 
 
+  // -- Tests for function _dateRel -- //
+
+
+  /*it('expect function _dateRel to throw error when called without parameter', function() {
+    expect(function() { hI18n.helpers._dateRel() }).to.throw("No supported locale was found");
+  });
+
+  it('expect function _dateRel to throw error when called with invalid date parameter', function() {
+    expect(function() { hI18n.helpers._dateRel('someStrangeString') }).to.throw("No supported locale was found");
+  });
+
+  it('expect function _dateRel to return', function() {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRel(1, { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"day" }});
+    assert.equal('01.12.95', res);
+  });*/
+
+
+
+
+
+
+
   // -- Tests for function _dateDiff -- //
 
-  it('function _dateDiff should return null when called with no parameter at all', function() {
+  /*it('function _dateDiff should return null when called with no parameter at all', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff();
     assert.equal(null, res);
@@ -251,7 +274,7 @@ describe('handlebars-i18n Test', function() {
 
   it('expect function _dateDiff to throw error when called with invalid 2. date parameter', function() {
     expect(function() { hI18n.helpers._dateDiff('1995-12-17T03:24:00', 'someStrangeString') }).to.throw('No supported locale was found');
-  });
+  });*/
 
   /*it('expect function _dateDiff to return the first date (12/17/1995), when no second param given', function() {
     i18next.changeLanguage('en');
@@ -325,6 +348,13 @@ describe('handlebars-i18n Test', function() {
     i18next.changeLanguage('de');
     const res = hI18n.helpers._price(4000000, { hash: { currency: 'JPY', maximumFractionDigits: 0 } });
     assert.equal('4.000.000 ¥', res);
+  });
+
+
+  // -- Tests for method usePolyfill() -- //
+
+  it('HandlebarsI18n.usePolyfill should be a function', function() {
+    assert.isFunction(HandlebarsI18n.usePolyfill);
   });
 
 

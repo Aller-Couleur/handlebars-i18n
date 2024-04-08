@@ -36,7 +36,7 @@
     return false;
   }
 
-})(this, function (handlebars, i18next, Intl, RelativeTimeFormat, isTest) {
+})(this, function (handlebars, i18next, Intl, RelativeTimePolyfill, isTest) {
 
   'use strict';
 
@@ -168,23 +168,23 @@
   /**
    *
    * @param lang
-   * @param typeOfFormat
+   * @param formatType
    * @param options
    * @param customFormat
    * @returns {boolean}
    * @private
    */
-  function __setArgs(lang, typeOfFormat, options, customFormat) {
+  function __setArgs(lang, formatType, options, customFormat) {
 
     if (typeof customFormat !== 'undefined' && customFormat !== null) {
       // create object node with name of the configuration if not already existing
-      if (typeof optionsConf[typeOfFormat].custom[customFormat] === 'undefined')
-        optionsConf[typeOfFormat].custom[customFormat] = {};
+      if (typeof optionsConf[formatType].custom[customFormat] === 'undefined')
+        optionsConf[formatType].custom[customFormat] = {};
 
-      optionsConf[typeOfFormat].custom[customFormat][lang] = options;
+      optionsConf[formatType].custom[customFormat][lang] = options;
     }
     else
-      optionsConf[typeOfFormat].standard[lang] = options;
+      optionsConf[formatType].standard[lang] = options;
 
     return true;
   }
@@ -246,10 +246,13 @@
    * @returns {Intl.RelativeTimeFormat|*}
    * @private
    */
-  function __getRelDateFormat(lang, opts) {
-    return typeof Intl.RelativeTimeFormat === 'function'
-      ? new Intl.RelativeTimeFormat(lang, opts)
-      : new RelativeTimeFormat(i18next.lang, opts);
+  function __getRelDateFormatPolyfill(lang, opts) {
+    if (typeof Intl.RelativeTimeFormat === 'function')
+      return new Intl.RelativeTimeFormat(lang, opts);
+    else {
+      RelativeTimePolyfill.addLocale(lang);
+      return new RelativeTimePolyfill(lang, opts);
+    }
   }
 
   /**
@@ -292,7 +295,7 @@
      * @param typeOfFormat : string - DateTimeFormat | NumberFormat | PriceFormat
      * @param options : object - the options object
      */
-    configure: function (langOrArr, typeOfFormat, options, customFormatname = null) {
+    configure: function (langOrArr, typeOfFormat, options, customFormatName) {
 
       if (typeof langOrArr !== 'string' && !Array.isArray(langOrArr)) {
         console.error('@ handlebars-i18n.configure(): Invalid argument <' + langOrArr + '> ' +
@@ -314,8 +317,8 @@
         });
       }
       else {
-        if (__validateArgs(langOrArr, typeOfFormat, options, customFormatname))
-          __setArgs(langOrArr, typeOfFormat, options, customFormatname);
+        if (__validateArgs(langOrArr, typeOfFormat, options, customFormatName))
+          __setArgs(langOrArr, typeOfFormat, options, customFormatName);
         else
           return false;
       }
@@ -330,6 +333,32 @@
       optionsConf = JSON.parse(JSON.stringify(defaultConf));
       return true;
     },
+
+    usePolyfill: function(langs) {
+
+      if (typeof exports !== 'object' && typeof module !== 'object')
+        return true; // return when not in node env
+
+      if (!Array.isArray(langs)) {
+        console.error('@ handlebars-i18n.usePolyfill(): ' +
+          'You passed an empty array, no parameters taken.');
+        return false;
+      }
+      else if (langs.length < 1) {
+        console.log('@ handlebars-i18n.usePolyfill(): Invalid argument <' + langs + '> ' +
+          'Argument must be an array with language codes such as ["en", "fr", "it"]')
+        return false;
+      }
+
+      const polyfillLangs = {};
+
+      langs.forEach(elem => {
+        polyfillLangs[elem] = require(`relative-time-format/locale/${elem}`);
+      });
+
+      return true;
+    },
+
 
     /**
      * init all handlebars helpers
@@ -435,9 +464,15 @@
          */
         function (dateValue, options) {
           const date= parseInt(dateValue);
+          console.log(`Date: `);
+          console.log(date);
           const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
-          const relDateFormat = __getRelDateFormat(i18next.language, opts);
-          return relDateFormat.format(date);
+          console.log("Opts: ");
+          console.log(opts);
+          const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
+          console.log("relDateFormat: ");
+          console.log(relDateFormat);
+          return relDateFormat.format(date, opts.unit || 'day');
         }
       );
       handlebars.registerHelper('_dateDiff',
@@ -460,7 +495,7 @@
           /*todo!*/ const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
           const dateFormat = typeof Intl.RelativeTimeFormat === 'function'
             ? new Intl.RelativeTimeFormat(i18next.language, opts)
-            : new RelativeTimeFormat(i18next.language, opts);
+            : new RelativeTimePolyfill(i18next.language, opts);
           return __getDateDiff(dateDiff, dateFormat);
         }
       );
@@ -515,7 +550,7 @@
     },
 
     /**
-     * we conditionally export the helpers to be able to test against them,
+     * we conditionally export the helpers to be able to test against them;
      * in production they are not exported.
      */
     ...(isTest) && {
