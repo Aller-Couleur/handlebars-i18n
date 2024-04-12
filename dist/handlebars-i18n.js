@@ -40,6 +40,7 @@
 
   'use strict';
 
+  //
   const defaultConf = {
     DateTimeFormat: {
       standard: {},
@@ -61,8 +62,12 @@
     }
   };
 
-  // make a copy of default object
+  // make a copy of default object to hold (optional)
+  // custom configuration to be defined by the user
   let optionsConf = JSON.parse(JSON.stringify(defaultConf));
+
+  // object holding polyfill languages for node environment
+  const polyfillLangs = {};
 
 
   /*************************************
@@ -250,7 +255,14 @@
     if (typeof Intl.RelativeTimeFormat === 'function')
       return new Intl.RelativeTimeFormat(lang, opts);
     else {
-      RelativeTimePolyfill.addLocale(lang);
+      if (typeof polyfillLangs[lang] === 'undefined') {
+        try {
+          polyfillLangs[lang] = require(`relative-time-format/locale/${lang}`);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      RelativeTimePolyfill.addLocale(polyfillLangs[lang]);
       return new RelativeTimePolyfill(lang, opts);
     }
   }
@@ -327,38 +339,12 @@
     },
 
     /**
-     * resets the configuration to default state like it is before configure() is called
+     * resets the configuration to default state like it was before configure() has been called
      */
     reset: function () {
       optionsConf = JSON.parse(JSON.stringify(defaultConf));
       return true;
     },
-
-    usePolyfill: function(langs) {
-
-      if (typeof exports !== 'object' && typeof module !== 'object')
-        return true; // return when not in node env
-
-      if (!Array.isArray(langs)) {
-        console.error('@ handlebars-i18n.usePolyfill(): ' +
-          'You passed an empty array, no parameters taken.');
-        return false;
-      }
-      else if (langs.length < 1) {
-        console.log('@ handlebars-i18n.usePolyfill(): Invalid argument <' + langs + '> ' +
-          'Argument must be an array with language codes such as ["en", "fr", "it"]')
-        return false;
-      }
-
-      const polyfillLangs = {};
-
-      langs.forEach(elem => {
-        polyfillLangs[elem] = require(`relative-time-format/locale/${elem}`);
-      });
-
-      return true;
-    },
-
 
     /**
      * init all handlebars helpers

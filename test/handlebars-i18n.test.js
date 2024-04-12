@@ -88,6 +88,22 @@ describe('handlebars-i18n Tests', function() {
     assert.isFunction(function(){}); // write a test here
   });
 
+  // -- Tests for method usePolyfill() -- //
+
+  it('HandlebarsI18n.usePolyfill should be a function', function() {
+    assert.isFunction(HandlebarsI18n.usePolyfill);
+  });
+
+  it('expecting function usePolyfill to be false when param is not an array', function() {
+    i18next.init(); // empty init
+    const res = HandlebarsI18n.usePolyfill('fepwfm');
+    assert.equal(false, res);
+  });
+
+
+
+
+
 
   // -- Tests for function _locale -- //
 
@@ -240,7 +256,7 @@ describe('handlebars-i18n Tests', function() {
   // -- Tests for function _dateRel -- //
 
 
-  /*it('expect function _dateRel to throw error when called without parameter', function() {
+  it('expect function _dateRel to throw error when called without parameter', function() {
     expect(function() { hI18n.helpers._dateRel() }).to.throw("No supported locale was found");
   });
 
@@ -251,8 +267,8 @@ describe('handlebars-i18n Tests', function() {
   it('expect function _dateRel to return', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateRel(1, { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"day" }});
-    assert.equal('01.12.95', res);
-  });*/
+    assert.equal('in 1 day', res);
+  });
 
 
 
@@ -351,11 +367,7 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
-  // -- Tests for method usePolyfill() -- //
 
-  it('HandlebarsI18n.usePolyfill should be a function', function() {
-    assert.isFunction(HandlebarsI18n.usePolyfill);
-  });
 
 
   // -- Tests for method configure() -- //
