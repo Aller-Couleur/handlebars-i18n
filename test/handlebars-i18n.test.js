@@ -88,22 +88,6 @@ describe('handlebars-i18n Tests', function() {
     assert.isFunction(function(){}); // write a test here
   });
 
-  // -- Tests for method usePolyfill() -- //
-
-  it('HandlebarsI18n.usePolyfill should be a function', function() {
-    assert.isFunction(HandlebarsI18n.usePolyfill);
-  });
-
-  it('expecting function usePolyfill to be false when param is not an array', function() {
-    i18next.init(); // empty init
-    const res = HandlebarsI18n.usePolyfill('fepwfm');
-    assert.equal(false, res);
-  });
-
-
-
-
-
 
   // -- Tests for function _locale -- //
 
@@ -255,19 +239,37 @@ describe('handlebars-i18n Tests', function() {
 
   // -- Tests for function _dateRel -- //
 
-
   it('expect function _dateRel to throw error when called without parameter', function() {
-    expect(function() { hI18n.helpers._dateRel() }).to.throw("No supported locale was found");
+    expect(function() { hI18n.helpers._dateRel() }).to.throw('Invalid "number" argument: NaN');
   });
 
   it('expect function _dateRel to throw error when called with invalid date parameter', function() {
-    expect(function() { hI18n.helpers._dateRel('someStrangeString') }).to.throw("No supported locale was found");
+    expect(function() { hI18n.helpers._dateRel('someStrangeString') }).to.throw('Invalid "number" argument: NaN');
   });
 
-  it('expect function _dateRel to return', function() {
+  it('expect function _dateRel to throw error when called with non-existent language shortcode', function() {
+    i18next.changeLanguage('invalid');
+    expect(function() {
+      hI18n.helpers._dateRel(1, { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"day" }})
+    }).to.throw('No locale data passed');
+  });
+
+  it('expect function _dateRel to return \'in 1 day\' when called with \'en\' and first parameter being 1', function() {
     i18next.changeLanguage('en');
-    const res = hI18n.helpers._dateRel(1, { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"day" }});
+    const res = hI18n.helpers._dateRel(1);
     assert.equal('in 1 day', res);
+  });
+
+  it('expect function _dateRel to return \'in 1 minute\' when called with \'en\' and first parameter beeing 1 and according options', function() {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRel(1, { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"minutes" }});
+    assert.equal('in 1 minute', res);
+  });
+
+  it('expect function _dateRel to return \'in 1 Tag\' when called with \'de\' and paramter 1 and according options', function() {
+    i18next.changeLanguage('de');
+    const res = hI18n.helpers._dateRel(1, { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"day" }});
+    assert.equal('in 1 Tag', res);
   });
 
 

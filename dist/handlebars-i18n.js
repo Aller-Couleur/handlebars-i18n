@@ -47,7 +47,9 @@
       custom: {}
     },
     RelativeTimeFormat: {
-      standard: {},
+      standard: {
+        all: {unit: 'day'}
+      },
       custom: {}
     },
     NumberFormat: {
@@ -109,19 +111,19 @@
       if (typeof oh.format === 'undefined') {
         return oh;
       }
-      // when custom format is given, check if the configuration was set
+      // when custom format is given, check if the configuration was set ...
       else if (typeof OCFormat.custom[oh.format] !== 'undefined'
         && typeof OCFormat.custom[oh.format][lang] !== 'undefined') {
         return OCFormat.custom[oh.format][lang];
       }
     }
 
-    // when no options for custom formats given, first check whether
+    // ... when no options for custom formats given, first check whether
     // the specific language has a generic definition
     if (typeof OCFormat.standard[lang] !== 'undefined')
       return OCFormat.standard[lang];
 
-    // … then check if a universal format definition for all languages exist
+    // ... then check if a universal format definition for all languages exists
     if (typeof OCFormat.standard.all !== 'undefined')
       return OCFormat.standard.all;
 
@@ -259,7 +261,7 @@
         try {
           polyfillLangs[lang] = require(`relative-time-format/locale/${lang}`);
         } catch (e) {
-          console.log(e);
+          console.error(e);
         }
       }
       RelativeTimePolyfill.addLocale(polyfillLangs[lang]);
@@ -450,15 +452,9 @@
          */
         function (dateValue, options) {
           const date= parseInt(dateValue);
-          console.log(`Date: `);
-          console.log(date);
           const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
-          console.log("Opts: ");
-          console.log(opts);
           const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
-          console.log("relDateFormat: ");
-          console.log(relDateFormat);
-          return relDateFormat.format(date, opts.unit || 'day');
+          return relDateFormat.format(date, opts.unit);
         }
       );
       handlebars.registerHelper('_dateDiff',
