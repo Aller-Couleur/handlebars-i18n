@@ -412,7 +412,7 @@
       );
       handlebars.registerHelper('_date',
         /**
-         * formats a given date by the give internationalization options
+         * formats a date according to the give internationalization options
          *
          * allows multiple input forms:
          * {{_date}}
@@ -445,6 +445,15 @@
       );
       handlebars.registerHelper('_dateRel',
         /**
+         * returns a relative date formatted according the options
+         * a positive dateValue will address a future date, like 'in 1 day'
+         * a negative dateValue will relate to a past date, like '1 day ago'
+         *
+         * _dateRel uses a polyfill in node environment because node’s Intl
+         * does not support relative date formats.
+         *
+         * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
+         * @link https://www.npmjs.com/package/relative-time-format
          *
          * @param dateValue
          * @param options

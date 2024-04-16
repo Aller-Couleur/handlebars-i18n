@@ -260,6 +260,12 @@ describe('handlebars-i18n Tests', function() {
     assert.equal('in 1 day', res);
   });
 
+  it('expect function _dateRel to return \'in 1 day\' when called with \'en\' and first parameter being 1', function() {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRel(-1);
+    assert.equal('1 day ago', res);
+  });
+
   it('expect function _dateRel to return \'in 1 minute\' when called with \'en\' and first parameter beeing 1 and according options', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateRel(1, { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"minutes" }});
