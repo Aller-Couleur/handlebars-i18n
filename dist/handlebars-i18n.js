@@ -48,7 +48,7 @@
     },
     RelativeTimeFormat: {
       standard: {
-        all: {unit: 'day'}
+        all: {unit: 'hours'}
       },
       custom: {}
     },
@@ -68,7 +68,7 @@
   // custom configuration to be defined by the user
   let optionsConf = JSON.parse(JSON.stringify(defaultConf));
 
-  // object holding polyfill languages for node environment
+  // object for holding polyfill languages in node environment
   const polyfillLangs = {};
 
 
@@ -239,7 +239,7 @@
       }
     }
     else {
-      // fallback: today's date
+      // fallback: today’s date
       date = new Date();
     }
 
@@ -271,28 +271,32 @@
 
   /**
    *
-   * @param diff {Date Object}
-   * @param formatter
+   * @param diff
+   * @param unit
    * @returns {number}
    * @private
    */
-  function __getDateDiff(diff, formatter) {
-    const
-      WEEK_IN_MILLIS = 6.048e8,
-      DAY_IN_MILLIS = 8.64e7,
-      HOUR_IN_MILLIS = 3.6e6,
-      MIN_IN_MILLIS = 6e4,
-      SEC_IN_MILLIS = 1e3;
-    if (Math.abs(diff) > WEEK_IN_MILLIS)
-      return formatter.format(Math.trunc(diff / WEEK_IN_MILLIS), 'week');
-    else if (Math.abs(diff) > DAY_IN_MILLIS)
-      return formatter.format(Math.trunc(diff / DAY_IN_MILLIS), 'day');
-    else if (Math.abs(diff) > HOUR_IN_MILLIS)
-      return formatter.format(Math.trunc((diff % DAY_IN_MILLIS) / HOUR_IN_MILLIS), 'hour');
-    else if (Math.abs(diff) > MIN_IN_MILLIS)
-      return formatter.format(Math.trunc((diff % HOUR_IN_MILLIS) / MIN_IN_MILLIS), 'minute');
-    else
-      return formatter.format(Math.trunc((diff % MIN_IN_MILLIS) / SEC_IN_MILLIS), 'second');
+  function __getDateDiff(diff, unit) {
+
+    const divisions = {
+      second: 1e3,
+      seconds: 1e3,
+      minute: 6e4,
+      minutes: 6e4,
+      hour: 3.6e6,
+      hours: 3.6e6,
+      day: 8.64e7,
+      days: 8.64e7,
+      week: 6.048e8,
+      weeks: 6.048e8,
+      month: 2.629746e9,
+      months: 2.629746e9,
+      year: 3.15576e10,
+      years: 3.15576e10,
+    }
+
+    unit = unit || 'hours';
+    return Math.trunc(diff / divisions[unit]);
   }
 
 
@@ -460,13 +464,20 @@
          * @returns {string}
          */
         function (dateValue, options) {
-          const date= parseInt(dateValue);
+          const relDate= parseInt(dateValue);
           const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
           const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
-          return relDateFormat.format(date, opts.unit);
+          return relDateFormat.format(relDate, opts.unit);
         }
       );
       handlebars.registerHelper('_dateDiff',
+        /**
+         *
+         * @param dateInputA
+         * @param dateInputB
+         * @param options
+         * @returns {string|null}
+         */
         function (dateInputA, dateInputB, options) {
 
           let dateDiff;
@@ -482,12 +493,10 @@
             const dateB= __createDateObj(dateInputB);
             dateDiff = dateB - dateA;
           }
-
-          /*todo!*/ const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
-          const dateFormat = typeof Intl.RelativeTimeFormat === 'function'
-            ? new Intl.RelativeTimeFormat(i18next.language, opts)
-            : new RelativeTimePolyfill(i18next.language, opts);
-          return __getDateDiff(dateDiff, dateFormat);
+          const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
+          const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
+          const relDate = __getDateDiff(dateDiff, opts.unit);
+          return relDateFormat.format(relDate, opts.unit);
         }
       );
       handlebars.registerHelper('_num',
@@ -550,7 +559,9 @@
         configLookup: __configLookup,
         validateArgs: __validateArgs,
         setArgs: __setArgs,
+        isNumOrString: __isNumOrString,
         createDateObj: __createDateObj,
+        getRelDateFormatPolyfill: __getRelDateFormatPolyfill,
         getDateDiff: __getDateDiff
       }
     },
