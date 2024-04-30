@@ -36,6 +36,14 @@ export type DateTimeFormatConfiguration = [
     CustomFormatName?
 ];
 
+export type RelativeTimeFormatConfiguration = [
+  "all" | LocaleCode | LanguageCode,
+  "RelativeTimeFormat",
+  DateTimeFormatOptions,
+  CustomFormatName?
+];
+
+
 type Configuration = NumberFormatConfiguration | PriceFormatConfiguration | DateTimeFormatConfiguration;
 
 export function init(overrideHndlbrs?: Handlebars, overrideI18n?: i18n.i18n): Handlebars;
