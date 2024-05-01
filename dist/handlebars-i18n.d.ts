@@ -36,10 +36,28 @@ export type DateTimeFormatConfiguration = [
     CustomFormatName?
 ];
 
+type numSystem =
+      "adlm"
+    | "ahom"
+    | "arab"
+    | "arabext"
+    | "armn"
+    // continue here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getNumberingSystems#supported_numbering_system_types
+    ;
+
+
+type DateRelFormatOptions = {
+  localeMatcher?: "lookup" | "best fit",
+  numberingSystem?: numSystem,
+  numeric?: "always" | "auto",
+  style?: "long" | "short" | "narrow",
+  unit?: "second" | "minute" | "hour" | "day" | "week" | "month" | "year"
+}
+
 export type RelativeTimeFormatConfiguration = [
   "all" | LocaleCode | LanguageCode,
   "RelativeTimeFormat",
-  DateTimeFormatOptions,
+  DateRelFormatOptions,
   CustomFormatName?
 ];
 

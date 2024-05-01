@@ -295,7 +295,7 @@
       years: 3.15576e10,
     }
 
-    unit = unit || 'hours';
+    unit = unit || 'hour';
     return Math.trunc(diff / divisions[unit]);
   }
 
@@ -369,14 +369,14 @@
         handlebars = overrideHndlbrs;
       else if (typeof overrideHndlbrs !== 'undefined' && overrideHndlbrs !== null)
         console.error('@ handlebars-i18n.init(): Invalid Argument [1] given for overrideHndlbrs. ' +
-          'Argument must be the Handlebars Object. Using handlebars object on module instead.');
+          'Argument must be the Handlebars object. Using generic Handlebars object instead.');
 
       if (typeof overrideI18n === 'object' && overrideI18n !== null)
         i18next = overrideI18n;
 
       else if (typeof overrideI18n !== 'undefined' && overrideI18n !== null)
         console.error('@ handlebars-i18n.init(): Invalid Argument [2] given for overrideI18n. ' +
-          'Argument must be the i18next Object. Using i18next object on module level instead.');
+          'Argument must be the i18next object. Using generic i18next object on module level instead.');
 
       handlebars.registerHelper('__',
         /**

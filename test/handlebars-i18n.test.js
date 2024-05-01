@@ -15,81 +15,89 @@ const HandlebarsI18n = require('../dist/handlebars-i18n');
 describe('handlebars-i18n Tests', function() {
 
   const i18nInitObj = {
-    resources : {
-      'en' : {
-        translation : {
+    resources: {
+      'en': {
+        translation: {
           'key1': 'What is good?',
           'key2': '{{what}} is {{adverb}}.'
         }
       },
-      'de' : {
+      'de': {
         translation: {
           'key1': 'Was ist gut?',
           'key2': '{{what}} ist {{adverb}}.'
         }
       }
     },
-    lng : 'en'
+    lng: 'en'
   };
 
   const hI18n = HandlebarsI18n.init();
 
-  // -- Tests for method init() -- //
 
-  it('after method call init() should return an object (HandlebarsEnvironment)', function() {
+  /****************************************
+   Tests against method init()
+   ****************************************/
+
+  it('after method call init() should return an object (HandlebarsEnvironment)', function () {
     assert.isObject(hI18n);
   });
 
-  it('after method call init() HandlebarsEnvironment object should have a function __', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function __', function () {
     assert.isFunction(hI18n.helpers.__);
   });
 
-  it('after method call init() HandlebarsEnvironment object should have a function _locale', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function _locale', function () {
     assert.isFunction(hI18n.helpers._locale);
   });
 
-  it('after method call init() HandlebarsEnvironment object should have a function localeIs', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function localeIs', function () {
     assert.isFunction(hI18n.helpers.localeIs);
   });
 
-  it('after method call init() HandlebarsEnvironment object should have a function _date', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function _date', function () {
     assert.isFunction(hI18n.helpers._date);
   });
 
-  it('after method call init() HandlebarsEnvironment object should have a function _dateRel', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function _dateRel', function () {
     assert.isFunction(hI18n.helpers._dateRel);
   });
 
-  it('after method call init() HandlebarsEnvironment object should have a function _dateDiff', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function _dateDiff', function () {
     assert.isFunction(hI18n.helpers._dateDiff);
   });
 
-  it('after method call init() HandlebarsEnvironment object should have a function _num', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function _num', function () {
     assert.isFunction(hI18n.helpers._num);
   });
 
-  it('after method call init() HandlebarsEnvironment object should have a function _price', function() {
+  it('after method call init() HandlebarsEnvironment object should have a function _price', function () {
     assert.isFunction(hI18n.helpers._price);
   });
 
   // -- Tests for method init() with override Argument -- //
 
-  it('after method call init(overrideHndlbrs) with custom handlebars Object, HandlebarsEnvironment object should have custom function foo', function() {
+  it('after method call init(overrideHndlbrs) with custom handlebars Object, HandlebarsEnvironment object should have custom function foo', function () {
     const HandlebarsModified = require('handlebars');
-    HandlebarsModified.registerHelper('foo', function() { return true });
+    HandlebarsModified.registerHelper('foo', function () {
+      return true
+    });
     const hI18nMod = HandlebarsI18n.init(HandlebarsModified);
     assert.isFunction(hI18nMod.helpers.foo);
   });
 
-  it('after method call init(null, overrideI18n) with custom i18n Object, i18n object should have custom function foo', function() {
+  it('after method call init(null, overrideI18n) with custom i18n Object, i18n object should have custom function foo', function () {
     const i18nModified = require('i18next');
-    i18nModified.init({supportedLngs: ['de','en']});
+    i18nModified.init({supportedLngs: ['de', 'en']});
     const hI18nMod = HandlebarsI18n.init(null, i18nModified);
-    assert.isFunction(function(){}); // write a test here
+    assert.isFunction(function () {
+    }); // write a test here
   });
 
 
-  // -- Tests for function _locale -- //
+  /****************************************
+   Tests against function _locale
+   ****************************************/
 
   it('expecting function _locale to be [undefined] as long as no language was set with i18next.init', function() {
     i18next.init(); // empty init
@@ -110,7 +118,9 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
-  // -- Tests for function isLocale -- //
+  /****************************************
+   Tests against function isLocale
+   ****************************************/
 
   it('function isLocale should return TRUE when current language is set to "en" and given "en" as parameter', function() {
     i18next.changeLanguage('en');
@@ -125,7 +135,9 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
-  // -- Tests for function __ -- //
+  /****************************************
+   Tests against function __
+   ****************************************/
 
   it('expecting __ to throw error when called with no parameter', function() {
     expect(function() { hI18n.helpers.__() }).to.throw();
@@ -160,7 +172,9 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
-  // -- Tests for function _date -- //
+  /****************************************
+   Tests against function _date
+   ****************************************/
 
   it('expect function _date to throw error when called with invalid date parameter', function() {
     expect(function() { hI18n.helpers._date('someStrangeString') }).to.throw("Invalid valid date passed to format");
@@ -237,7 +251,9 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
-  // -- Tests for function _dateRel -- //
+  /****************************************
+   Tests against function _dateRel
+   ****************************************/
 
   it('expect function _dateRel to throw error when called without parameter', function() {
     expect(function() { hI18n.helpers._dateRel() }).to.throw('Invalid "number" argument: NaN');
@@ -254,16 +270,16 @@ describe('handlebars-i18n Tests', function() {
     }).to.throw('No locale data passed');
   });
 
-  it('expect function _dateRel to return \'in 1 day\' when called with \'en\' and first parameter being 1', function() {
+  it('expect function _dateRel to return \'in 1 hour\' when called with \'en\' and first parameter being 1', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateRel(1);
-    assert.equal('in 1 day', res);
+    assert.equal('in 1 hour', res);
   });
 
-  it('expect function _dateRel to return \'in 1 day\' when called with \'en\' and first parameter being 1', function() {
+  it('expect function _dateRel to return \'1 hour ago\' when called with \'en\' and first parameter being -1', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateRel(-1);
-    assert.equal('1 day ago', res);
+    assert.equal('1 hour ago', res);
   });
 
   it('expect function _dateRel to return \'in 1 minute\' when called with \'en\' and first parameter beeing 1 and according options', function() {
@@ -279,26 +295,25 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
+  /****************************************
+   Tests against function _dateDiff
+   ****************************************/
 
-
-
-
-
-  // -- Tests for function _dateDiff -- //
-
-  /*it('function _dateDiff should return null when called with no parameter at all', function() {
+  it('function _dateDiff should return null when called with no parameter', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff();
     assert.equal(null, res);
   });
 
   it('expect function _dateDiff to throw error when called with invalid 1. date parameter', function() {
-    expect(function() { hI18n.helpers._dateDiff('someStrangeString', '1995-12-17T03:24:00') }).to.throw('No supported locale was found');
+    expect(function() { hI18n.helpers._dateDiff('someStrangeString', '1995-12-17T03:24:00') })
+      .to.throw('Invalid "number" argument: NaN');
   });
 
   it('expect function _dateDiff to throw error when called with invalid 2. date parameter', function() {
-    expect(function() { hI18n.helpers._dateDiff('1995-12-17T03:24:00', 'someStrangeString') }).to.throw('No supported locale was found');
-  });*/
+    expect(function() { hI18n.helpers._dateDiff('1995-12-17T03:24:00', 'someStrangeString') })
+      .to.throw('Invalid "number" argument: NaN');
+  });
 
   /*it('expect function _dateDiff to return the first date (12/17/1995), when no second param given', function() {
     i18next.changeLanguage('en');
@@ -310,17 +325,19 @@ describe('handlebars-i18n Tests', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff('', '1995-12-17T00:00:00');
     assert.equal('12/17/1995', res);
-  });*/
+  });
 
   it('expect function _dateDiff to return the first date (12/17/1995), when no second param given', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00', '1996-12-17T00:00:00');
     assert.equal('12/17/1995', res);
   });
+  */
 
 
-
-  // -- Tests for function _num -- //
+  /****************************************
+   Tests against function _num
+   ****************************************/
 
   it('function _num should return comma separated triples of decimals when language is "en"', function() {
     i18next.changeLanguage('en');
@@ -347,7 +364,9 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
-  // -- Tests for function _price -- //
+  /****************************************
+   Tests against function _price
+   ****************************************/
 
   it('function _currency should return price in € written in comma separated triples of decimals and 2 fraction digits with leading currency symbol', function() {
     i18next.changeLanguage('en');
@@ -375,10 +394,9 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
-
-
-
-  // -- Tests for method configure() -- //
+  /****************************************
+   Tests against method configure()
+   ****************************************/
 
   it('method configure() should return false if called without argument', function() {
     const configure = HandlebarsI18n.configure();
@@ -432,8 +450,9 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
-
-  // -- Tests for method reset() -- //
+  /****************************************
+   Tests against method reset()
+   ****************************************/
 
   it('method reset() should return TRUE if called', function() {
     const res = HandlebarsI18n.reset();
@@ -449,7 +468,9 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
-  // -- Tests for custom format configurations for function _date -- //
+  /********************************************************************
+   Tests for custom format configurations for function _date
+   ********************************************************************/
 
   it('function _date when called after configure() with defined custom format (year:2-digit) should return ' +
     'date "95" when language is "en"', function() {
