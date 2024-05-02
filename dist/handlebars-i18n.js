@@ -291,6 +291,8 @@
       weeks: 6.048e8,
       month: 2.629746e9,
       months: 2.629746e9,
+      quarter: 78894e5,
+      quarters: 78894e5,
       year: 3.15576e10,
       years: 3.15576e10,
     }
@@ -491,11 +493,11 @@
           else {
             const dateA= __createDateObj(dateInputA);
             const dateB= __createDateObj(dateInputB);
-            dateDiff = dateB - dateA;
+            dateDiff = dateA - dateB;
           }
           const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
-          const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
           const relDate = __getDateDiff(dateDiff, opts.unit);
+          const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
           return relDateFormat.format(relDate, opts.unit);
         }
       );

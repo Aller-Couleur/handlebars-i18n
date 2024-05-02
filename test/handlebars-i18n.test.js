@@ -315,24 +315,36 @@ describe('handlebars-i18n Tests', function() {
       .to.throw('Invalid "number" argument: NaN');
   });
 
-  /*it('expect function _dateDiff to return the first date (12/17/1995), when no second param given', function() {
+  it('expect function _dateDiff to return the first date as "in 227,543 hours", when no second param given', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00');
-    assert.equal('12/17/1995', res);
+    assert.equal('in 227,543 hours', res);
   });
 
-  it('expect function _dateDiff to return the first date (12/17/1995), when first param is empty', function() {
+  it('expect function _dateDiff to return the second date as "in 227,543 hours", when first param is empty', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff('', '1995-12-17T00:00:00');
-    assert.equal('12/17/1995', res);
+    assert.equal('in 227,543 hours', res);
   });
 
-  it('expect function _dateDiff to return the first date (12/17/1995), when no second param given', function() {
+  it('expect function _dateDiff to return "in 0 hours", when dates are identical', function() {
     i18next.changeLanguage('en');
-    const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00', '1996-12-17T00:00:00');
-    assert.equal('12/17/1995', res);
+    const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00', '1995-12-17T00:00:00');
+    assert.equal('in 0 hours', res);
   });
-  */
+
+  it('expect function _dateDiff to return "in 1 year"', function() {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateDiff('1996-12-17T00:00:00', '1995-12-17T00:00:00', { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"year" } });
+    assert.equal('in 1 year', res);
+  });
+
+  it('expect function _dateDiff to return "1 year ago"', function() {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00', '1996-12-17T00:00:00', { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"year" } });
+    assert.equal('1 year ago', res);
+  });
+
 
 
   /****************************************
@@ -432,7 +444,6 @@ describe('handlebars-i18n Tests', function() {
     const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', { year:'numeric' }, "my-custom-conf" );
     assert.isOk(configure);
   });
-
 
   it('method configure() should return false if called with arguments "en", "DateTimeFormat", { year:"numeric" } and an additional object (invalid argument)', function() {
     const configure = HandlebarsI18n.configure('en', 'DateTimeFormat', { year:'numeric' }, {} );
