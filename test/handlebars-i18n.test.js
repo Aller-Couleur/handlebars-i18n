@@ -139,7 +139,7 @@ describe('handlebars-i18n Tests', function() {
    Tests against function __
    ****************************************/
 
-  it('expecting __ to throw error when called with no parameter', function() {
+  it('expect __ to throw error when called with no parameter', function() {
     expect(function() { hI18n.helpers.__() }).to.throw();
   });
 
@@ -189,17 +189,18 @@ describe('handlebars-i18n Tests', function() {
     assert.equal(todayFormated, res);
   });
 
-  it('function _date should return today’s date in Intl default format when called with parameter, "Today" or "Now" no matter of upper or lower case writing', function() {
-    i18next.changeLanguage('en');
-    const today = new Date();
-    const todayFormated = new Intl.DateTimeFormat().format(today);
+  it('function _date should return today’s date in Intl default format when called with parameter, "Today" or "Now" no matter of upper or lower case writing',
+    function() {
+      i18next.changeLanguage('en');
+      const today = new Date();
+      const todayFormated = new Intl.DateTimeFormat().format(today);
 
-    assert.equal(todayFormated, hI18n.helpers._date("today"));
-    assert.equal(todayFormated, hI18n.helpers._date("Today"));
-    assert.equal(todayFormated, hI18n.helpers._date("TODAY"));
-    assert.equal(todayFormated, hI18n.helpers._date("now"));
-    assert.equal(todayFormated, hI18n.helpers._date("Now"));
-    assert.equal(todayFormated, hI18n.helpers._date("NOW"));
+      assert.equal(todayFormated, hI18n.helpers._date("today"));
+      assert.equal(todayFormated, hI18n.helpers._date("Today"));
+      assert.equal(todayFormated, hI18n.helpers._date("TODAY"));
+      assert.equal(todayFormated, hI18n.helpers._date("now"));
+      assert.equal(todayFormated, hI18n.helpers._date("Now"));
+      assert.equal(todayFormated, hI18n.helpers._date("NOW"));
   });
 
   it('function _date should return "1/1/1970" (Intl default format) when called with parameter 1 as number ', function() {
@@ -335,14 +336,46 @@ describe('handlebars-i18n Tests', function() {
 
   it('expect function _dateDiff to return "in 1 year"', function() {
     i18next.changeLanguage('en');
-    const res = hI18n.helpers._dateDiff('1996-12-17T00:00:00', '1995-12-17T00:00:00', { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"year" } });
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: "year" } };
+    const res = hI18n.helpers._dateDiff('1996-12-17T00:00:00', '1995-12-17T00:00:00', hash);
     assert.equal('in 1 year', res);
   });
 
   it('expect function _dateDiff to return "1 year ago"', function() {
     i18next.changeLanguage('en');
-    const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00', '1996-12-17T00:00:00', { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"year" } });
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: "year" } };
+    const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00', '1996-12-17T00:00:00', hash);
     assert.equal('1 year ago', res);
+  });
+
+  it('expect function _dateDiff to return "in 1 quarter"', function() {
+    i18next.changeLanguage('en');
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: "quarter" } };
+    const res = hI18n.helpers._dateDiff('1996-12-17T00:00:00', '1996-09-16T00:00:00', hash);
+    assert.equal('in 1 quarter', res);
+  });
+
+  it('expect function _dateDiff to return "1 quarter ago"', function() {
+    i18next.changeLanguage('en');
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: "quarter" } };
+    const res = hI18n.helpers._dateDiff('1996-09-16T00:00:00', '1996-12-17T00:00:00', hash);
+    assert.equal('1 quarter ago', res);
+  });
+
+  it('expect function _dateDiff to return "in 1 month"', function() {
+    i18next.changeLanguage('en');
+    const unit = 'month';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
+    const res = hI18n.helpers._dateDiff('1996-12-17T00:00:00', '1996-11-16T00:00:00', hash);
+    assert.equal(`in 1 ${unit}`, res);
+  });
+
+  it('expect function _dateDiff to return "1 quarter ago"', function() {
+    i18next.changeLanguage('en');
+    const unit = 'month';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
+    const res = hI18n.helpers._dateDiff('1996-11-16T00:00:00', '1996-12-17T00:00:00', hash);
+    assert.equal(`1 ${unit} ago`, res);
   });
 
 

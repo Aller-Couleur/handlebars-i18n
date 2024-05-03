@@ -2,7 +2,7 @@
  * handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @date: 2024-02
+ * @date: 2024-05
  *
  * handlebars-i18n adds features for localization/
  * internationalization to handlebars.js
