@@ -334,6 +334,8 @@ describe('handlebars-i18n Tests', function() {
     assert.equal('in 0 hours', res);
   });
 
+  // -- Test year -- //
+
   it('expect function _dateDiff to return "in 1 year"', function() {
     i18next.changeLanguage('en');
     const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: "year" } };
@@ -348,19 +350,25 @@ describe('handlebars-i18n Tests', function() {
     assert.equal('1 year ago', res);
   });
 
+  // -- Test quarter -- //
+
   it('expect function _dateDiff to return "in 1 quarter"', function() {
     i18next.changeLanguage('en');
-    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: "quarter" } };
+    const unit = 'quarter';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
     const res = hI18n.helpers._dateDiff('1996-12-17T00:00:00', '1996-09-16T00:00:00', hash);
-    assert.equal('in 1 quarter', res);
+    assert.equal(`in 1 ${unit}`, res);
   });
 
   it('expect function _dateDiff to return "1 quarter ago"', function() {
     i18next.changeLanguage('en');
-    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: "quarter" } };
+    const unit = 'quarter';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
     const res = hI18n.helpers._dateDiff('1996-09-16T00:00:00', '1996-12-17T00:00:00', hash);
-    assert.equal('1 quarter ago', res);
+    assert.equal(`1 ${unit} ago`, res);
   });
+
+  // -- Test month -- //
 
   it('expect function _dateDiff to return "in 1 month"', function() {
     i18next.changeLanguage('en');
@@ -370,11 +378,29 @@ describe('handlebars-i18n Tests', function() {
     assert.equal(`in 1 ${unit}`, res);
   });
 
-  it('expect function _dateDiff to return "1 quarter ago"', function() {
+  it('expect function _dateDiff to return "1 month ago"', function() {
     i18next.changeLanguage('en');
     const unit = 'month';
     const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
     const res = hI18n.helpers._dateDiff('1996-11-16T00:00:00', '1996-12-17T00:00:00', hash);
+    assert.equal(`1 ${unit} ago`, res);
+  });
+
+  // -- Test week -- //
+
+  it('expect function _dateDiff to return "in 1 week"', function() {
+    i18next.changeLanguage('en');
+    const unit = 'week';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
+    const res = hI18n.helpers._dateDiff('1996-12-08T00:00:00', '1996-12-01T00:00:00', hash);
+    assert.equal(`in 1 ${unit}`, res);
+  });
+
+  it('expect function _dateDiff to return "1 week ago"', function() {
+    i18next.changeLanguage('en');
+    const unit = 'week';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
+    const res = hI18n.helpers._dateDiff('1996-12-01T00:00:00', '1996-12-08T00:00:00', hash);
     assert.equal(`1 ${unit} ago`, res);
   });
 
