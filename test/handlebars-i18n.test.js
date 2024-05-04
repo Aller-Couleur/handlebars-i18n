@@ -283,10 +283,10 @@ describe('handlebars-i18n Tests', function() {
     assert.equal('1 hour ago', res);
   });
 
-  it('expect function _dateRel to return \'in 1 minute\' when called with \'en\' and first parameter beeing 1 and according options', function() {
+  it('expect function _dateRel to return \'in 1 second\' when called with \'en\' and first parameter beeing 1 and according options', function() {
     i18next.changeLanguage('en');
-    const res = hI18n.helpers._dateRel(1, { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"minutes" }});
-    assert.equal('in 1 minute', res);
+    const res = hI18n.helpers._dateRel(1, { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"seconds" }});
+    assert.equal('in 1 second', res);
   });
 
   it('expect function _dateRel to return \'in 1 Tag\' when called with \'de\' and paramter 1 and according options', function() {
@@ -404,6 +404,59 @@ describe('handlebars-i18n Tests', function() {
     assert.equal(`1 ${unit} ago`, res);
   });
 
+  // -- Test day -- //
+
+  it('expect function _dateDiff to return "in 1 day"', function() {
+    i18next.changeLanguage('en');
+    const unit = 'day';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
+    const res = hI18n.helpers._dateDiff('1996-12-08T00:00:00', '1996-12-07T00:00:00', hash);
+    assert.equal(`in 1 ${unit}`, res);
+  });
+
+  it('expect function _dateDiff to return "1 day ago"', function() {
+    i18next.changeLanguage('en');
+    const unit = 'day';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
+    const res = hI18n.helpers._dateDiff('1996-12-07T00:00:00', '1996-12-08T00:00:00', hash);
+    assert.equal(`1 ${unit} ago`, res);
+  });
+
+  // -- Test minute -- //
+
+  it('expect function _dateDiff to return "in 1 minute"', function() {
+    i18next.changeLanguage('en');
+    const unit = 'minute';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
+    const res = hI18n.helpers._dateDiff('1996-12-08T00:01:00', '1996-12-08T00:00:00', hash);
+    assert.equal(`in 1 ${unit}`, res);
+  });
+
+  it('expect function _dateDiff to return "1 minute ago"', function() {
+    i18next.changeLanguage('en');
+    const unit = 'minute';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
+    const res = hI18n.helpers._dateDiff('1996-12-08T00:00:00', '1996-12-08T00:01:00', hash);
+    assert.equal(`1 ${unit} ago`, res);
+  });
+
+  // -- Test second -- //
+
+  it('expect function _dateDiff to return "in 1 second"', function() {
+    i18next.changeLanguage('en');
+    const unit = 'second';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
+    const res = hI18n.helpers._dateDiff('1996-12-08T00:00:01', '1996-12-08T00:00:00', hash);
+    assert.equal(`in 1 ${unit}`, res);
+  });
+
+  it('expect function _dateDiff to return "1 second ago"', function() {
+    i18next.changeLanguage('en');
+    const unit = 'second';
+    const hash = { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit: unit } };
+    const res = hI18n.helpers._dateDiff('1996-12-08T00:00:00', '1996-12-08T00:00:01', hash);
+    assert.equal(`1 ${unit} ago`, res);
+  });
 
 
   /****************************************
@@ -612,9 +665,18 @@ describe('handlebars-i18n Tests', function() {
     const res = hI18n.helpers._date('December 17, 1995 03:24:00', { hash: { format: 'my-unknown-format'} });
     assert.equal('12/17/1995', res);
   });
-  
 
-  // -- Tests for custom format configurations for function _num -- //
+
+  /********************************************************************
+   Tests for custom format configurations for function _dateRel
+   ********************************************************************/
+
+
+
+
+  /********************************************************************
+   Tests for custom format configurations for function _num
+   ********************************************************************/
 
   it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
     'comma separated triples of decimals and 4 fraction of digits when language is "en"', function() {
@@ -685,7 +747,9 @@ describe('handlebars-i18n Tests', function() {
   });
 
 
-  // -- Tests for custom format configurations for function _price -- //
+  /********************************************************************
+   Tests for custom format configurations for function _price
+   ********************************************************************/
 
   it('function _price when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
     'comma separated triples of decimals and 4 fraction of digits when language is "en"', function() {

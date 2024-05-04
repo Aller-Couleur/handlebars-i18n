@@ -40,7 +40,9 @@
 
   'use strict';
 
-  //
+  // the object to store
+  // configurations for specific languages (standard)
+  // and custom settings.
   const defaultConf = {
     DateTimeFormat: {
       standard: {},
@@ -495,6 +497,7 @@
             const dateB= __createDateObj(dateInputB);
             dateDiff = dateA - dateB;
           }
+
           const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
           const relDate = __getDateDiff(dateDiff, opts.unit);
           const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
