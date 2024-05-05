@@ -283,7 +283,7 @@ describe('handlebars-i18n Tests', function() {
     assert.equal('1 hour ago', res);
   });
 
-  it('expect function _dateRel to return \'in 1 second\' when called with \'en\' and first parameter beeing 1 and according options', function() {
+  it('expect function _dateRel to return \'in 1 second\' when called with \'en\' and first parameter being 1 and according options', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateRel(1, { hash: { localeMatcher: "best fit", numeric: "always", style: "long", unit:"seconds" }});
     assert.equal('in 1 second', res);
@@ -582,7 +582,7 @@ describe('handlebars-i18n Tests', function() {
     assert.isOk(res);
   });
 
-  it('function _num should return Intl standard format (no fraction digits) after reset() beeing called', function() {
+  it('function _num should return Intl standard format (no fraction digits) after reset() being called', function() {
     HandlebarsI18n.configure('en', 'NumberFormat', { minimumFractionDigits:4 } );
     i18next.changeLanguage('en');
     HandlebarsI18n.reset();
@@ -623,7 +623,7 @@ describe('handlebars-i18n Tests', function() {
   });
 
   it('function _date when called after configure() with defined custom format (year:2-digit) should override ' +
-    'standard configuration also when beeing defined first', function() {
+    'standard configuration also when being defined first', function() {
     HandlebarsI18n.configure([
       ['en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format'],
       ['en', 'DateTimeFormat', { year:"numeric" }]
@@ -634,7 +634,7 @@ describe('handlebars-i18n Tests', function() {
   });
 
   it('function _date when called after configure() should fall back to generic language format "en" when custom format is unknown' +
-    'standard configuration also when beeing defined first', function() {
+    'standard configuration also when being defined first', function() {
     HandlebarsI18n.configure([
       ['en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format'],
       ['en', 'DateTimeFormat', { year:"numeric" }]
@@ -645,7 +645,7 @@ describe('handlebars-i18n Tests', function() {
   });
 
   it('function _date when called after configure() should fall back to generic language format "all" when custom format is unknown' +
-    'standard configuration also when beeing defined first', function() {
+    'standard configuration also when being defined first', function() {
     HandlebarsI18n.configure([
       ['all', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format'],
       ['en', 'DateTimeFormat', { year:"numeric" }]
@@ -656,7 +656,7 @@ describe('handlebars-i18n Tests', function() {
   });
 
   it('function _date when called after configure() should fall back to Intl default format when custom format is unknown' +
-    'standard configuration also when beeing defined first', function() {
+    'standard configuration also when being defined first', function() {
     HandlebarsI18n.reset();
     HandlebarsI18n.configure([
       ['en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format']
@@ -668,8 +668,17 @@ describe('handlebars-i18n Tests', function() {
 
 
   /********************************************************************
-   Tests for custom format configurations for function _dateRel
+   Tests for custom format configurations for _dateRel / _dateDiff
    ********************************************************************/
+
+  it('function _dateRel when called after configure() with defined custom format (style: "long", unit: "second") should return ' +
+    '"in 12 seconds" when language is "en"', function() {
+    HandlebarsI18n.configure('en', 'RelativeTimeFormat', { style: "long", unit: "second" }, 'date-rel-custom');
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRel('12', { hash: { format: 'date-rel-custom'} });
+    assert.equal('in 12 seconds', res);
+  });
+
 
 
 
