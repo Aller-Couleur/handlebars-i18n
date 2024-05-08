@@ -603,9 +603,9 @@ describe('handlebars-i18n Tests', function() {
     assert.equal('95', res);
   });
 
-  it('function _date when called after configure() with defined custom format (year:2-digit) given as ARRAY should return ' +
+  it('function _date when called after configure() with defined custom format (year:numeric) given as ARRAY should return ' +
     'date "12/17/95" when language is "en"', function() {
-    HandlebarsI18n.configure(['en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format']);
+    HandlebarsI18n.configure(['en', 'DateTimeFormat', { year:"numeric" }, 'my-custom-format']);
     i18next.changeLanguage('en');
     const res = hI18n.helpers._date('December 17, 1995 03:24:00', { hash: { format: 'my-custom-format'} });
     assert.equal('95', res);
@@ -618,7 +618,7 @@ describe('handlebars-i18n Tests', function() {
       ['en', 'DateTimeFormat', { year:"2-digit" }, 'my-custom-format']
     ]);
     i18next.changeLanguage('en');
-    const res = hI18n.helpers._date('December 17, 1995 03:24:00', { hash: { format: 'my-custom-format'} });
+    const res = hI18n.helpers._date('[1995,11,17]', { hash: { format: 'my-custom-format'} });
     assert.equal('95', res);
   });
 
@@ -671,12 +671,31 @@ describe('handlebars-i18n Tests', function() {
    Tests for custom format configurations for _dateRel / _dateDiff
    ********************************************************************/
 
-  it('function _dateRel when called after configure() with defined custom format (style: "long", unit: "second") should return ' +
+  it('function _dateRel called after configure() with defined "all" (style: "long", unit: "second") should return ' +
     '"in 12 seconds" when language is "en"', function() {
-    HandlebarsI18n.configure('en', 'RelativeTimeFormat', { style: "long", unit: "second" }, 'date-rel-custom');
+    HandlebarsI18n.configure('all', 'RelativeTimeFormat', { style: "long", unit: "second" });
     i18next.changeLanguage('en');
-    const res = hI18n.helpers._dateRel('12', { hash: { format: 'date-rel-custom'} });
+    const res = hI18n.helpers._dateRel('12');
     assert.equal('in 12 seconds', res);
+  });
+
+  it('function _dateRel called after configure() with defined custom format (style: "long", unit: "year") should return ' +
+    '"in 12 Jahren" when language is "de"', function() {
+    HandlebarsI18n.configure('de', 'RelativeTimeFormat', { style: "long", unit: "year" }, 'date-rel-custom');
+    i18next.changeLanguage('de');
+    const res = hI18n.helpers._dateRel('12', { hash: { format: 'date-rel-custom'} });
+    assert.equal('in 12 Jahren', res);
+  });
+
+  it('function _dateRel called after configure() with defined custom format { style: "short", unit: "minutes" } should override ' +
+    'standard configuration when language is "en"', function() {
+    HandlebarsI18n.configure([
+      ['en', 'RelativeTimeFormat', { style: "short", unit: "day" }, 'date-rel-spec'],
+      ['en', 'RelativeTimeFormat', { style: "long", unit: "second" }]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRel('12', { hash: { format: 'date-rel-spec'} });
+    assert.equal('in 12 days', res);
   });
 
 
