@@ -698,8 +698,27 @@ describe('handlebars-i18n Tests', function() {
     assert.equal('in 12 days', res);
   });
 
+  it('function _dateRel called after configure() with defined custom format { style: "short", unit: "minutes" } should override ' +
+    'standard configuration when language is "en" and output: \'in 12 days\'', function() {
+    HandlebarsI18n.configure([
+      ['en', 'RelativeTimeFormat', { style: "short", unit: "day" }, 'date-rel-spec'],
+      ['en', 'RelativeTimeFormat', { style: "long", unit: "second" }]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRel('12', { hash: { format: 'date-rel-spec'} });
+    assert.equal('in 12 days', res);
+  });
 
-
+  it('function _dateDiff called after configure() with defined custom format { style: "short", unit: "minutes" } should override ' +
+    'standard configuration when language is "en" and output: \'in in 1 yr.\'', function() {
+    HandlebarsI18n.configure([
+      ['en', 'RelativeTimeFormat', { style: "short", unit: "year" }, 'date-rel-spec'],
+      ['en', 'RelativeTimeFormat', { style: "long", unit: "day" }]
+    ]);
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateDiff('1996-12-17T00:00:00', '1995-12-17T00:00:00',{ hash: { format: 'date-rel-spec'} });
+    assert.equal('in 1 yr.', res);
+  });
 
 
   /********************************************************************
@@ -853,5 +872,17 @@ describe('handlebars-i18n Tests', function() {
     const res = hI18n.helpers._price(2, { hash: { format: 'my-unknown-format'} });
     assert.equal('$2.00', res);
   });
+
+  /********************************************************************
+   Tests for private functions (in production not exported)
+   ********************************************************************/
+
+  it('function _price when called after configure() should fall back to Intl default when custom format is unknown', function() {
+    const res = HandlebarsI18n.private.applyToConstructor();
+    assert.equal('', res);
+  });
+
+
+
 
 });

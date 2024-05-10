@@ -559,7 +559,7 @@
      * in production they are not exported.
      */
     ...(isTest) && {
-      helpers: {
+      private: {
         applyToConstructor: __applyToConstructor,
         configLookup: __configLookup,
         validateArgs: __validateArgs,
