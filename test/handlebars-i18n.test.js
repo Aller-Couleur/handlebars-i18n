@@ -873,16 +873,60 @@ describe('handlebars-i18n Tests', function() {
     assert.equal('$2.00', res);
   });
 
+});
+
+describe('handlebars-i18n Private helper Function Tests (in production not exported)', () => {
+
   /********************************************************************
-   Tests for private functions (in production not exported)
+   Tests for private function applyToConstructor
    ********************************************************************/
 
-  it('function _price when called after configure() should fall back to Intl default when custom format is unknown', function() {
-    const res = HandlebarsI18n.private.applyToConstructor();
-    assert.equal('', res);
+  // Mock constructor function
+  function TestConstructor(a, b) {
+    this.a = a;
+    this.b = b;
+  }
+
+  it('should return an instance of the constructor with provided arguments', () => {
+    const args = [1, 2];
+    const instance = HandlebarsI18n.private.applyToConstructor(TestConstructor, args);
+    expect(instance).to.be.an.instanceof(TestConstructor);
+    expect(instance.a).to.equal(1);
+    expect(instance.b).to.equal(2);
   });
 
+  it('should handle no arguments', () => {
+    const instance = HandlebarsI18n.private.applyToConstructor(TestConstructor, []);
+    expect(instance).to.be.an.instanceof(TestConstructor);
+    expect(instance.a).to.equal(null);
+    expect(instance.b).to.equal(undefined); // because 'undefined' is passed as second argument
+  });
 
+  it('should handle constructor with no arguments', () => {
+    function ConstructorWithNoArgs() {
+      this.value = 10;
+    }
 
+    const instance = HandlebarsI18n.private.applyToConstructor(ConstructorWithNoArgs, []);
+    expect(instance).to.be.an.instanceof(ConstructorWithNoArgs);
+    expect(instance.value).to.equal(10);
+  });
 
+  it('should handle constructor with complex arguments', () => {
+    class ComplexArgument {
+      constructor(value) {
+        this.value = value;
+      }
+    }
+
+    const args = [new ComplexArgument(5)];
+    function ConstructorWithComplexArg(arg) {
+      this.arg = arg;
+    }
+
+    const instance = HandlebarsI18n.private.applyToConstructor(ConstructorWithComplexArg, args);
+    expect(instance).to.be.an.instanceof(ConstructorWithComplexArg);
+    expect(instance.arg).to.be.an.instanceof(ComplexArgument);
+    expect(instance.arg.value).to.equal(5);
+  });
 });
