@@ -929,4 +929,61 @@ describe('handlebars-i18n Private helper Function Tests (in production not expor
     expect(instance.arg).to.be.an.instanceof(ComplexArgument);
     expect(instance.arg.value).to.equal(5);
   });
+
+
+  /********************************************************************
+   Tests for private function applyToConstructor
+   ********************************************************************/
+
+  const hndlbrsOpts = {
+    hash: {
+      format: 'customFormat',
+      // Add other properties if needed for specific test cases
+    }
+  };
+  const lang = 'en';
+  const OCFormat = {
+    standard: {
+      en: { /* Standard configuration for English */ },
+      all: { /* Universal configuration for all languages */ }
+    },
+    custom: {
+      customFormat: {
+        en: { /* Custom configuration for English */ }
+      }
+    }
+  };
+
+  it('should return template configuration when options object with content is provided', () => {
+    const result = HandlebarsI18n.private.configLookup(hndlbrsOpts, lang, OCFormat);
+    expect(result).to.deep.equal(hndlbrsOpts.hash);
+  });
+
+  it('should return custom configuration when custom format and language are provided', () => {
+    const result = HandlebarsI18n.private.configLookup(hndlbrsOpts, lang, OCFormat);
+    expect(result).to.deep.equal(OCFormat.custom.customFormat[lang]);
+  });
+
+  it('should return standard language configuration when no custom format is provided', () => {
+    const hndlbrsOptsWithoutFormat = {
+      hash: {
+        // Add other properties if needed for specific test cases
+      }
+    };
+    const result = HandlebarsI18n.private.configLookup(hndlbrsOptsWithoutFormat, lang, OCFormat);
+    expect(result).to.deep.equal(OCFormat.standard[lang]);
+  });
+
+  it('should return universal configuration when no language-specific configuration is provided', () => {
+    const langWithoutConfig = 'fr'; // Assuming French configuration is not provided
+    const result = HandlebarsI18n.private.configLookup(hndlbrsOpts, langWithoutConfig, OCFormat);
+    expect(result).to.deep.equal(OCFormat.standard.all);
+  });
+
+  it('should return an empty object when no configuration is provided at all', () => {
+    const result = HandlebarsI18n.private.configLookup({}, lang, OCFormat);
+    expect(result).to.deep.equal({});
+  });
+
+
 });
