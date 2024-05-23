@@ -5,10 +5,115 @@ type Handlebars = typeof handlebars;
 
 type CustomFormatName = string;
 
+type style = "decimal" | "currency" | "percent" | "unit";
+
+type localeMatcher = "lookup" | "best fit";
+
+type currencyDisplay = "code" | "symbol" | "narrowSymbol" | "name";
+
+type numberingSystem =
+    | "adlm"
+    | "ahom"
+    | "arab"
+    | "arabext"
+    | "armn"
+    | "armnlow"
+    | "bali"
+    | "beng"
+    | "bhks"
+    | "brah"
+    | "cakm"
+    | "cham"
+    | "cyrl"
+    | "deva"
+    | "diak"
+    | "ethi"
+    | "finance"
+    | "fullwide"
+    | "geor"
+    | "gonm"
+    | "grek"
+    | "greklow"
+    | "gujr"
+    | "guru"
+    | "hanidays"
+    | "hanidec"
+    | "hans"
+    | "hansfin"
+    | "hant"
+    | "hantfin"
+    | "hebr"
+    | "hmng"
+    | "hmnp"
+    | "java"
+    | "jpan"
+    | "jpanfin"
+    | "jpanyear"
+    | "kali"
+    | "knda"
+    | "lana"
+    | "lanatham"
+    | "laoo"
+    | "latn"
+    | "lepc"
+    | "limb"
+    | "mathbold"
+    | "mathdbl"
+    | "mathmono"
+    | "mathsanb"
+    | "mathsans"
+    | "mlym"
+    | "modi"
+    | "mong"
+    | "mroo"
+    | "mtei"
+    | "mymr"
+    | "mymrshan"
+    | "mymrtlng"
+    | "native"
+    | "newa"
+    | "nkoo"
+    | "olck"
+    | "orya"
+    | "osma"
+    | "rohg"
+    | "roman"
+    | "romanlow"
+    | "saur"
+    | "segment"
+    | "shrd"
+    | "sind"
+    | "sinh"
+    | "sora"
+    | "sund"
+    | "takr"
+    | "talu"
+    | "taml"
+    | "tamldec"
+    | "telu"
+    | "thai"
+    | "tibt"
+    | "tirh"
+    | "traditio"
+    | "vaii"
+    | "wara"
+    | "wcho";
+
+
 export type NumberFormatConfiguration = [
     "all" | LocaleCode | LanguageCode,
     "NumberFormat",
-    { minimumFractionDigits: number },
+    {
+      localeMatcher?: localeMatcher,
+      style: style,
+      numberingSystem?: numberingSystem,
+      currencyDisplay?: currencyDisplay,
+      minimumIntegerDigits?: number,
+      maximumFractionDigits?: number,
+      minimumFractionDigits?: number,
+      maximumSignificantDigits?: number,
+      minimumSignificantDigits?: number,
+    },
     CustomFormatName?
 ];
 
@@ -36,19 +141,10 @@ export type DateTimeFormatConfiguration = [
     CustomFormatName?
 ];
 
-type numSystem =
-      "adlm"
-    | "ahom"
-    | "arab"
-    | "arabext"
-    | "armn"
-    // continue here: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getNumberingSystems#supported_numbering_system_types
-    ;
-
 
 type DateRelFormatOptions = {
-  localeMatcher?: "lookup" | "best fit",
-  numberingSystem?: numSystem,
+  localeMatcher?: localeMatcher,
+  numberingSystem?: numberingSystem,
   numeric?: "always" | "auto",
   style?: "long" | "short" | "narrow",
   unit?: "second" | "minute" | "hour" | "day" | "week" | "month" | "year"
@@ -62,7 +158,7 @@ export type RelativeTimeFormatConfiguration = [
 ];
 
 
-type Configuration = NumberFormatConfiguration | PriceFormatConfiguration | DateTimeFormatConfiguration;
+type Configuration = NumberFormatConfiguration | PriceFormatConfiguration | DateTimeFormatConfiguration | RelativeTimeFormatConfiguration;
 
 export function init(overrideHndlbrs?: Handlebars, overrideI18n?: i18n.i18n): Handlebars;
 export function reset(): true;
@@ -84,6 +180,12 @@ export function configure(
     typeOfFormat: DateTimeFormatConfiguration[1],
     options: DateTimeFormatConfiguration[2],
     customFormatname: DateTimeFormatConfiguration[3]
+): boolean;
+export function configure(
+    lang: RelativeTimeFormatConfiguration[0],
+    typeOfFormat: RelativeTimeFormatConfiguration[1],
+    options: RelativeTimeFormatConfiguration[2],
+    customFormatname: RelativeTimeFormatConfiguration[3]
 ): boolean;
 
 // #region TimeZone type
