@@ -327,12 +327,27 @@ Will output for "en" &#x2192; **in 7 hours**
 
 Will output for "en" &#x2192; **7 hours ago**
 
-A positive number argument leads to future date statements, a negative refers to a past date. Possible units
+A positive number argument leads to a future event statement, a negative refers to a past date. Possible units
 are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"year"`. For a complete set of options (such
 as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
 Alternatively check this repo’s TS types
 in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
+
+---
+
+### _dateDiff <mark>new in 1.7</mark>
+
+Outputs the time difference between two given dates.
+
+```
+{{_dateDiff "1996-12-17T00:00:00", "1995-12-17T00:00:00" unit="year"}}
+```
+
+Will output for "en" &#x2192; **in 1 year**
+
+The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
+is made. A negative value refers to a past date. Options are similar to *_dateRel*.
 
 ---
 
@@ -394,12 +409,26 @@ HandlebarsI18n.configure("all", "DateTimeFormat", {timeZone: "America/Los_Angele
 ```
 
 First argument is the language shortcode or "**all**" for all languages. Second is the format option you want to
-address (DateTimeFormat, NumberFormat, or PriceFormat). Third argument ist the options object with the specific
-settings.
+address (`DateTimeFormat`, `RelativeTimeFormat`, `NumberFormat`, or `PriceFormat`). Third argument is the options object
+with the specific settings.
+
+Examples for generic settings:
+
+```javascript
+HandlebarsI18n.configure("all", "RelativeTimeFormat", {style: "long", unit: "second"});
+```
+
+```javascript
+HandlebarsI18n.configure("all", "NumberFormat", {numberingSystem: "latn", maximumFractionDigits: 0});
+```
+
+```javascript
+HandlebarsI18n.configure("all", "PriceFormat", {currency: "HKD", currencyDisplay: "code"});
+```
 
 ### Custom language format subsets
 
-You can define specific subsets to be used in the template, i.e. if you want the date in different formats such as:
+You can also define specific subsets to be used in the template, i.e. if you want the date in different formats such as:
 
 - **2020** (year-only)
 - **11.3.2020** (standard-date)
@@ -451,7 +480,7 @@ HandlebarsI18n.configure([
 ]);
 ```
 
-### Reset an existing configuration
+### Reset existing configuration
 
 Dismiss all existing configurations:
 
