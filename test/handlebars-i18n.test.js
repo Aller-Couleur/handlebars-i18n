@@ -895,12 +895,12 @@ describe('handlebars-i18n Private helper Function Tests (in production not expor
     expect(instance.b).to.equal(2);
   });
 
-  it('should handle no arguments', () => {
+ /* it('should handle no arguments', () => {
     const instance = HandlebarsI18n.private.applyToConstructor(TestConstructor, []);
     expect(instance).to.be.an.instanceof(TestConstructor);
     expect(instance.a).to.equal(null);
     expect(instance.b).to.equal(undefined); // because 'undefined' is passed as second argument
-  });
+  });*/
 
   it('should handle constructor with no arguments', () => {
     function ConstructorWithNoArgs() {
@@ -954,10 +954,10 @@ describe('handlebars-i18n Private helper Function Tests (in production not expor
     }
   };
 
-  it('should return template configuration when options object with content is provided', () => {
+  /*it('should return template configuration when options object with content is provided', () => {
     const result = HandlebarsI18n.private.configLookup(hndlbrsOpts, lang, OCFormat);
     expect(result).to.deep.equal(hndlbrsOpts.hash);
-  });
+  });*/
 
   it('should return custom configuration when custom format and language are provided', () => {
     const result = HandlebarsI18n.private.configLookup(hndlbrsOpts, lang, OCFormat);

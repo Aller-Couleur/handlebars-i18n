@@ -347,7 +347,8 @@ Outputs the time difference between two given dates.
 Will output for "en" &#x2192; **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
-is made. A negative value refers to a past date. Options are similar to *_dateRel*.
+is made. A negative value refers to a past date. Allowed date input formats are similar to *_date*, options equal 
+**_dateRel**.
 
 ---
 
