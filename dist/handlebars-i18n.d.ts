@@ -11,6 +11,33 @@ type localeMatcher = "lookup" | "best fit";
 
 type currencyDisplay = "code" | "symbol" | "narrowSymbol" | "name";
 
+type currencySign = "standard" | "accounting";
+
+type unitDisplay = "short" | "narrow" | "long";
+
+type roundingPriority = "auto" | "morePrecision" | "lessPrecision";
+
+type roundingMode =
+    | "ceil"
+    | "floor"
+    | "expand"
+    | "trunc"
+    | "halfCeil"
+    | "halfFloor"
+    | "halfExpand"
+    | "halfTrunc"
+    | "halfEven";
+
+type trailingZeroDisplay = "auto" | "stripIfInteger";
+
+type notation = "standard" | "scientific" | "engineering" | "compact";
+
+type compactDisplay = "short" | "long";
+
+type useGrouping = "always" | "auto" | "min2" | true | false;
+
+type signDisplay = "auto" | "always" | "exceptZero" | "negative" | "never";
+
 type numberingSystem =
     | "adlm"
     | "ahom"
@@ -105,14 +132,22 @@ export type NumberFormatConfiguration = [
     "NumberFormat",
     {
       localeMatcher?: localeMatcher,
-      style: style,
+      style?: style,
       numberingSystem?: numberingSystem,
-      currencyDisplay?: currencyDisplay,
+      unitDisplay?: unitDisplay,
+      roundingPriority?: roundingPriority,
+      roundingMode?: roundingMode,
+      trailingZeroDisplay?: trailingZeroDisplay,
+      notation?: notation;
+      compactDisplay?: compactDisplay,
+      useGrouping?: useGrouping,
+      signDisplay?: signDisplay,
       minimumIntegerDigits?: number,
       maximumFractionDigits?: number,
       minimumFractionDigits?: number,
       maximumSignificantDigits?: number,
       minimumSignificantDigits?: number,
+      roundingIncrement?: number
     },
     CustomFormatName?
 ];
@@ -120,7 +155,28 @@ export type NumberFormatConfiguration = [
 export type PriceFormatConfiguration = [
     "all" | LocaleCode | LanguageCode,
     "PriceFormat",
-    { currency: CurrencyCode },
+    {
+      currency: CurrencyCode
+      currencyDisplay?: currencyDisplay,
+      currencySign?: currencySign,
+      localeMatcher?: localeMatcher,
+      style?: style,
+      numberingSystem?: numberingSystem,
+      unitDisplay?: unitDisplay,
+      roundingPriority?: roundingPriority,
+      roundingMode?: roundingMode,
+      trailingZeroDisplay?: trailingZeroDisplay,
+      notation?: notation;
+      compactDisplay?: compactDisplay,
+      useGrouping?: useGrouping,
+      signDisplay?: signDisplay,
+      minimumIntegerDigits?: number,
+      maximumFractionDigits?: number,
+      minimumFractionDigits?: number,
+      maximumSignificantDigits?: number,
+      minimumSignificantDigits?: number,
+      roundingIncrement?: number
+    },
     CustomFormatName?
 ];
 
