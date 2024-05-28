@@ -2,32 +2,12 @@
  * handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @date: 2021-10
+ * @date: 2024-05
  *
  * handlebars-i18n adds features for localization/
  * internationalization to handlebars.js
  *
- * Copyright (c) 2020 Florian Walzel
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaininga copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, sublicense, and/or sell copies of the Software,
- * and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
- * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
- * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * Copyright (c) 2020-24 Florian Walzel, MIT License
  *
  *********************************************************************/
 
@@ -36,8 +16,14 @@
   if (typeof exports === 'object' && typeof module === 'object') {
     const Handlebars = require('handlebars'),
       i18next = require('i18next'),
-      Intl = require('intl');
-    module.exports = factory(Handlebars, i18next, Intl);
+      Intl = require('intl'),
+      RelativeTimeFormat= require('relative-time-format');
+    module.exports = factory(
+      Handlebars,
+      i18next,
+      Intl,
+      RelativeTimeFormat,
+      process?.env?.NODE_ENV === 'TEST');
   }
   else if (typeof define === 'function' && define.amd)
     define(['Handlebars', 'i18next', 'Intl'], factory);
@@ -50,13 +36,22 @@
     return false;
   }
 
-})(this, function (handlebars, i18next, Intl) {
+})(this, function (handlebars, i18next, Intl, RelativeTimePolyfill, isTest) {
 
   'use strict';
 
-  var defaultConf = {
+  // the object to store
+  // configurations for specific languages (standard)
+  // and custom settings.
+  const defaultConf = {
     DateTimeFormat: {
       standard: {},
+      custom: {}
+    },
+    RelativeTimeFormat: {
+      standard: {
+        all: {unit: 'hours'}
+      },
       custom: {}
     },
     NumberFormat: {
@@ -71,8 +66,12 @@
     }
   };
 
-  // make a copy of default object
-  var optionsConf = JSON.parse(JSON.stringify(defaultConf));
+  // make a copy of default object to hold (optional)
+  // custom configuration to be defined by the user
+  let optionsConf = JSON.parse(JSON.stringify(defaultConf));
+
+  // object for holding polyfill languages in node environment
+  const polyfillLangs = {};
 
 
   /*************************************
@@ -87,21 +86,22 @@
    * @private
    */
   function __applyToConstructor(constructor, argArray) {
-    var args = [null].concat(argArray);
-    var factoryFunction = constructor.bind.apply(constructor, args);
+    let args = [null].concat(argArray);
+    let factoryFunction = constructor.bind.apply(constructor, args);
     return new factoryFunction();
   }
 
   /**
    *
    * @param hndlbrsOpts
+   * @param lang
    * @param OCFormat
    * @returns {*}
    * @private
    */
   function __configLookup(hndlbrsOpts, lang, OCFormat) {
 
-    // check if an options object with .hash exists, and holds some content
+    // check if an options object with property hash exists, and holds some content
     if (typeof hndlbrsOpts === 'object'
       && typeof hndlbrsOpts.hash === 'object'
       && Object.keys(hndlbrsOpts.hash).length > 0) {
@@ -113,19 +113,19 @@
       if (typeof oh.format === 'undefined') {
         return oh;
       }
-      // when custom format is given, check if the configuration was set
+      // when custom format is given, check if the configuration was set ...
       else if (typeof OCFormat.custom[oh.format] !== 'undefined'
         && typeof OCFormat.custom[oh.format][lang] !== 'undefined') {
         return OCFormat.custom[oh.format][lang];
       }
     }
 
-    // when no options for custom formats given, first check whether
+    // ... when no options for custom formats given, first check whether
     // the specific language has a generic definition
     if (typeof OCFormat.standard[lang] !== 'undefined')
       return OCFormat.standard[lang];
 
-    // … then check if a universal format definition for all languages exist
+    // ... then check if a universal format definition for all languages exists
     if (typeof OCFormat.standard.all !== 'undefined')
       return OCFormat.standard.all;
 
@@ -139,6 +139,7 @@
    * @param lngShortcode
    * @param typeOfFormat
    * @param options
+   * @param customFormat
    * @returns {boolean}
    * @private
    */
@@ -150,12 +151,10 @@
       return false;
     }
 
-    if (typeOfFormat !== 'DateTimeFormat'
-      && typeOfFormat !== 'NumberFormat'
-      && typeOfFormat !== 'PriceFormat') {
+    if (! ['DateTimeFormat', 'RelativeTimeFormat', 'NumberFormat', 'PriceFormat'].includes(typeOfFormat)) {
       console.error('@ handlebars-i18n.configure(): Invalid argument <' + typeOfFormat + '>. ' +
         'Second argument must be a string with the options key. ' +
-        'Use either "DateTimeFormat", "NumberFormat" or "PriceFormat".');
+        'Use either "DateTimeFormat", "RelativeTimeFormat", "NumberFormat", or "PriceFormat".');
       return false;
     }
 
@@ -178,25 +177,130 @@
   /**
    *
    * @param lang
-   * @param typeOfFormat
+   * @param formatType
    * @param options
    * @param customFormat
    * @returns {boolean}
    * @private
    */
-  function __setArgs(lang, typeOfFormat, options, customFormat) {
+  function __setArgs(lang, formatType, options, customFormat) {
 
     if (typeof customFormat !== 'undefined' && customFormat !== null) {
       // create object node with name of the configuration if not already existing
-      if (typeof optionsConf[typeOfFormat].custom[customFormat] === 'undefined')
-        optionsConf[typeOfFormat].custom[customFormat] = {};
+      if (typeof optionsConf[formatType].custom[customFormat] === 'undefined')
+        optionsConf[formatType].custom[customFormat] = {};
 
-      optionsConf[typeOfFormat].custom[customFormat][lang] = options;
+      optionsConf[formatType].custom[customFormat][lang] = options;
     }
     else
-      optionsConf[typeOfFormat].standard[lang] = options;
+      optionsConf[formatType].standard[lang] = options;
 
     return true;
+  }
+
+  /**
+   *
+   * @param input
+   * @returns {boolean}
+   * @private
+   */
+  function __isNumOrString(input) {
+    return typeof input === 'number' || (typeof input === 'string' && input !== '')
+  }
+
+  /**
+   *
+   * @param dateInput
+   * @returns {Date}
+   * @private
+   */
+  function __createDateObj(dateInput) {
+
+    let date;
+
+    if (typeof dateInput === 'number') {
+      // input as milliseconds since unix epoch, like: 1583922952743
+      date = new Date(dateInput);
+    }
+    else if (typeof dateInput === 'string') {
+
+      if (dateInput.charAt(0) === '[' && dateInput.slice(-1) === ']') {
+        // input as array represented as string such as "[2020, 11]"
+        dateInput = dateInput.substring(1, dateInput.length - 1).replace(/ /g, '');
+        let dateArr = dateInput.split(',');
+        let dateFactory = __applyToConstructor.bind(null, Date);
+        date = dateFactory(dateArr);
+      }
+      else if (dateInput.toLowerCase() === 'now' || dateInput.toLowerCase() === 'today') {
+        // input as word "now" or "today"
+        date = new Date();
+      }
+      else {
+        // input as date string such as "1995-12-17T03:24:00"
+        date = new Date(dateInput);
+      }
+    }
+    else {
+      // fallback: today’s date
+      date = new Date();
+    }
+
+    return date;
+  }
+
+  /**
+   *
+   * @param lang
+   * @param opts
+   * @returns {Intl.RelativeTimeFormat|*}
+   * @private
+   */
+  function __getRelDateFormatPolyfill(lang, opts) {
+    if (typeof Intl.RelativeTimeFormat === 'function')
+      return new Intl.RelativeTimeFormat(lang, opts);
+    else {
+      if (typeof polyfillLangs[lang] === 'undefined') {
+        try {
+          polyfillLangs[lang] = require(`relative-time-format/locale/${lang}`);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      RelativeTimePolyfill.addLocale(polyfillLangs[lang]);
+      return new RelativeTimePolyfill(lang, opts);
+    }
+  }
+
+  /**
+   *
+   * @param diff
+   * @param unit
+   * @returns {number}
+   * @private
+   */
+  function __getDateDiff(diff, unit) {
+
+    const divisions = {
+      second: 1e3,
+      seconds: 1e3,
+      minute: 6e4,
+      minutes: 6e4,
+      hour: 3.6e6,
+      hours: 3.6e6,
+      day: 8.64e7,
+      days: 8.64e7,
+      week: 6.048e8,
+      weeks: 6.048e8,
+      month: 2.629746e9,
+      months: 2.629746e9,
+      quarter: 78894e5,
+      quarters: 78894e5,
+      year: 3.15576e10,
+      years: 3.15576e10,
+    }
+
+    unit = unit || 'hour';
+    return Math.trunc(diff / divisions[unit]);
   }
 
 
@@ -213,11 +317,11 @@
      * @param typeOfFormat : string - DateTimeFormat | NumberFormat | PriceFormat
      * @param options : object - the options object
      */
-    configure: function (langOrArr, typeOfFormat, options, customFormatname = null) {
+    configure: function (langOrArr, typeOfFormat, options, customFormatName) {
 
       if (typeof langOrArr !== 'string' && !Array.isArray(langOrArr)) {
         console.error('@ handlebars-i18n.configure(): Invalid argument <' + langOrArr + '> ' +
-          'First argument must be a string with language code such as "en" or an array with parameters.');
+          'First argument must be a string with language code such as "en" or an array with language parameters.');
         return false;
       }
 
@@ -235,8 +339,8 @@
         });
       }
       else {
-        if (__validateArgs(langOrArr, typeOfFormat, options, customFormatname))
-          __setArgs(langOrArr, typeOfFormat, options, customFormatname);
+        if (__validateArgs(langOrArr, typeOfFormat, options, customFormatName))
+          __setArgs(langOrArr, typeOfFormat, options, customFormatName);
         else
           return false;
       }
@@ -245,7 +349,7 @@
     },
 
     /**
-     * resets the configuration to default state like it is before configure() is called
+     * resets the configuration to default state like it was before configure() has been called
      */
     reset: function () {
       optionsConf = JSON.parse(JSON.stringify(defaultConf));
@@ -269,14 +373,14 @@
         handlebars = overrideHndlbrs;
       else if (typeof overrideHndlbrs !== 'undefined' && overrideHndlbrs !== null)
         console.error('@ handlebars-i18n.init(): Invalid Argument [1] given for overrideHndlbrs. ' +
-          'Argument must be the Handlebars Object. Using handlebars object on module instead.');
+          'Argument must be the Handlebars object. Using generic Handlebars object instead.');
 
       if (typeof overrideI18n === 'object' && overrideI18n !== null)
         i18next = overrideI18n;
 
       else if (typeof overrideI18n !== 'undefined' && overrideI18n !== null)
         console.error('@ handlebars-i18n.init(): Invalid Argument [2] given for overrideI18n. ' +
-          'Argument must be the i18next Object. Using i18next object on module level instead.');
+          'Argument must be the i18next object. Using generic i18next object on module level instead.');
 
       handlebars.registerHelper('__',
         /**
@@ -316,7 +420,7 @@
       );
       handlebars.registerHelper('_date',
         /**
-         * formats a given date by the give internationalization options
+         * formats a date according to the give internationalization options
          *
          * allows multiple input forms:
          * {{_date}}
@@ -341,40 +445,63 @@
          * @param options
          */
         function (dateInput, options) {
-
-          var date;
-
-          if (typeof dateInput === 'number') {
-            // input as milliseconds since unix epoch, like: 1583922952743
-            date = new Date(dateInput);
-          }
-          else if (typeof dateInput === 'string') {
-
-            if (dateInput.charAt(0) === '[' && dateInput.slice(-1) === ']') {
-              // input as array represented as string such as "[2020, 11]"
-              dateInput = dateInput.substring(1, dateInput.length - 1).replace(/ /g, '');
-              var dateArr = dateInput.split(',');
-              var dateFactory = __applyToConstructor.bind(null, Date);
-              date = dateFactory(dateArr);
-            }
-            else if (dateInput.toLowerCase() === 'now' || dateInput.toLowerCase() === 'today') {
-              // input as word "now" or "today"
-              date = new Date();
-            }
-            else {
-              // input as date string such as "1995-12-17T03:24:00"
-              date = new Date(dateInput);
-            }
-          }
-          else {
-            // fallback: today's date
-            date = new Date();
-          }
-
-          var opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
-
+          const date= __createDateObj(dateInput);
+          const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
+        }
+      );
+      handlebars.registerHelper('_dateRel',
+        /**
+         * returns a relative date formatted according the options
+         * a positive dateValue will address a future date, like 'in 1 day'
+         * a negative dateValue will relate to a past date, like '1 day ago'
+         *
+         * _dateRel uses a polyfill in node environment because node’s Intl
+         * does not support relative date formats.
+         *
+         * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
+         * @link https://www.npmjs.com/package/relative-time-format
+         *
+         * @param dateValue
+         * @param options
+         * @returns {string}
+         */
+        function (dateValue, options) {
+          const relDate= parseInt(dateValue);
+          const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
+          const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
+          return relDateFormat.format(relDate, opts.unit);
+        }
+      );
+      handlebars.registerHelper('_dateDiff',
+        /**
+         *
+         * @param dateInputA
+         * @param dateInputB
+         * @param options
+         * @returns {string|null}
+         */
+        function (dateInputA, dateInputB, options) {
+
+          let dateDiff;
+
+          if (! __isNumOrString(dateInputA) && ! __isNumOrString(dateInputB))
+            return null;
+          else if (! __isNumOrString(dateInputB))
+            dateDiff = __createDateObj(dateInputA);
+          else if (! __isNumOrString(dateInputA))
+            dateDiff = __createDateObj(dateInputB);
+          else {
+            const dateA= __createDateObj(dateInputA);
+            const dateB= __createDateObj(dateInputB);
+            dateDiff = dateA - dateB;
+          }
+
+          const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
+          const relDate = __getDateDiff(dateDiff, opts.unit);
+          const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
+          return relDateFormat.format(relDate, opts.unit);
         }
       );
       handlebars.registerHelper('_num',
@@ -392,7 +519,7 @@
          */
         function (number, options) {
 
-          var opts = __configLookup(options, i18next.language, optionsConf.NumberFormat);
+          let opts = __configLookup(options, i18next.language, optionsConf.NumberFormat);
 
           const priceFormat = new Intl.NumberFormat(i18next.language, opts);
           return priceFormat.format(number);
@@ -413,7 +540,7 @@
          */
         function (price, options) {
 
-          var opts = __configLookup(options, i18next.language, optionsConf.PriceFormat);
+          let opts = __configLookup(options, i18next.language, optionsConf.PriceFormat);
 
           // for convenience automatically add the object parameter style:'currency' if not given
           if (typeof opts['style'] !== 'string' && typeof opts['currency'] === 'string')
@@ -425,9 +552,23 @@
       );
 
       return handlebars;
-    }
+    },
+
+    /**
+     * we conditionally export the helpers to be able to test against them;
+     * in production they are not exported.
+     */
+    ...(isTest) && {
+      private: {
+        applyToConstructor: __applyToConstructor,
+        configLookup: __configLookup,
+        validateArgs: __validateArgs,
+        setArgs: __setArgs,
+        isNumOrString: __isNumOrString,
+        createDateObj: __createDateObj,
+        getRelDateFormatPolyfill: __getRelDateFormatPolyfill,
+        getDateDiff: __getDateDiff
+      }
+    },
   }
 });
-
-
-

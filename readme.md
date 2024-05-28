@@ -1,6 +1,9 @@
 # handlebars-i18n
 
-`handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/) to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting** via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser. Supports Typescript.
+`handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/)
+to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting**
+via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in
+the web browser. Supports Typescript.
 
 Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
@@ -62,6 +65,7 @@ With ES6 import syntax:
 
 ```typescript
 import * as HandlebarsI18n from "handlebars-i18n";
+
 HandlebarsI18n.init();
 ```
 
@@ -73,21 +77,21 @@ Initialize i18next with your language strings and default settings:
 const i18next = require("i18next");
 
 i18next.init({
-  resources : {
-    "en" : {
-      translation : {
+  resources: {
+    "en": {
+      translation: {
         "phrase1": "What is good?",
         "phrase2": "{{thing}} is good."
       }
     },
-    "de" : {
+    "de": {
       translation: {
         "phrase1": "Was ist gut?",
         "phrase2": "{{thing}} ist gut."
       }
     }
   },
-  lng : "en"
+  lng: "en"
 });
 ```
 
@@ -153,20 +157,23 @@ Finally use in template:
 
 ## Additional CLI Helper for Handlebars-i18n available :metal:
 
-Handlebars-i18n has its own command line interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli).
+Handlebars-i18n has its own command line
+interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli).
 
 ```bash
 $ npm i handlebars-i18n-cli --save-dev
 ```
 
 Automatically extract translation strings from handlebars templates and generate i18next conform json files from it.
-Handlebars-i18n-cli also helps to keep[](https://) your translations up to date when changes are made in the templates over time.
+Handlebars-i18n-cli also helps to keep[](https://) your translations up to date when changes are made in the templates
+over time.
 
 ## API
 
 ### __
 
-Returns the phrase associated with the given key for the selected language. __ will take all options i18next’s [t-function](https://www.i18next.com/overview/api#t) would take.
+Returns the phrase associated with the given key for the selected language. __ will take all options
+i18next’s [t-function](https://www.i18next.com/overview/api#t) would take.
 The primary key can be passed hard encoded in the template when written in quotes:
 
 ```
@@ -190,9 +197,13 @@ Template usage:
 The i18next resource:
 
 ```javascript
-"en" : {
+"en"
+:
+{
   translation : {
-    "whatIsWhat": "{{a}} is {{b}}."
+    "whatIsWhat"
+  :
+    "{{a}} is {{b}}."
   }
 }
 ```
@@ -204,12 +215,19 @@ The i18next resource:
 ```
 
 ```javascript
-"en" : {
+"en"
+:
+{
   translation : {
-    "keyWithCount" : "{{count}} item",
-    "keyWithCount_plural" : "{{count}} items"
+    "keyWithCount"
+  :
+    "{{count}} item",
+      "keyWithCount_plural"
+  :
+    "{{count}} items"
   }
-}, ...
+}
+, ...
 ```
 
 **Override globally selected language**
@@ -224,7 +242,7 @@ Will output the contents for "**de**" even though other language is selected.
 
 ### _locale
 
-Returns the shortcode of i18next’s currently selected language such as "**en**", "**de**", "**fr**", "**fi**" … etc.
+Returns the shortcode of i18next’s currently selected language such as "**en**", "**de**", "**fi**", "**ja**" … etc.
 
 ```
 {{_locale}}
@@ -250,7 +268,10 @@ Outputs a formatted date according to the language specific conventions.
 {{_date}}
 ```
 
-If called without argument the current date is returned. Any other input date can be passed as a conventional date string, a number (timestamp in milliseconds), or a date array. _date accepts all arguments Javascript’s [new Date()](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date) constructor would accept.
+If called without argument the current date is returned. Any other input date can be passed as a conventional date
+string, a number (timestamp in milliseconds), or a date array. _date accepts all arguments
+Javascript’s [new Date()](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date)
+constructor would accept.
 
 **Date argument given as date string:**
 
@@ -270,7 +291,8 @@ or
 {{_date 1583922952743}}
 ```
 
-**Date argument given as javascript date array** [year, monthIndex [, day [, hour [, minutes [, seconds [, milliseconds]]]]]]:
+**Date argument given as javascript date array** [year, monthIndex [, day [, hour [, minutes [,
+seconds [, milliseconds]]]]]]:
 
 ```
 {{_date "[2012, 11, 20, 3, 0, 0]"}}
@@ -278,7 +300,10 @@ or
 
 **Additional arguments for formatting**
 
-You can add multiple arguments for individual formatting. See [Intl DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) for your option arguments.
+You can add multiple arguments for individual formatting.
+See [Intl DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
+for your option arguments. Alternatively check this repo’s TS types
+in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ```
 {{_date 1583922952743 year="2-digit" day="2-digit" timeZone="America/Los_Angeles"}}
@@ -286,9 +311,51 @@ You can add multiple arguments for individual formatting. See [Intl DateTimeForm
 
 ---
 
+### _dateRel <mark>new in 1.7</mark>
+
+Outputs a string with a relative date statement, formatted according to the language specific conventions.
+
+```
+{{_dateRel 7 unit="hour"}}
+```
+
+Will output for "en" &#x2192; **in 7 hours**
+
+```
+{{_dateRel -7 unit="hour"}}
+```
+
+Will output for "en" &#x2192; **7 hours ago**
+
+A positive number argument leads to a future event statement, a negative refers to a past date. Possible units
+are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"year"` (default is `"hour"`). For a complete
+set of options (such as `numberingSystem` or `localeMatcher`)
+see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
+Alternatively check this repo’s TS types
+in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
+
+---
+
+### _dateDiff <mark>new in 1.7</mark>
+
+Outputs the time difference between two given dates.
+
+```
+{{_dateDiff "1996-12-17T00:00:00", "1995-12-17T00:00:00" unit="year"}}
+```
+
+Will output for "en" &#x2192; **in 1 year**
+
+The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
+is made. A negative value refers to a past date. Allowed date input formats are similar to *_date*, options equal
+**_dateRel**.
+
+---
+
 ### _num
 
-Outputs a formatted number according to the language specific conventions of number representation, e.g. **4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
+Outputs a formatted number according to the language specific conventions of number representation, e.g. *
+*4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
 
 ```
 {{_num 4100000.8314 }}
@@ -296,7 +363,10 @@ Outputs a formatted number according to the language specific conventions of num
 
 **Additional arguments for formatting**
 
-You can add multiple arguments for individual formatting. See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for your option arguments.
+You can add multiple arguments for individual formatting.
+See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
+for your option arguments. Alternatively check this repo’s TS types
+in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ```
 {{_num 3.14159 maximumFractionDigits=2}}
@@ -308,7 +378,8 @@ Will output **3.14** for "**en**", but **3,14** for "**de**".
 
 ### _price
 
-Outputs a formatted currency string according to the language specific conventions of price representation, e.g. **€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
+Outputs a formatted currency string according to the language specific conventions of price representation, e.g. *
+*€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
 
 ```
 {{_price 9999.99}}
@@ -316,7 +387,10 @@ Outputs a formatted currency string according to the language specific conventio
 
 **Additional arguments for formatting**
 
-You can add multiple arguments for individual currency formatting. See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat) for your option arguments.
+You can add multiple arguments for individual currency formatting.
+See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
+for your option arguments. Alternatively check this repo’s TS types
+in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ```
 {{_price 1000 currency="JPY" minimumFractionDigits=2}}
@@ -328,17 +402,34 @@ You can add multiple arguments for individual currency formatting. See [Intl Num
 
 ### Generic language format settings
 
-Instead of defining the formatting options for each date, number or price anew, you can configure global settings for all languages or only for specific languages.
+Instead of defining the formatting options for each date, number or price anew, you can configure global settings for
+all languages or only for specific languages.
 
 ```javascript
 HandlebarsI18n.configure("all", "DateTimeFormat", {timeZone: "America/Los_Angeles"});
 ```
 
-First argument is the language shortcode or "**all**" for all languages. Second is the format option you want to address (DateTimeFormat, NumberFormat, or PriceFormat). Third argument ist the options object with the specific settings.
+First argument is the language shortcode or "**all**" for all languages. Second is the format option you want to
+address (`DateTimeFormat`, `RelativeTimeFormat`, `NumberFormat`, or `PriceFormat`). Third argument is the options object
+with the specific settings.
+
+Examples for generic settings:
+
+```javascript
+HandlebarsI18n.configure("all", "RelativeTimeFormat", {style: "long", unit: "second"});
+```
+
+```javascript
+HandlebarsI18n.configure("all", "NumberFormat", {numberingSystem: "latn", maximumFractionDigits: 0});
+```
+
+```javascript
+HandlebarsI18n.configure("all", "PriceFormat", {currency: "HKD", currencyDisplay: "code"});
+```
 
 ### Custom language format subsets
 
-You can define specific subsets to be used in the template, i.e. if you want the date in different formats such as:
+You can also define specific subsets to be used in the template, i.e. if you want the date in different formats such as:
 
 - **2020** (year-only)
 - **11.3.2020** (standard-date)
@@ -348,9 +439,9 @@ To do this, define a 4th parameter with a custom name:
 
 ```javascript
 HandlebarsI18n.configure([
-  ["en", "DateTimeFormat", {year:"numeric"}, "year-only"],
-  ["en", "DateTimeFormat", {year:"numeric", month:"numeric", day:"numeric"}, "standard-date"],
-  ['en', 'DateTimeFormat', {hour:"numeric", minute:"numeric", second:"numeric", hour12:false}, "time-only"]
+  ["en", "DateTimeFormat", {year: "numeric"}, "year-only"],
+  ["en", "DateTimeFormat", {year: "numeric", month: "numeric", day: "numeric"}, "standard-date"],
+  ['en', 'DateTimeFormat', {hour: "numeric", minute: "numeric", second: "numeric", hour12: false}, "time-only"]
 ]);
 ```
 
@@ -364,8 +455,10 @@ Call a subset in template with the parameter format="custom-name", like:
 
 The general lookup cascade is:
 
-- **1st Priority**: The argument given in the template for custom configurations by the key "format", i.e. `{{_date format="my-custom-format"}}`
-- **2nd Priority**: The extra argument(s) given in the template, e.g. `{{_date timeZone="America/Los_Angeles" year="2-digit"}}`
+- **1st Priority**: The argument given in the template for custom configurations by the key "format",
+  i.e. `{{_date format="my-custom-format"}}`
+- **2nd Priority**: The extra argument(s) given in the template,
+  e.g. `{{_date timeZone="America/Los_Angeles" year="2-digit"}}`
 - **3rd Priority**: The global setting configured for the current language, such as "**en**"
 - **4th Priority**: The global setting configured for **all** languages
 - **Default**: The **Intl** default setting
@@ -378,7 +471,8 @@ This defines that all prices for all languages are represented in Dollar:
 HandlebarsI18n.configure("all", "PriceFormat", {currency: "USD"});
 ```
 
-This defines that all prices for all languages are represented in Dollar, but that for the language French the currency is Euro:
+This defines that all prices for all languages are represented in Dollar, but that for the language French the currency
+is Euro:
 
 ```javascript
 HandlebarsI18n.configure([
@@ -387,7 +481,7 @@ HandlebarsI18n.configure([
 ]);
 ```
 
-### Reset an existing configuration
+### Reset existing configuration
 
 Dismiss all existing configurations:
 
@@ -403,7 +497,9 @@ it instead of the generic Handlebars object like so:
 
 ```javascript
 const HandlebarsModified = require("handlebars");
-HandlebarsModified.registerHelper("foo", function() { return "what you want" });
+HandlebarsModified.registerHelper("foo", function () {
+  return "what you want"
+});
 HandlebarsI18n.init(HandlebarsModified);
 ```
 
@@ -413,7 +509,7 @@ The same can be done for a custom instance of i18next. Pass it as the second arg
 
 ```javascript
 const i18nextCustom = require("i18next");
-i18nextCustom.createInstance( /* pass some params here ... */ );
+i18nextCustom.createInstance( /* pass some params here ... */);
 HandlebarsI18n.init(null, i18nextCustom);
 ```
 
@@ -425,8 +521,10 @@ $ npm test
 
 ## Merci à vous
 
-For your contribution, I would like to thank [@MickL](https://github.com/MickL), [@dargmuesli](https://github.com/dargmuesli), and [@DiefBell](DiefBell).
+For your contribution, I would like to
+thank [@MickL](https://github.com/MickL), [@dargmuesli](https://github.com/dargmuesli), and [@DiefBell](DiefBell).
 
 ## Note
 
-There is a *different* package named [handlebars-i18next](https://www.npmjs.com/package/handlebars-i18next) by [@jgonggrijp](https://github.com/jgonggrijp) which might also suit your needs. Cheers!
+There is a *different* package named [handlebars-i18next](https://www.npmjs.com/package/handlebars-i18next)
+by [@jgonggrijp](https://github.com/jgonggrijp) which might also suit your needs. Cheers!
