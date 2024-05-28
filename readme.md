@@ -328,8 +328,8 @@ Will output for "en" &#x2192; **in 7 hours**
 Will output for "en" &#x2192; **7 hours ago**
 
 A positive number argument leads to a future event statement, a negative refers to a past date. Possible units
-are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"year"`. For a complete set of options (such
-as `numberingSystem` or `localeMatcher`)
+are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"year"` (default is `"hour"`). For a complete
+set of options (such as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
 Alternatively check this repo’s TS types
 in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
@@ -347,7 +347,7 @@ Outputs the time difference between two given dates.
 Will output for "en" &#x2192; **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
-is made. A negative value refers to a past date. Allowed date input formats are similar to *_date*, options equal 
+is made. A negative value refers to a past date. Allowed date input formats are similar to *_date*, options equal
 **_dateRel**.
 
 ---

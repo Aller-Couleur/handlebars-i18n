@@ -8,7 +8,6 @@ import { readFileSync } from "fs";
  * with TypeScript.
  *
  * @author: Dief Bell
- * @date: 2023-02
  *
  * usage:
  * $ npm run example:ts
@@ -30,7 +29,7 @@ myI18nInstance
 					"key4": "Selected Language is:"
 				}
 			},
-			"de-DE": {
+			"de": {
 				translation: {
 					"key0": "Sprache wechseln zu",
 					"key1": "Was ist gut?",
@@ -68,23 +67,27 @@ HandlebarsI18n.configure([
 
 	// generic configurations per language for price representation:
 	[ "en-GB", "PriceFormat", { currency: "USD" } ],
-	[ "de-DE", "PriceFormat", { currency: "EUR" } ],
+	[ "de", "PriceFormat", { currency: "EUR" } ],
 
 	// generic configurations per language for date representation:
 	[ "en-GB", "DateTimeFormat", { year: "numeric", month: "long", day: "numeric", hour: "numeric", minute: "numeric" } ],
-	[ "de-DE", "DateTimeFormat", { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", hour12: false } ],
+	[ "de", "DateTimeFormat", { year: "numeric", month: "numeric", day: "numeric", hour: "numeric", minute: "numeric", hour12: false } ],
 
 	// configurations per language with custom formats for date:
 	[ "en-GB", "DateTimeFormat", { year: "numeric" }, "custom-year-only" ],
-	[ "de-DE", "DateTimeFormat", { year: "numeric" }, "custom-year-only" ],
+	[ "de", "DateTimeFormat", { year: "numeric" }, "custom-year-only" ],
 	[ "en-GB", "DateTimeFormat", { year: "numeric", month: "numeric", day: "numeric" }, "custom-date-short" ],
-	[ "de-DE", "DateTimeFormat", { year: "numeric", month: "numeric", day: "numeric" }, "custom-date-short" ],
+	[ "de", "DateTimeFormat", { year: "numeric", month: "numeric", day: "numeric" }, "custom-date-short" ],
 	[ "en-GB", "DateTimeFormat", { hour: "numeric", minute: "numeric", second: "numeric", hour12: false }, "custom-time" ],
-	[ "de-DE", "DateTimeFormat", { hour: "numeric", minute: "numeric", second: "numeric", hour12: false }, "custom-time" ]
+	[ "de", "DateTimeFormat", { hour: "numeric", minute: "numeric", second: "numeric", hour12: false }, "custom-time" ],
+
+  // custom formats for relative dates:
+  ["en-GB", "RelativeTimeFormat", { style: "short", unit: "year" }, "date-rel-spec"],
+  ["de", "RelativeTimeFormat", { style: "short", unit: "year" }, "date-rel-spec"]
 ]);
 
 const template = readFileSync(__dirname + "/test.hbs", { encoding: "utf-8" });
 const compiled = myHandlebarsInstance.compile(template);
-myI18nInstance.changeLanguage("de-DE"); // --> Test the changes by replacing "de-DE" with "en-GB"
+myI18nInstance.changeLanguage("de"); // --> Test the changes by replacing "de" with "en-GB"
 
 console.log("\x1b[36m%s\x1b[0m", compiled(data));

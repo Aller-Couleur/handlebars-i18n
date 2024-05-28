@@ -2,7 +2,6 @@
  * A simple example using handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @date: 2021-01
  *
  * usage:
  * $ npm run example:js

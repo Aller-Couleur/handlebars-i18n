@@ -1,3 +1,6 @@
+HandlebarsI18n example output from TS:
+-------------------------------------------
+
 // Simple translation, key given as string:
 {{__ "key1"}}
 
@@ -11,7 +14,7 @@
 {{__ "key3WithCount" count=7}}
 
 // Override language to use:
-{{__ "key1" lng="de-DE"}}
+{{__ "key1" lng="de"}}
 
 
 // Output selected language
@@ -77,5 +80,20 @@
 // Date formatted by custom configuration (subset "custom-date-short"):
 {{_date myDate format="custom-date-short"}}
 
-// Date formatted by custom configuration (subset "custom-date-short"):
+// Date formatted by custom configuration (subset "custom-time"):
 {{_date myDate format="custom-time"}}
+
+// Relative date representation
+// ----------------------------------------
+
+// Relative date event in the future:
+{{_dateRel 7 unit="hour"}}
+
+// Relative date event in the past:
+{{_dateRel -7 unit="hour"}}
+
+// Date difference:
+{{_dateDiff "1996-12-07T00:00:00" "1996-12-08T00:00:00" unit="day"}}
+
+// Date difference by custom configuration (subset "date-rel-spec"):
+{{_dateDiff mydate "1995-12-17T00:00:00" format="date-rel-spec"}}
