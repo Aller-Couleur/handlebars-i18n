@@ -30,12 +30,14 @@
 <body>
     <h2>handlebars-i18n Demo</h2>
 
-    <div id="demo"><!-- handlebars' rendered demo content goes here --></div>
+    <div id="demo"><!-- handlebars’ rendered demo content goes here --></div>
 
-    <!-- Dependencies: hanldebars, i18next, handlebars-i18n.js -->
+    <!-- Load scripts: handlebars, i18next, handlebars-i18n.js -->
     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/19.3.2/i18next.js"></script>
     <script src="../../dist/handlebars-i18n.js"></script>
+
+    <!-- The demo -->
     <script>
 
         'use strict';
@@ -151,11 +153,7 @@
             <h4>Number representation with specific format attribute:</h4>
             <code>{{{{raw}}}} {{_num 3.1415926 maximumFractionDigits=2}} {{{{/raw}}}}</code>
             <p>&#x2192; {{_num 3.1415926 maximumFractionDigits=2}}</p>
-          
-            <h4>Number representation with specific format attribute:</h4>
-            <code>{{{{raw}}}} {{_num 7 numberingSystem="latn"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_num 7 numberingSystem="latn"}}</p>
-          
+
             <h4>Number and attribute given through handlebars variables:</h4>
             <code>{{{{raw}}}} {{_num mynumber maximumFractionDigits=myMaxDigits}} {{{{/raw}}}}</code>
             <p>&#x2192; {{_num mynumber maximumFractionDigits=myMaxDigits}}</p>
@@ -233,12 +231,12 @@
             <p>&#x2192; {{_dateDiff "1996-12-07T00:00:00" "1996-12-08T00:00:00" unit="day"}}</p>
 
             <h4>Date difference by custom configuration (subset "date-rel-spec"):</h4>
-            <code>{{{{raw}}}} {{_dateDiff "1996-12-17T00:00:00" "1995-12-17T00:00:00" format="date-rel-spec"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_dateDiff "1996-12-17T00:00:00" "1995-12-17T00:00:00" format="date-rel-spec"}}</p>
+            <code>{{{{raw}}}} {{_dateDiff mydate "1995-12-17T00:00:00" format="date-rel-spec"}} {{{{/raw}}}}</code>
+            <p>&#x2192; {{_dateDiff mydate "1995-12-17T00:00:00" format="date-rel-spec"}}</p>
 
             <p>&nbsp;</p><button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>`;
 
-        // -- Ignore this. It is just a helper to display un-rendered {{handlebars code}} between the <code> Tags
+        // -- Ignore this. It’s just a helper to display un-rendered {{handlebars code}} between the <code> Tags
         Handlebars.registerHelper('raw', function(options) {
             return options.fn();
         });
