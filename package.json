@@ -1,11 +1,12 @@
 {
   "name": "handlebars-i18n",
-  "version": "1.6.4",
-  "description": "handlebars-i18n adds internationalization to handlebars.js using i18next and Intl",
+  "version": "1.7.0",
+  "description": "handlebars-i18n adds internationalization to handlebars.js using i18next and Intl.",
   "main": "dist/handlebars-i18n.js",
   "scripts": {
-    "test": "nyc mocha",
-    "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "test": "NODE_ENV=TEST nyc mocha",
+    "coveralls": "NODE_ENV=TEST istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "compress": "gulp compress",
     "example:js": "cd examples/node-example && node simple-example.js",
     "example:ts": "cd examples/typescript && tsc && node index.js"
   },
@@ -23,6 +24,7 @@
     "Localization",
     "Globalization",
     "Date Formatting",
+    "Relative Dates",
     "Currency Formatting",
     "Number Formatting",
     "Handlebars",
@@ -52,6 +54,7 @@
     "gulp-rename": "2.0.0",
     "gulp-uglify": "3.0.2",
     "gulp-uglify-es": "3.0.0",
+    "html-entities": "^2.5.2",
     "husky": "7.0.4",
     "istanbul": "0.4.5",
     "mocha": "9.2.2",
@@ -61,7 +64,8 @@
   "dependencies": {
     "handlebars": "^4.7.7",
     "i18next": "^21.6.14",
-    "intl": "^1.2.5"
+    "intl": "^1.2.5",
+    "relative-time-format": "^1.1.6"
   },
   "husky": {
     "hooks": {
