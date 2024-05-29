@@ -311,7 +311,7 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ---
 
-### _dateRel <mark>new in 1.7</mark>
+### _dateRel :tada: new in 1.7
 
 Outputs a string with a relative date statement, formatted according to the language specific conventions.
 
@@ -336,7 +336,7 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ---
 
-### _dateDiff <mark>new in 1.7</mark>
+### _dateDiff :tada: new in 1.7
 
 Outputs the time difference between two given dates.
 
