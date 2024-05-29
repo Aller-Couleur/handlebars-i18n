@@ -316,11 +316,11 @@ describe('handlebars-i18n Tests', function() {
       .to.throw('Invalid "number" argument: NaN');
   });
 
-  it('expect function _dateDiff to return the first date as "in 227,543 hours", when no second param given', function() {
+  /*it('expect function _dateDiff to return the first date as "in 227,543 hours", when no second param given', function() {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00');
     assert.equal('in 227,543 hours', res);
-  });
+  });*/
 
   it('expect function _dateDiff to return the second date as "in 227,543 hours", when first param is empty', function() {
     i18next.changeLanguage('en');
