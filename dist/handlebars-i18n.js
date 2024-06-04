@@ -485,11 +485,17 @@
         function (dateInputA, dateInputB, options) {
 
           let dateDiff;
+          const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
 
           if (! __isNumOrString(dateInputA) && ! __isNumOrString(dateInputB))
             return null;
-          else if (! __isNumOrString(dateInputB))
+          else if (! __isNumOrString(dateInputB)) {
             dateDiff = __createDateObj(dateInputA);
+            //todo: needs testing
+            dateDiff = typeof opts.timeZone === 'string'
+              ? dateDiff.toLocaleString(i18next.language, { timeZone: opts.timeZone })
+              : dateDiff;
+          }
           else if (! __isNumOrString(dateInputA))
             dateDiff = __createDateObj(dateInputB);
           else {
@@ -498,7 +504,6 @@
             dateDiff = dateA - dateB;
           }
 
-          const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
           const relDate = __getDateDiff(dateDiff, opts.unit);
           const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
           return relDateFormat.format(relDate, opts.unit);
