@@ -17,15 +17,14 @@
     const Handlebars = require('handlebars'),
       i18next = require('i18next'),
       Intl = require('intl'),
-      RelativeTimeFormat= require('relative-time-format');
+      RelativeTimeFormat = require('relative-time-format');
     module.exports = factory(
       Handlebars,
       i18next,
       Intl,
       RelativeTimeFormat,
       process?.env?.NODE_ENV === 'TEST');
-  }
-  else if (typeof define === 'function' && define.amd)
+  } else if (typeof define === 'function' && define.amd)
     define(['Handlebars', 'i18next', 'Intl'], factory);
   else if (typeof root.Handlebars === 'object'
     && typeof root.i18next === 'object'
@@ -151,7 +150,7 @@
       return false;
     }
 
-    if (! ['DateTimeFormat', 'RelativeTimeFormat', 'NumberFormat', 'PriceFormat'].includes(typeOfFormat)) {
+    if (!['DateTimeFormat', 'RelativeTimeFormat', 'NumberFormat', 'PriceFormat'].includes(typeOfFormat)) {
       console.error('@ handlebars-i18n.configure(): Invalid argument <' + typeOfFormat + '>. ' +
         'Second argument must be a string with the options key. ' +
         'Use either "DateTimeFormat", "RelativeTimeFormat", "NumberFormat", or "PriceFormat".');
@@ -191,8 +190,7 @@
         optionsConf[formatType].custom[customFormat] = {};
 
       optionsConf[formatType].custom[customFormat][lang] = options;
-    }
-    else
+    } else
       optionsConf[formatType].standard[lang] = options;
 
     return true;
@@ -221,8 +219,7 @@
     if (typeof dateInput === 'number') {
       // input as milliseconds since unix epoch, like: 1583922952743
       date = new Date(dateInput);
-    }
-    else if (typeof dateInput === 'string') {
+    } else if (typeof dateInput === 'string') {
 
       if (dateInput.charAt(0) === '[' && dateInput.slice(-1) === ']') {
         // input as array represented as string such as "[2020, 11]"
@@ -230,17 +227,14 @@
         let dateArr = dateInput.split(',');
         let dateFactory = __applyToConstructor.bind(null, Date);
         date = dateFactory(dateArr);
-      }
-      else if (dateInput.toLowerCase() === 'now' || dateInput.toLowerCase() === 'today') {
+      } else if (dateInput.toLowerCase() === 'now' || dateInput.toLowerCase() === 'today') {
         // input as word "now" or "today"
         date = new Date();
-      }
-      else {
+      } else {
         // input as date string such as "1995-12-17T03:24:00"
         date = new Date(dateInput);
       }
-    }
-    else {
+    } else {
       // fallback: today’s date
       date = new Date();
     }
@@ -269,6 +263,24 @@
       RelativeTimePolyfill.addLocale(polyfillLangs[lang]);
       return new RelativeTimePolyfill(lang, opts);
     }
+  }
+
+  /**
+   *
+   * @param dateObj
+   * @param lng
+   * @param opts
+   * @param preferredOpt
+   * @returns {*|string}
+   * @private
+   */
+  function __localizeDate(dateObj, lng, opts, preferredOpt) {
+    if (preferredOpt && typeof opts[preferredOpt] === 'string')
+      return dateObj.toLocaleString(lng, {timeZone: opts[preferredOpt]});
+    else if (typeof opts.timeZone === 'string')
+      return dateObj.toLocaleString(lng, {timeZone: opts.timeZone});
+    else
+      return dateObj;
   }
 
   /**
@@ -337,8 +349,7 @@
           else
             return false;
         });
-      }
-      else {
+      } else {
         if (__validateArgs(langOrArr, typeOfFormat, options, customFormatName))
           __setArgs(langOrArr, typeOfFormat, options, customFormatName);
         else
@@ -393,7 +404,7 @@
          * @returns {*}
          */
         function (str, attributes) {
-          return new handlebars.SafeString((typeof(i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
+          return new handlebars.SafeString((typeof (i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
         }
       );
       handlebars.registerHelper('_locale',
@@ -445,7 +456,7 @@
          * @param options
          */
         function (dateInput, options) {
-          const date= __createDateObj(dateInput);
+          const date = __createDateObj(dateInput);
           const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
@@ -468,7 +479,7 @@
          * @returns {string}
          */
         function (dateValue, options) {
-          const relDate= parseInt(dateValue);
+          const relDate = parseInt(dateValue);
           const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
           const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
           return relDateFormat.format(relDate, opts.unit);
@@ -487,20 +498,22 @@
           let dateDiff;
           const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
 
-          if (! __isNumOrString(dateInputA) && ! __isNumOrString(dateInputB))
+          if (!__isNumOrString(dateInputA) && !__isNumOrString(dateInputB))
             return null;
-          else if (! __isNumOrString(dateInputB)) {
+          else if (!__isNumOrString(dateInputB)) {
             dateDiff = __createDateObj(dateInputA);
-            //todo: needs testing
+            dateDiff = __localizeDate(dateDiff, i18next.language, opts, 'TimeZone1');
             dateDiff = typeof opts.timeZone === 'string'
-              ? dateDiff.toLocaleString(i18next.language, { timeZone: opts.timeZone })
-              : dateDiff;
           }
-          else if (! __isNumOrString(dateInputA))
+          else if (!__isNumOrString(dateInputA)) {
             dateDiff = __createDateObj(dateInputB);
+            dateDiff = __localizeDate(dateDiff, i18next.language, opts, 'TimeZone2');
+          }
           else {
-            const dateA= __createDateObj(dateInputA);
-            const dateB= __createDateObj(dateInputB);
+            let dateA = __createDateObj(dateInputA);
+            dateA = __localizeDate(dateA, i18next.language, opts, 'TimeZone1');
+            let dateB = __createDateObj(dateInputB);
+            dateB = __localizeDate(dateB, i18next.language, opts, 'TimeZone2');
             dateDiff = dateA - dateB;
           }
 
