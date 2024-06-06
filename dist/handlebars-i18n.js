@@ -498,24 +498,18 @@
           let dateDiff;
           const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
 
-          if (!__isNumOrString(dateInputA) && !__isNumOrString(dateInputB))
+          if (!__isNumOrString(dateInputA)) {
+            console.error('@ handlebars-i18n: invalid first argument dateInputA was given for _dateDiff.');
             return null;
-          else if (!__isNumOrString(dateInputB)) {
-            dateDiff = __createDateObj(dateInputA);
-            dateDiff = __localizeDate(dateDiff, i18next.language, opts, 'TimeZone1');
-            dateDiff = typeof opts.timeZone === 'string'
           }
-          else if (!__isNumOrString(dateInputA)) {
-            dateDiff = __createDateObj(dateInputB);
-            dateDiff = __localizeDate(dateDiff, i18next.language, opts, 'TimeZone2');
-          }
-          else {
-            let dateA = __createDateObj(dateInputA);
-            dateA = __localizeDate(dateA, i18next.language, opts, 'TimeZone1');
-            let dateB = __createDateObj(dateInputB);
-            dateB = __localizeDate(dateB, i18next.language, opts, 'TimeZone2');
-            dateDiff = dateA - dateB;
-          }
+
+          dateInputB = dateInputB || new Date();
+
+          let dateA = __createDateObj(dateInputA);
+          dateA = __localizeDate(dateA, i18next.language, opts, 'TimeZone1');
+          let dateB = __createDateObj(dateInputB);
+          dateB = __localizeDate(dateB, i18next.language, opts, 'TimeZone2');
+          dateDiff = dateA - dateB;
 
           const relDate = __getDateDiff(dateDiff, opts.unit);
           const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
