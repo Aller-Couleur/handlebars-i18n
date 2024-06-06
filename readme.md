@@ -197,13 +197,9 @@ Template usage:
 The i18next resource:
 
 ```javascript
-"en"
-:
-{
+"en" : {
   translation : {
-    "whatIsWhat"
-  :
-    "{{a}} is {{b}}."
+    "whatIsWhat" : "{{a}} is {{b}}."
   }
 }
 ```
@@ -215,19 +211,12 @@ The i18next resource:
 ```
 
 ```javascript
-"en"
-:
-{
+"en" : {
   translation : {
-    "keyWithCount"
-  :
-    "{{count}} item",
-      "keyWithCount_plural"
-  :
-    "{{count}} items"
+    "keyWithCount" : "{{count}} item", 
+    "keyWithCount_plural" : "{{count}} items"
   }
-}
-, ...
+}, ...
 ```
 
 **Override globally selected language**
@@ -328,7 +317,8 @@ Will output for "en" &#x2192; **in 7 hours**
 Will output for "en" &#x2192; **7 hours ago**
 
 A positive number argument leads to a future event statement, a negative refers to a past date. Possible units
-are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` | `"year"` (default is `"hour"`). For a complete
+are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` | `"year"` (default is `"hour"`).
+For a complete
 set of options (such as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
 Alternatively check this repo’s TS types
@@ -347,15 +337,16 @@ Outputs the time difference between two given dates.
 Will output for "en" &#x2192; **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
-is made. A negative value refers to a past date. Allowed date input formats are similar to *_date*, options equal
+is made. A negative value refers to a past date. Allowed date input formats are similar to **_date**, options equal
 **_dateRel**.
 
 ---
 
 ### _num
 
-Outputs a formatted number according to the language specific conventions of number representation, e.g. *
-*4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
+Outputs a formatted number according to the language specific conventions of number representation, e.g. 
+**4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
+
 
 ```
 {{_num 4100000.8314 }}
@@ -378,8 +369,8 @@ Will output **3.14** for "**en**", but **3,14** for "**de**".
 
 ### _price
 
-Outputs a formatted currency string according to the language specific conventions of price representation, e.g. *
-*€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
+Outputs a formatted currency string according to the language specific conventions of price representation, e.g. 
+**€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
 
 ```
 {{_price 9999.99}}

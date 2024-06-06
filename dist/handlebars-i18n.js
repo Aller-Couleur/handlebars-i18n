@@ -585,6 +585,7 @@
         isNumOrString: __isNumOrString,
         createDateObj: __createDateObj,
         getRelDateFormatPolyfill: __getRelDateFormatPolyfill,
+        localizeDate: __localizeDate,
         getDateDiff: __getDateDiff
       }
     },
