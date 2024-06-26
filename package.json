@@ -5,7 +5,7 @@
   "main": "dist/handlebars-i18n.js",
   "scripts": {
     "test": "NODE_ENV=TEST c8 mocha",
-    "coveralls": "NODE_ENV=TEST c8 report --reporter=text-lcov > coverage/lcov.info",
+    "test:coverage": "npm run test && NODE_ENV=TEST c8 report --reporter=text-lcov > coverage/lcov.info",
     "compress": "gulp compress",
     "example:js": "cd examples/node-example && node simple-example.js",
     "example:ts": "cd examples/typescript && tsc && node index.js"

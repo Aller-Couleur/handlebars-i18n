@@ -18,7 +18,7 @@ jobs:
         run: npm install
 
       - name: Run tests and collect coverage
-        run: mkdir -p coverage/tmp && npm run coveralls
+        run: mkdir -p coverage/tmp && npm run test:coverage
 
       - name: Wait for coverage report
         run: sleep 3
