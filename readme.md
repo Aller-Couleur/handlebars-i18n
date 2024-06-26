@@ -10,7 +10,8 @@ Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i1
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![Node.js Version](https://img.shields.io/badge/Node.js-14.x-green)
 [![Build](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/Aller-Couleur/handlebars-i18n/badge.svg?branch=master)](https://coveralls.io/github/Aller-Couleur/handlebars-i18n?branch=master)[![Code Climate](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n/badges/gpa.svg)](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n)
+[![Coverage Status](https://coveralls.io/repos/github/Aller-Couleur/handlebars-i18n/badge.svg?branch=master)](https://coveralls.io/github/Aller-Couleur/handlebars-i18n?branch=master)
+[![Code Climate](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n/badges/gpa.svg)](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n)
 [![Known Vulnerabilities](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)
 ![npm](https://img.shields.io/npm/dt/handlebars-i18n)
 ![npm](https://img.shields.io/npm/dm/handlebars-i18n)
@@ -410,7 +411,7 @@ HandlebarsI18n.configure("all", "RelativeTimeFormat", {style: "long", unit: "sec
 ```
 
 ```javascript
-HandlebarsI18n.configure("all", "NumberFormat", {numberingSystem: "latn", maximumFractionDigits: 0});
+HandlebarsI18n.configure("all", "NumberFormat", {maximumFractionDigits: 0});
 ```
 
 ```javascript
@@ -431,7 +432,7 @@ To do this, define a 4th parameter with a custom name:
 HandlebarsI18n.configure([
   ["en", "DateTimeFormat", {year: "numeric"}, "year-only"],
   ["en", "DateTimeFormat", {year: "numeric", month: "numeric", day: "numeric"}, "standard-date"],
-  ['en', 'DateTimeFormat', {hour: "numeric", minute: "numeric", second: "numeric", hour12: false}, "time-only"]
+  ["en", "DateTimeFormat", {hour: "numeric", minute: "numeric", hour12: false}, "time-only"]
 ]);
 ```
 
