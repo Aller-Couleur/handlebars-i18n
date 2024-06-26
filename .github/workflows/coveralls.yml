@@ -1,0 +1,35 @@
+name: Test and Coverage
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests and collect coverage
+        run: mkdir -p coverage/tmp && npm run coverage
+
+      - name: Wait for coverage report
+        run: sleep 3
+
+      - name: Debug coverage directory
+        run: ls -R coverage
+
+      - name: Debug lcov.info
+        run: cat coverage/lcov.info
+
+      - name: Publish to coveralls.io
+        uses: coverallsapp/github-action@v2
+        with:
+          github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
