@@ -17,15 +17,14 @@
     const Handlebars = require('handlebars'),
       i18next = require('i18next'),
       Intl = require('intl'),
-      RelativeTimeFormat= require('relative-time-format');
+      RelativeTimeFormat = require('relative-time-format');
     module.exports = factory(
       Handlebars,
       i18next,
       Intl,
       RelativeTimeFormat,
       process?.env?.NODE_ENV === 'TEST');
-  }
-  else if (typeof define === 'function' && define.amd)
+  } else if (typeof define === 'function' && define.amd)
     define(['Handlebars', 'i18next', 'Intl'], factory);
   else if (typeof root.Handlebars === 'object'
     && typeof root.i18next === 'object'
@@ -151,7 +150,7 @@
       return false;
     }
 
-    if (! ['DateTimeFormat', 'RelativeTimeFormat', 'NumberFormat', 'PriceFormat'].includes(typeOfFormat)) {
+    if (!['DateTimeFormat', 'RelativeTimeFormat', 'NumberFormat', 'PriceFormat'].includes(typeOfFormat)) {
       console.error('@ handlebars-i18n.configure(): Invalid argument <' + typeOfFormat + '>. ' +
         'Second argument must be a string with the options key. ' +
         'Use either "DateTimeFormat", "RelativeTimeFormat", "NumberFormat", or "PriceFormat".');
@@ -191,8 +190,7 @@
         optionsConf[formatType].custom[customFormat] = {};
 
       optionsConf[formatType].custom[customFormat][lang] = options;
-    }
-    else
+    } else
       optionsConf[formatType].standard[lang] = options;
 
     return true;
@@ -221,8 +219,7 @@
     if (typeof dateInput === 'number') {
       // input as milliseconds since unix epoch, like: 1583922952743
       date = new Date(dateInput);
-    }
-    else if (typeof dateInput === 'string') {
+    } else if (typeof dateInput === 'string') {
 
       if (dateInput.charAt(0) === '[' && dateInput.slice(-1) === ']') {
         // input as array represented as string such as "[2020, 11]"
@@ -230,17 +227,14 @@
         let dateArr = dateInput.split(',');
         let dateFactory = __applyToConstructor.bind(null, Date);
         date = dateFactory(dateArr);
-      }
-      else if (dateInput.toLowerCase() === 'now' || dateInput.toLowerCase() === 'today') {
+      } else if (dateInput.toLowerCase() === 'now' || dateInput.toLowerCase() === 'today') {
         // input as word "now" or "today"
         date = new Date();
-      }
-      else {
+      } else {
         // input as date string such as "1995-12-17T03:24:00"
         date = new Date(dateInput);
       }
-    }
-    else {
+    } else {
       // fallback: today’s date
       date = new Date();
     }
@@ -337,8 +331,7 @@
           else
             return false;
         });
-      }
-      else {
+      } else {
         if (__validateArgs(langOrArr, typeOfFormat, options, customFormatName))
           __setArgs(langOrArr, typeOfFormat, options, customFormatName);
         else
@@ -393,7 +386,7 @@
          * @returns {*}
          */
         function (str, attributes) {
-          return new handlebars.SafeString((typeof(i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
+          return new handlebars.SafeString((typeof (i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
         }
       );
       handlebars.registerHelper('_locale',
@@ -445,7 +438,7 @@
          * @param options
          */
         function (dateInput, options) {
-          const date= __createDateObj(dateInput);
+          const date = __createDateObj(dateInput);
           const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
@@ -468,7 +461,7 @@
          * @returns {string}
          */
         function (dateValue, options) {
-          const relDate= parseInt(dateValue);
+          const relDate = parseInt(dateValue);
           const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
           const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
           return relDateFormat.format(relDate, opts.unit);
@@ -485,20 +478,20 @@
         function (dateInputA, dateInputB, options) {
 
           let dateDiff;
+          let opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
 
-          if (! __isNumOrString(dateInputA) && ! __isNumOrString(dateInputB))
+          if (!__isNumOrString(dateInputA)) {
+            console.error('@ handlebars-i18n: invalid first argument dateInputA was given for _dateDiff.');
             return null;
-          else if (! __isNumOrString(dateInputB))
-            dateDiff = __createDateObj(dateInputA);
-          else if (! __isNumOrString(dateInputA))
-            dateDiff = __createDateObj(dateInputB);
-          else {
-            const dateA= __createDateObj(dateInputA);
-            const dateB= __createDateObj(dateInputB);
-            dateDiff = dateA - dateB;
           }
 
-          const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
+          dateInputB = dateInputB || 'now';
+
+          let dateA = __createDateObj(dateInputA);
+          let dateB = __createDateObj(dateInputB);
+
+          dateDiff = dateA - dateB;
+
           const relDate = __getDateDiff(dateDiff, opts.unit);
           const relDateFormat = __getRelDateFormatPolyfill(i18next.language, opts);
           return relDateFormat.format(relDate, opts.unit);

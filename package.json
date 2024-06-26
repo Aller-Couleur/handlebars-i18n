@@ -1,11 +1,11 @@
 {
   "name": "handlebars-i18n",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "handlebars-i18n adds internationalization to handlebars.js using i18next and Intl.",
   "main": "dist/handlebars-i18n.js",
   "scripts": {
-    "test": "NODE_ENV=TEST nyc mocha",
-    "coveralls": "NODE_ENV=TEST istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "test": "NODE_ENV=TEST c8 mocha",
+    "test:coverage": "npm run test && NODE_ENV=TEST c8 report --reporter=text-lcov > coverage/lcov.info",
     "compress": "gulp compress",
     "example:js": "cd examples/node-example && node simple-example.js",
     "example:ts": "cd examples/typescript && tsc && node index.js"
@@ -48,6 +48,7 @@
     "@commitlint/config-conventional": "16.2.1",
     "@types/intl": "^1.2.0",
     "@types/node": "^18.13.0",
+    "c8": "^10.1.2",
     "chai": "4.3.6",
     "coveralls": "3.1.1",
     "gulp": "5.0.0",
@@ -56,7 +57,6 @@
     "gulp-uglify-es": "3.0.0",
     "html-entities": "^2.5.2",
     "husky": "7.0.4",
-    "istanbul": "0.4.5",
     "mocha": "9.2.2",
     "nyc": "15.1.0",
     "typescript": "^4.9.5"

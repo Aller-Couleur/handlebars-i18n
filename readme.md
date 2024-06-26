@@ -10,8 +10,7 @@ Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i1
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![Node.js Version](https://img.shields.io/badge/Node.js-14.x-green)
 [![Build](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/fwalzel/handlebars-i18next/badge.svg?branch=master)](https://coveralls.io/github/fwalzel/handlebars-i18next?branch=master)
-[![Code Climate](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n/badges/gpa.svg)](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n)
+[![Coverage Status](https://coveralls.io/repos/github/Aller-Couleur/handlebars-i18n/badge.svg?branch=master)](https://coveralls.io/github/Aller-Couleur/handlebars-i18n?branch=master)[![Code Climate](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n/badges/gpa.svg)](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n)
 [![Known Vulnerabilities](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)
 ![npm](https://img.shields.io/npm/dt/handlebars-i18n)
 ![npm](https://img.shields.io/npm/dm/handlebars-i18n)
@@ -197,13 +196,9 @@ Template usage:
 The i18next resource:
 
 ```javascript
-"en"
-:
-{
+"en" : {
   translation : {
-    "whatIsWhat"
-  :
-    "{{a}} is {{b}}."
+    "whatIsWhat" : "{{a}} is {{b}}."
   }
 }
 ```
@@ -215,19 +210,12 @@ The i18next resource:
 ```
 
 ```javascript
-"en"
-:
-{
+"en" : {
   translation : {
-    "keyWithCount"
-  :
-    "{{count}} item",
-      "keyWithCount_plural"
-  :
-    "{{count}} items"
+    "keyWithCount" : "{{count}} item", 
+    "keyWithCount_plural" : "{{count}} items"
   }
-}
-, ...
+}, ...
 ```
 
 **Override globally selected language**
@@ -328,7 +316,8 @@ Will output for "en" &#x2192; **in 7 hours**
 Will output for "en" &#x2192; **7 hours ago**
 
 A positive number argument leads to a future event statement, a negative refers to a past date. Possible units
-are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"year"` (default is `"hour"`). For a complete
+are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` | `"year"` (default is `"hour"`).
+For a complete
 set of options (such as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
 Alternatively check this repo’s TS types
@@ -347,15 +336,16 @@ Outputs the time difference between two given dates.
 Will output for "en" &#x2192; **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
-is made. A negative value refers to a past date. Allowed date input formats are similar to *_date*, options equal
-**_dateRel**.
+is made. A negative value refers to a past date. Allowed date input formats are similar to **_date**, options equal
+**_dateRel**. If only one argument is given, the second date to subtract is "now" (`new Date()`). 
 
 ---
 
 ### _num
 
-Outputs a formatted number according to the language specific conventions of number representation, e.g. *
-*4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
+Outputs a formatted number according to the language specific conventions of number representation, e.g. 
+**4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
+
 
 ```
 {{_num 4100000.8314 }}
@@ -378,8 +368,8 @@ Will output **3.14** for "**en**", but **3,14** for "**de**".
 
 ### _price
 
-Outputs a formatted currency string according to the language specific conventions of price representation, e.g. *
-*€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
+Outputs a formatted currency string according to the language specific conventions of price representation, e.g. 
+**€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
 
 ```
 {{_price 9999.99}}
