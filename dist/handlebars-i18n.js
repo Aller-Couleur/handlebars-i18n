@@ -267,24 +267,6 @@
 
   /**
    *
-   * @param dateObj
-   * @param lng
-   * @param opts
-   * @param preferredOpt
-   * @returns {*|string}
-   * @private
-   */
-  function __localizeDate(dateObj, lng, opts, preferredOpt) {
-    if (preferredOpt && typeof opts[preferredOpt] === 'string')
-      return dateObj.toLocaleString(lng, {timeZone: opts[preferredOpt]});
-    else if (typeof opts.timeZone === 'string')
-      return dateObj.toLocaleString(lng, {timeZone: opts.timeZone});
-    else
-      return dateObj;
-  }
-
-  /**
-   *
    * @param diff
    * @param unit
    * @returns {number}
@@ -496,19 +478,18 @@
         function (dateInputA, dateInputB, options) {
 
           let dateDiff;
-          const opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
+          let opts = __configLookup(options, i18next.language, optionsConf.RelativeTimeFormat);
 
           if (!__isNumOrString(dateInputA)) {
             console.error('@ handlebars-i18n: invalid first argument dateInputA was given for _dateDiff.');
             return null;
           }
 
-          dateInputB = dateInputB || new Date();
+          dateInputB = dateInputB || 'now';
 
           let dateA = __createDateObj(dateInputA);
-          dateA = __localizeDate(dateA, i18next.language, opts, 'TimeZone1');
           let dateB = __createDateObj(dateInputB);
-          dateB = __localizeDate(dateB, i18next.language, opts, 'TimeZone2');
+
           dateDiff = dateA - dateB;
 
           const relDate = __getDateDiff(dateDiff, opts.unit);
@@ -579,7 +560,6 @@
         isNumOrString: __isNumOrString,
         createDateObj: __createDateObj,
         getRelDateFormatPolyfill: __getRelDateFormatPolyfill,
-        localizeDate: __localizeDate,
         getDateDiff: __getDateDiff
       }
     },

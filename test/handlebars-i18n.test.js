@@ -342,7 +342,7 @@ describe('handlebars-i18n Tests', function () {
       .to.throw('Invalid "number" argument: NaN');
   });
 
-  it('expect function _dateDiff to return null when called with invalid first argument', function () {
+  it('expect function _dateDiff to return null when called with empty argument', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff('');
     assert.equal(null, res);
@@ -1009,6 +1009,5 @@ describe('handlebars-i18n Private helper Function Tests (in production not expor
     const result = HandlebarsI18n.private.configLookup({}, lang, OCFormat);
     expect(result).to.deep.equal({});
   });
-
 
 });

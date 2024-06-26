@@ -18,7 +18,7 @@ type unitDisplay = "short" | "narrow" | "long";
 type roundingPriority = "auto" | "morePrecision" | "lessPrecision";
 
 type roundingMode =
-    | "ceil"
+      "ceil"
     | "floor"
     | "expand"
     | "trunc"
@@ -197,13 +197,13 @@ export type DateTimeFormatConfiguration = [
     CustomFormatName?
 ];
 
-
 type DateRelFormatOptions = {
   localeMatcher?: localeMatcher,
   numberingSystem?: numberingSystem,
   numeric?: "always" | "auto",
   style?: "long" | "short" | "narrow",
-  unit?: "second" | "minute" | "hour" | "day" | "week" | "month" | "year"
+  timeZone?: TimeZone,
+  unit?: "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year"
 }
 
 export type RelativeTimeFormatConfiguration = [
