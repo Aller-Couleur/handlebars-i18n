@@ -338,7 +338,7 @@ Will output for "en" &#x2192; **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
 is made. A negative value refers to a past date. Allowed date input formats are similar to **_date**, options equal
-**_dateRel**.
+**_dateRel**. If only one argument is given, the second date to subtract is "now" (`new Date()`). 
 
 ---
 
