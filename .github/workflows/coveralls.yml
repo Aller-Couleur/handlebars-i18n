@@ -9,27 +9,36 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: npm install
+      - uses: actions/checkout@v3
 
-      - name: Run tests and collect coverage
-        run: mkdir -p coverage/tmp && npm run test:coverage
-
-      - name: Wait for coverage report
-        run: sleep 3
-
-      - name: Debug coverage directory
-        run: ls -R coverage
-
-      - name: Debug lcov.info
-        run: cat coverage/lcov.info
-
-      - name: Publish to coveralls.io
-        uses: coverallsapp/github-action@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
         with:
-          github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+          node-version: 16.x
+
+      - name: npm install, make test-coverage
+        run: |
+          npm install
+          npm run test:coverage
+          sleep 2
+
+      - name: Report Coveralls (Linux)
+        if: startsWith(runner.os, 'Linux')
+        run: curl -sL https://coveralls.io/coveralls-linux.tar.gz | tar -xz && ./coveralls
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Report Coveralls (Windows)
+        if: startsWith(runner.os, 'Windows')
+        run: curl -sL https://github.com/coverallsapp/coverage-reporter/releases/latest/download/coveralls-windows.zip | zcat > ./coveralls.exe && ./coveralls.exe
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Report Coveralls (macOS)
+        if: startsWith(runner.os, 'macOS')
+        run: |
+          brew tap coverallsapp/coveralls --quiet
+          brew install coveralls --quiet
+          coveralls
