@@ -2,7 +2,7 @@
  * handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @date: 2024-05
+ * @date: 2024-08
  *
  * handlebars-i18n adds features for localization/
  * internationalization to handlebars.js
@@ -439,6 +439,65 @@
          */
         function (dateInput, options) {
           const date = __createDateObj(dateInput);
+          const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
+          const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
+          return dateFormat.format(date);
+        }
+      );
+      handlebars.registerHelper('_dateAdd',
+        /**
+         * adds a time offset in a given unit to a date
+         * -> returns the modified date
+         *
+         * @param dateInput
+         * @param offset
+         * @param unit
+         * @param options
+         * @returns {string}
+         */
+        function (dateInput, offset, unit, options) {
+          const date = __createDateObj(dateInput);
+
+          unit = unit || 'hour';
+
+          switch (unit) {
+            case 'second':
+            case 'seconds':
+              date.setSeconds(date.getSeconds() + offset);
+              break;
+            case 'minute':
+            case 'minutes':
+              date.setMinutes(date.getMinutes() + offset);
+              break;
+            case 'hour':
+            case 'hours':
+              date.setHours(date.getHours() + offset);
+              break;
+            case 'day':
+            case 'days':
+              date.setDate(date.getDate() + offset);
+              break;
+            case 'week':
+            case 'weeks':
+              date.setDate(date.getDate() + offset * 7);
+              break;
+            case 'month':
+            case 'months':
+              date.setMonth(date.getMonth() + offset);
+              break;
+            case 'quarter':
+            case 'quarters':
+              date.setMonth(date.getMonth() + offset * 3);
+              break;
+            case 'year':
+            case 'years':
+              date.setFullYear(date.getFullYear() + offset);
+              break;
+            default:
+              throw new Error('@ handlebars-i18n: invalid argument "unit" was given for _dateAdd.' +
+                'Unit must be either "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year".');
+          }
+
           const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
