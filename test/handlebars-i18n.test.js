@@ -59,6 +59,10 @@ describe('handlebars-i18n Tests', function () {
     assert.isFunction(hI18n.helpers._date);
   });
 
+  it('after method call init() HandlebarsEnvironment object should have a function _dateAdd', function () {
+    assert.isFunction(hI18n.helpers._dateAdd);
+  });
+
   it('after method call init() HandlebarsEnvironment object should have a function _dateRel', function () {
     assert.isFunction(hI18n.helpers._dateRel);
   });
@@ -254,6 +258,20 @@ describe('handlebars-i18n Tests', function () {
     const res = hI18n.helpers._date('[1995,11,1]', {hash: {year: "2-digit", month: "2-digit", day: "2-digit"}});
     assert.equal('01.12.95', res);
   });
+
+
+  /****************************************
+   Tests against function _date
+   ****************************************/
+
+
+  it('function _dateAdd should return "12/17/1995" when called with parameters "December 17, 1995 02:00:00", 1, and "day"', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "day");
+    assert.equal('12/18/1995', res);
+  });
+
+
 
 
   /****************************************

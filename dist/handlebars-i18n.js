@@ -456,6 +456,13 @@
          * @returns {string}
          */
         function (dateInput, offset, unit, options) {
+
+          if (typeof dateInput !== 'number' && typeof dateInput !== 'string')
+            throw new Error('@ handlebars-i18n: invalid first argument "dateInput" was given for _dateAdd.');
+
+          if (typeof offset !== 'number')
+            throw new Error('@ handlebars-i18n: invalid second argument "offset" was given for _dateAdd.');
+
           const date = __createDateObj(dateInput);
 
           unit = unit || 'hour';
