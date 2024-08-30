@@ -264,12 +264,23 @@ describe('handlebars-i18n Tests', function () {
    Tests against function _date
    ****************************************/
 
-  it('_dateAdd should return "12/17/1995" when called with parameters "December 17, 1995 02:00:00", 1, and "day"', function () {
-    i18next.changeLanguage('en');
-    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "day");
-    assert.equal('12/18/1995', res);
+  it('_dateAdd should throw error when called without params', function () {
+    expect(function () {
+      hI18n.helpers._dateAdd()
+    }).to.throw("@ handlebars-i18n: invalid first argument \"dateInput\" was given for _dateAdd.");
   });
 
+  it('_dateAdd should throw error when called without 2nd param', function () {
+    expect(function () {
+      hI18n.helpers._dateAdd('December 17, 1995 02:00:00')
+    }).to.throw("@ handlebars-i18n: invalid second argument \"offset\" was given for _dateAdd.");
+  });
+
+  it('_dateAdd should use default unit "hour" when called without 3rd param', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 25);
+    assert.equal('12/18/1995', res);
+  });
 
   it('_dateAdd should return "12/17/1995" when called with parameters "December 17, 1995 02:00:00", 1, and "day"', function () {
     i18next.changeLanguage('en');
