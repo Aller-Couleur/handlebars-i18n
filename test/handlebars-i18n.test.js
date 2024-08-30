@@ -103,19 +103,19 @@ describe('handlebars-i18n Tests', function () {
    Tests against function _locale
    ****************************************/
 
-  it('expecting function _locale to be [undefined] as long as no language was set with i18next.init', function () {
+  it('expecting _locale to be [undefined] as long as no language was set with i18next.init', function () {
     i18next.init(); // empty init
     const res = hI18n.helpers._locale();
     expect(res).to.be.undefined;
   });
 
-  it('function _locale should return "en" if language is specified as "en" by init Object', function () {
+  it('_locale should return "en" if language is specified as "en" by init Object', function () {
     i18next.init(i18nInitObj); // initialize with data
     const res = hI18n.helpers._locale();
     assert.equal('en', res);
   });
 
-  it('function _locale should return "de" after language change to "de"', function () {
+  it('_locale should return "de" after language change to "de"', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers._locale();
     assert.equal('de', res);
@@ -149,29 +149,29 @@ describe('handlebars-i18n Tests', function () {
     }).to.throw();
   });
 
-  it('function __ should return a SafeString object with property "string" where "string" returns the first argument given to __', function () {
+  it('__ should return a SafeString object with property "string" where "string" returns the first argument given to __', function () {
     const res = hI18n.helpers.__("someNoneExitingKey", {hash: {}});
     assert.equal("someNoneExitingKey", res.string);
   });
 
-  it('function __ should return a SafeString object with property "string" where "string" contains "What is good?!', function () {
+  it('__ should return a SafeString object with property "string" where "string" contains "What is good?!', function () {
     const res = hI18n.helpers.__("key1", {hash: {}});
     assert.equal("What is good?", res.string);
   });
 
-  it('function __ should return a SafeString object with property "string" where "string" contains "Was ist gut?"', function () {
+  it('__ should return a SafeString object with property "string" where "string" contains "Was ist gut?"', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers.__("key1", {hash: {}});
     assert.equal("Was ist gut?", res.string);
   });
 
-  it('function __ should return a SafeString object with property "string" where "string" contains "handlebarsI18next is good."', function () {
+  it('__ should return a SafeString object with property "string" where "string" contains "handlebarsI18next is good."', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers.__("key2", {hash: {what: "handlebarsI18next", adverb: "good"}});
     assert.equal("handlebarsI18next is good.", res.string);
   });
 
-  it('function __ should return a SafeString object with property "string" where "string" contains "handlebarsI18next ist gut."', function () {
+  it('__ should return a SafeString object with property "string" where "string" contains "handlebarsI18next ist gut."', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers.__("key2", {hash: {what: "handlebarsI18next", adverb: "gut"}});
     assert.equal("handlebarsI18next ist gut.", res.string);
@@ -182,13 +182,13 @@ describe('handlebars-i18n Tests', function () {
    Tests against function _date
    ****************************************/
 
-  it('expect function _date to throw error when called with invalid date parameter', function () {
+  it('expect _date to throw error when called with invalid date parameter', function () {
     expect(function () {
       hI18n.helpers._date('someStrangeString')
     }).to.throw("Invalid valid date passed to format");
   });
 
-  it('function _date should return today’s date in Intl default format when called without parameter', function () {
+  it('_date should return today’s date in Intl default format when called without parameter', function () {
     i18next.changeLanguage('en');
     const today = new Date();
     const todayFormated = new Intl.DateTimeFormat().format(today);
@@ -197,7 +197,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal(todayFormated, res);
   });
 
-  it('function _date should return today’s date in Intl default format when called with parameter, "Today" or "Now" no matter of upper or lower case writing',
+  it('_date should return today’s date in Intl default format when called with parameter, "Today" or "Now" no matter of upper or lower case writing',
     function () {
       i18next.changeLanguage('en');
       const today = new Date();
@@ -211,49 +211,49 @@ describe('handlebars-i18n Tests', function () {
       assert.equal(todayFormated, hI18n.helpers._date("NOW"));
     });
 
-  it('function _date should return "1/1/1970" (Intl default format) when called with parameter 1 as number ', function () {
+  it('_date should return "1/1/1970" (Intl default format) when called with parameter 1 as number ', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._date(1);
     assert.equal('1/1/1970', res);
   });
 
-  it('function _date should return "12/17/1995" (Intl default format) when called with parameter "1995-12-17T03:24:00"', function () {
+  it('_date should return "12/17/1995" (Intl default format) when called with parameter "1995-12-17T03:24:00"', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._date('1995-12-17T03:24:00');
     assert.equal('12/17/1995', res);
   });
 
-  it('function _date should return "12/17/1995" (Intl default format) when called with parameter "December 17, 1995 03:24:00"', function () {
+  it('_date should return "12/17/1995" (Intl default format) when called with parameter "December 17, 1995 03:24:00"', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._date('December 17, 1995 03:24:00');
     assert.equal('12/17/1995', res);
   });
 
-  it('function _date should return "1/1/2020" (Intl default format) when called with parameter "[2020]"', function () {
+  it('_date should return "1/1/2020" (Intl default format) when called with parameter "[2020]"', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._date('[1995]');
     assert.equal('1/1/1995', res);
   });
 
-  it('function _date should return "12/1/1995" (Intl default format) when called with parameter "[2020,11]"', function () {
+  it('_date should return "12/1/1995" (Intl default format) when called with parameter "[2020,11]"', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._date('[1995,11]');
     assert.equal('12/1/1995', res);
   });
 
-  it('function _date should return "12/17/1995" (Intl default format) when called with parameter "[2020,11,17]"', function () {
+  it('_date should return "12/17/1995" (Intl default format) when called with parameter "[2020,11,17]"', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._date('[1995,11,17]');
     assert.equal('12/17/1995', res);
   });
 
-  it('function _date should return "12/1/95" when called with parameter "[2020,11,01] and specifying options"', function () {
+  it('_date should return "12/1/95" when called with parameter "[2020,11,01] and specifying options"', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._date('[1995,11,1]', {hash: {year: "2-digit", month: "2-digit", day: "2-digit"}});
     assert.equal('12/1/95', res);
   });
 
-  it('function _date should return "01.12.95" when called with parameter "[2020,11,01] and specifying options an language set to "de"', function () {
+  it('_date should return "01.12.95" when called with parameter "[2020,11,01] and specifying options an language set to "de"', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers._date('[1995,11,1]', {hash: {year: "2-digit", month: "2-digit", day: "2-digit"}});
     assert.equal('01.12.95', res);
@@ -264,8 +264,14 @@ describe('handlebars-i18n Tests', function () {
    Tests against function _date
    ****************************************/
 
+  it('_dateAdd should return "12/17/1995" when called with parameters "December 17, 1995 02:00:00", 1, and "day"', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "day");
+    assert.equal('12/18/1995', res);
+  });
 
-  it('function _dateAdd should return "12/17/1995" when called with parameters "December 17, 1995 02:00:00", 1, and "day"', function () {
+
+  it('_dateAdd should return "12/17/1995" when called with parameters "December 17, 1995 02:00:00", 1, and "day"', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "day");
     assert.equal('12/18/1995', res);
@@ -278,38 +284,38 @@ describe('handlebars-i18n Tests', function () {
    Tests against function _dateRel
    ****************************************/
 
-  it('expect function _dateRel to throw error when called without parameter', function () {
+  it('expect _dateRel to throw error when called without parameter', function () {
     expect(function () {
       hI18n.helpers._dateRel()
     }).to.throw('Invalid "number" argument: NaN');
   });
 
-  it('expect function _dateRel to throw error when called with invalid date parameter', function () {
+  it('expect _dateRel to throw error when called with invalid date parameter', function () {
     expect(function () {
       hI18n.helpers._dateRel('someStrangeString')
     }).to.throw('Invalid "number" argument: NaN');
   });
 
-  it('expect function _dateRel to throw error when called with non-existent language shortcode', function () {
+  it('expect _dateRel to throw error when called with non-existent language shortcode', function () {
     i18next.changeLanguage('invalid');
     expect(function () {
       hI18n.helpers._dateRel(1, {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: "day"}})
     }).to.throw('No locale data passed');
   });
 
-  it('expect function _dateRel to return \'in 1 hour\' when called with \'en\' and first parameter being 1', function () {
+  it('expect _dateRel to return \'in 1 hour\' when called with \'en\' and first parameter being 1', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateRel(1);
     assert.equal('in 1 hour', res);
   });
 
-  it('expect function _dateRel to return \'1 hour ago\' when called with \'en\' and first parameter being -1', function () {
+  it('expect _dateRel to return \'1 hour ago\' when called with \'en\' and first parameter being -1', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateRel(-1);
     assert.equal('1 hour ago', res);
   });
 
-  it('expect function _dateRel to return \'in 1 second\' when called with \'en\' and first parameter being 1 and according options', function () {
+  it('expect _dateRel to return \'in 1 second\' when called with \'en\' and first parameter being 1 and according options', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateRel(1, {
       hash: {
@@ -322,7 +328,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('in 1 second', res);
   });
 
-  it('expect function _dateRel to return \'in 1 Tag\' when called with \'de\' and paramter 1 and according options', function () {
+  it('expect _dateRel to return \'in 1 Tag\' when called with \'de\' and paramter 1 and according options', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers._dateRel(1, {
       hash: {
@@ -340,33 +346,33 @@ describe('handlebars-i18n Tests', function () {
    Tests against function _dateDiff
    ****************************************/
 
-  it('function _dateDiff should return null when called with no parameter', function () {
+  it('_dateDiff should return null when called with no parameter', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff();
     assert.equal(null, res);
   });
 
-  it('expect function _dateDiff to throw error when called with invalid 1. date parameter', function () {
+  it('expect _dateDiff to throw error when called with invalid 1. date parameter', function () {
     expect(function () {
       hI18n.helpers._dateDiff('someStrangeString', '1995-12-17T03:24:00')
     })
       .to.throw('Invalid "number" argument: NaN');
   });
 
-  it('expect function _dateDiff to throw error when called with invalid 2. date parameter', function () {
+  it('expect _dateDiff to throw error when called with invalid 2. date parameter', function () {
     expect(function () {
       hI18n.helpers._dateDiff('1995-12-17T03:24:00', 'someStrangeString')
     })
       .to.throw('Invalid "number" argument: NaN');
   });
 
-  it('expect function _dateDiff to return null when called with empty argument', function () {
+  it('expect _dateDiff to return null when called with empty argument', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff('');
     assert.equal(null, res);
   });
 
-  it('expect function _dateDiff to return "in 0 hours", when dates are identical', function () {
+  it('expect _dateDiff to return "in 0 hours", when dates are identical', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00', '1995-12-17T00:00:00');
     assert.equal('in 0 hours', res);
@@ -374,14 +380,14 @@ describe('handlebars-i18n Tests', function () {
 
   // -- Test year -- //
 
-  it('expect function _dateDiff to return "in 1 year"', function () {
+  it('expect _dateDiff to return "in 1 year"', function () {
     i18next.changeLanguage('en');
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: "year"}};
     const res = hI18n.helpers._dateDiff('1996-12-17T00:00:00', '1995-12-17T00:00:00', hash);
     assert.equal('in 1 year', res);
   });
 
-  it('expect function _dateDiff to return "1 year ago"', function () {
+  it('expect _dateDiff to return "1 year ago"', function () {
     i18next.changeLanguage('en');
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: "year"}};
     const res = hI18n.helpers._dateDiff('1995-12-17T00:00:00', '1996-12-17T00:00:00', hash);
@@ -390,7 +396,7 @@ describe('handlebars-i18n Tests', function () {
 
   // -- Test quarter -- //
 
-  it('expect function _dateDiff to return "in 1 quarter"', function () {
+  it('expect _dateDiff to return "in 1 quarter"', function () {
     i18next.changeLanguage('en');
     const unit = 'quarter';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -398,7 +404,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal(`in 1 ${unit}`, res);
   });
 
-  it('expect function _dateDiff to return "1 quarter ago"', function () {
+  it('expect _dateDiff to return "1 quarter ago"', function () {
     i18next.changeLanguage('en');
     const unit = 'quarter';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -408,7 +414,7 @@ describe('handlebars-i18n Tests', function () {
 
   // -- Test month -- //
 
-  it('expect function _dateDiff to return "in 1 month"', function () {
+  it('expect _dateDiff to return "in 1 month"', function () {
     i18next.changeLanguage('en');
     const unit = 'month';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -416,7 +422,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal(`in 1 ${unit}`, res);
   });
 
-  it('expect function _dateDiff to return "1 month ago"', function () {
+  it('expect _dateDiff to return "1 month ago"', function () {
     i18next.changeLanguage('en');
     const unit = 'month';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -426,7 +432,7 @@ describe('handlebars-i18n Tests', function () {
 
   // -- Test week -- //
 
-  it('expect function _dateDiff to return "in 1 week"', function () {
+  it('expect _dateDiff to return "in 1 week"', function () {
     i18next.changeLanguage('en');
     const unit = 'week';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -434,7 +440,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal(`in 1 ${unit}`, res);
   });
 
-  it('expect function _dateDiff to return "1 week ago"', function () {
+  it('expect _dateDiff to return "1 week ago"', function () {
     i18next.changeLanguage('en');
     const unit = 'week';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -444,7 +450,7 @@ describe('handlebars-i18n Tests', function () {
 
   // -- Test day -- //
 
-  it('expect function _dateDiff to return "in 1 day"', function () {
+  it('expect _dateDiff to return "in 1 day"', function () {
     i18next.changeLanguage('en');
     const unit = 'day';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -452,7 +458,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal(`in 1 ${unit}`, res);
   });
 
-  it('expect function _dateDiff to return "1 day ago"', function () {
+  it('expect _dateDiff to return "1 day ago"', function () {
     i18next.changeLanguage('en');
     const unit = 'day';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -462,7 +468,7 @@ describe('handlebars-i18n Tests', function () {
 
   // -- Test minute -- //
 
-  it('expect function _dateDiff to return "in 1 minute"', function () {
+  it('expect _dateDiff to return "in 1 minute"', function () {
     i18next.changeLanguage('en');
     const unit = 'minute';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -470,7 +476,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal(`in 1 ${unit}`, res);
   });
 
-  it('expect function _dateDiff to return "1 minute ago"', function () {
+  it('expect _dateDiff to return "1 minute ago"', function () {
     i18next.changeLanguage('en');
     const unit = 'minute';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -480,7 +486,7 @@ describe('handlebars-i18n Tests', function () {
 
   // -- Test second -- //
 
-  it('expect function _dateDiff to return "in 1 second"', function () {
+  it('expect _dateDiff to return "in 1 second"', function () {
     i18next.changeLanguage('en');
     const unit = 'second';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -488,7 +494,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal(`in 1 ${unit}`, res);
   });
 
-  it('expect function _dateDiff to return "1 second ago"', function () {
+  it('expect _dateDiff to return "1 second ago"', function () {
     i18next.changeLanguage('en');
     const unit = 'second';
     const hash = {hash: {localeMatcher: "best fit", numeric: "always", style: "long", unit: unit}};
@@ -501,25 +507,25 @@ describe('handlebars-i18n Tests', function () {
    Tests against function _num
    ****************************************/
 
-  it('function _num should return comma separated triples of decimals when language is "en"', function () {
+  it('_num should return comma separated triples of decimals when language is "en"', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._num(4000000, {hash: {}});
     assert.equal('4,000,000', res);
   });
 
-  it('function _num should return dot separated triples of decimals when language is "de"', function () {
+  it('_num should return dot separated triples of decimals when language is "de"', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers._num(4000000, {hash: {}});
     assert.equal('4.000.000', res);
   });
 
-  it('function _num should return comma separated triples of decimals and 2 fraction digits"', function () {
+  it('_num should return comma separated triples of decimals and 2 fraction digits"', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._num(4000000, {hash: {minimumFractionDigits: 2}});
     assert.equal('4,000,000.00', res);
   });
 
-  it('function _num should return dot separated triples of decimals and 2 fraction digits when language is "de"', function () {
+  it('_num should return dot separated triples of decimals and 2 fraction digits when language is "de"', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers._num(4000000, {hash: {minimumFractionDigits: 2}});
     assert.equal('4.000.000,00', res);
@@ -530,26 +536,26 @@ describe('handlebars-i18n Tests', function () {
    Tests against function _price
    ****************************************/
 
-  it('function _currency should return price in € written in comma separated triples of decimals and 2 fraction digits with leading currency symbol', function () {
+  it('_currency should return price in € written in comma separated triples of decimals and 2 fraction digits with leading currency symbol', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._price(4000000, {hash: {}});
     assert.equal('€4,000,000.00', res);
   });
 
-  it('function _currency should return price in € written in dot separated triples of decimals and 2 fraction digits with trailing currency symbol', function () {
+  it('_currency should return price in € written in dot separated triples of decimals and 2 fraction digits with trailing currency symbol', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers._price(4000000, {hash: {}});
     assert.isString(res);
     assert.equal('4.000.000,00 €', res);
   });
 
-  it('function _currency should return price in ¥ written in comma separated triples of decimals with leading currency symbol', function () {
+  it('_currency should return price in ¥ written in comma separated triples of decimals with leading currency symbol', function () {
     i18next.changeLanguage('en');
     const res = hI18n.helpers._price(4000000, {hash: {currency: 'JPY', maximumFractionDigits: 0}});
     assert.equal('¥4,000,000', res);
   });
 
-  it('function _currency should return price in ¥ written in comma separated triples of decimals with trailing currency symbol', function () {
+  it('_currency should return price in ¥ written in comma separated triples of decimals with trailing currency symbol', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers._price(4000000, {hash: {currency: 'JPY', maximumFractionDigits: 0}});
     assert.equal('4.000.000 ¥', res);
@@ -624,7 +630,7 @@ describe('handlebars-i18n Tests', function () {
     assert.isOk(res);
   });
 
-  it('function _num should return Intl standard format (no fraction digits) after reset() being called', function () {
+  it('_num should return Intl standard format (no fraction digits) after reset() being called', function () {
     HandlebarsI18n.configure('en', 'NumberFormat', {minimumFractionDigits: 4});
     i18next.changeLanguage('en');
     HandlebarsI18n.reset();
@@ -637,7 +643,7 @@ describe('handlebars-i18n Tests', function () {
    Tests for custom format configurations for function _date
    ********************************************************************/
 
-  it('function _date when called after configure() with defined custom format (year:2-digit) should return ' +
+  it('_date when called after configure() with defined custom format (year:2-digit) should return ' +
     'date "95" when language is "en"', function () {
     HandlebarsI18n.configure('en', 'DateTimeFormat', {year: "2-digit"}, 'my-custom-format');
     i18next.changeLanguage('en');
@@ -645,7 +651,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('95', res);
   });
 
-  it('function _date when called after configure() with defined custom format (year:numeric) given as ARRAY should return ' +
+  it('_date when called after configure() with defined custom format (year:numeric) given as ARRAY should return ' +
     'date "12/17/95" when language is "en"', function () {
     HandlebarsI18n.configure(['en', 'DateTimeFormat', {year: "numeric"}, 'my-custom-format']);
     i18next.changeLanguage('en');
@@ -653,7 +659,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('95', res);
   });
 
-  it('function _date when called after configure() with defined custom format (year:2-digit) should override ' +
+  it('_date when called after configure() with defined custom format (year:2-digit) should override ' +
     'standard configuration when language is "en"', function () {
     HandlebarsI18n.configure([
       ['en', 'DateTimeFormat', {year: "numeric"}],
@@ -664,7 +670,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('95', res);
   });
 
-  it('function _date when called after configure() with defined custom format (year:2-digit) should override ' +
+  it('_date when called after configure() with defined custom format (year:2-digit) should override ' +
     'standard configuration also when being defined first', function () {
     HandlebarsI18n.configure([
       ['en', 'DateTimeFormat', {year: "2-digit"}, 'my-custom-format'],
@@ -675,7 +681,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('95', res);
   });
 
-  it('function _date when called after configure() should fall back to generic language format "en" when custom format is unknown' +
+  it('_date when called after configure() should fall back to generic language format "en" when custom format is unknown' +
     'standard configuration also when being defined first', function () {
     HandlebarsI18n.configure([
       ['en', 'DateTimeFormat', {year: "2-digit"}, 'my-custom-format'],
@@ -686,7 +692,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('1995', res);
   });
 
-  it('function _date when called after configure() should fall back to generic language format "all" when custom format is unknown' +
+  it('_date when called after configure() should fall back to generic language format "all" when custom format is unknown' +
     'standard configuration also when being defined first', function () {
     HandlebarsI18n.configure([
       ['all', 'DateTimeFormat', {year: "2-digit"}, 'my-custom-format'],
@@ -697,7 +703,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('1995', res);
   });
 
-  it('function _date when called after configure() should fall back to Intl default format when custom format is unknown' +
+  it('_date when called after configure() should fall back to Intl default format when custom format is unknown' +
     'standard configuration also when being defined first', function () {
     HandlebarsI18n.reset();
     HandlebarsI18n.configure([
@@ -713,7 +719,7 @@ describe('handlebars-i18n Tests', function () {
    Tests for custom format configurations for _dateRel / _dateDiff
    ********************************************************************/
 
-  it('function _dateRel called after configure() with defined "all" (style: "long", unit: "second") should return ' +
+  it('_dateRel called after configure() with defined "all" (style: "long", unit: "second") should return ' +
     '"in 12 seconds" when language is "en"', function () {
     HandlebarsI18n.configure('all', 'RelativeTimeFormat', {style: "long", unit: "second"});
     i18next.changeLanguage('en');
@@ -721,7 +727,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('in 12 seconds', res);
   });
 
-  it('function _dateRel called after configure() with defined custom format (style: "long", unit: "year") should return ' +
+  it('_dateRel called after configure() with defined custom format (style: "long", unit: "year") should return ' +
     '"in 12 Jahren" when language is "de"', function () {
     HandlebarsI18n.configure('de', 'RelativeTimeFormat', {style: "long", unit: "year"}, 'date-rel-custom');
     i18next.changeLanguage('de');
@@ -729,7 +735,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('in 12 Jahren', res);
   });
 
-  it('function _dateRel called after configure() with defined custom format { style: "short", unit: "minutes" } should override ' +
+  it('_dateRel called after configure() with defined custom format { style: "short", unit: "minutes" } should override ' +
     'standard configuration when language is "en"', function () {
     HandlebarsI18n.configure([
       ['en', 'RelativeTimeFormat', {style: "short", unit: "day"}, 'date-rel-spec'],
@@ -740,7 +746,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('in 12 days', res);
   });
 
-  it('function _dateRel called after configure() with defined custom format { style: "short", unit: "minutes" } should override ' +
+  it('_dateRel called after configure() with defined custom format { style: "short", unit: "minutes" } should override ' +
     'standard configuration when language is "en" and output: \'in 12 days\'', function () {
     HandlebarsI18n.configure([
       ['en', 'RelativeTimeFormat', {style: "short", unit: "day"}, 'date-rel-spec'],
@@ -751,7 +757,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('in 12 days', res);
   });
 
-  it('function _dateDiff called after configure() with defined custom format { style: "short", unit: "minutes" } should override ' +
+  it('_dateDiff called after configure() with defined custom format { style: "short", unit: "minutes" } should override ' +
     'standard configuration when language is "en" and output: \'in in 1 yr.\'', function () {
     HandlebarsI18n.configure([
       ['en', 'RelativeTimeFormat', {style: "short", unit: "year"}, 'date-rel-spec'],
@@ -767,7 +773,7 @@ describe('handlebars-i18n Tests', function () {
    Tests for custom format configurations for function _num
    ********************************************************************/
 
-  it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
+  it('_num when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
     'comma separated triples of decimals and 4 fraction of digits when language is "en"', function () {
     HandlebarsI18n.configure('en', 'NumberFormat', {minimumFractionDigits: 4}, 'my-custom-format');
     i18next.changeLanguage('en');
@@ -775,7 +781,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('4,000,000.0000', res);
   });
 
-  it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) given as ARRAY should return ' +
+  it('_num when called after configure() with defined custom format (minimumFractionDigits:4) given as ARRAY should return ' +
     'comma separated triples of decimals and 4 fraction of digits when language is "en"', function () {
     HandlebarsI18n.configure(['en', 'NumberFormat', {minimumFractionDigits: 4}, 'my-custom-format']);
     i18next.changeLanguage('en');
@@ -783,7 +789,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('4,000,000.0000', res);
   });
 
-  it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) should override' +
+  it('_num when called after configure() with defined custom format (minimumFractionDigits:4) should override' +
     'standard configuration when language is "en"', function () {
     HandlebarsI18n.configure([
       ['en', 'NumberFormat', {maximumFractionDigits: 1}],
@@ -794,7 +800,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('4,000,000.0000', res);
   });
 
-  it('function _num when called after configure() with defined custom format (minimumFractionDigits:4) should override' +
+  it('_num when called after configure() with defined custom format (minimumFractionDigits:4) should override' +
     'standard configuration also when being defined first', function () {
     HandlebarsI18n.configure([
       ['en', 'NumberFormat', {minimumFractionDigits: 4}, 'my-custom-format'],
@@ -805,7 +811,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('4,000,000.0000', res);
   });
 
-  it('function _num when called after configure() should fall back to standard language format "en" when custom format is unknown', function () {
+  it('_num when called after configure() should fall back to standard language format "en" when custom format is unknown', function () {
     HandlebarsI18n.configure([
       ['en', 'NumberFormat', {minimumFractionDigits: 4}, 'my-custom-format'],
       ['en', 'NumberFormat', {minimumFractionDigits: 1}]
@@ -815,7 +821,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('4,000,000.0', res);
   });
 
-  it('function _num when called after configure() should fall back to standard language format "all" when custom format is unknown', function () {
+  it('_num when called after configure() should fall back to standard language format "all" when custom format is unknown', function () {
     HandlebarsI18n.configure([
       ['en', 'NumberFormat', {minimumFractionDigits: 4}, 'my-custom-format'],
       ['all', 'NumberFormat', {minimumFractionDigits: 1}]
@@ -825,7 +831,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('4,000,000.0', res);
   });
 
-  it('function _num when called after configure() should fall back to Intl default when custom format is unknown', function () {
+  it('_num when called after configure() should fall back to Intl default when custom format is unknown', function () {
     HandlebarsI18n.reset();
     HandlebarsI18n.configure([
       ['en', 'NumberFormat', {minimumFractionDigits: 4}, 'my-custom-format']
@@ -840,7 +846,7 @@ describe('handlebars-i18n Tests', function () {
    Tests for custom format configurations for function _price
    ********************************************************************/
 
-  it('function _price when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
+  it('_price when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
     'comma separated triples of decimals and 4 fraction of digits when language is "en"', function () {
     HandlebarsI18n.configure('en', 'PriceFormat', {currency: 'EUR', minimumFractionDigits: 3}, 'my-custom-format');
     i18next.changeLanguage('en');
@@ -848,7 +854,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('€2.000', res);
   });
 
-  it('function _price when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
+  it('_price when called after configure() with defined custom format (minimumFractionDigits:4) should return ' +
     'comma separated triples of decimals and 4 fraction of digits when language is "en"', function () {
     HandlebarsI18n.configure('en', 'PriceFormat', {currency: 'EUR', minimumFractionDigits: 3}, 'my-custom-format');
     i18next.changeLanguage('en');
@@ -856,7 +862,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('€2.000', res);
   });
 
-  it('function _price when called after configure() with defined custom format (minimumFractionDigits:4) given as ARRAY should return ' +
+  it('_price when called after configure() with defined custom format (minimumFractionDigits:4) given as ARRAY should return ' +
     'comma separated triples of decimals and 4 fraction of digits when language is "en"', function () {
     HandlebarsI18n.configure(['en', 'PriceFormat', {currency: 'EUR', minimumFractionDigits: 3}, 'my-custom-format']);
     i18next.changeLanguage('en');
@@ -864,7 +870,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('€2.000', res);
   });
 
-  it('function _price when called after configure() with defined custom format (minimumFractionDigits:3) should override' +
+  it('_price when called after configure() with defined custom format (minimumFractionDigits:3) should override' +
     'standard configuration when language is "en"', function () {
     HandlebarsI18n.configure([
       ['en', 'PriceFormat', {currency: 'USD'}],
@@ -875,7 +881,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('€2.000', res);
   });
 
-  it('function _price when called after configure() with defined custom format (minimumFractionDigits:3) should override' +
+  it('_price when called after configure() with defined custom format (minimumFractionDigits:3) should override' +
     'standard configuration also when being defined first', function () {
     HandlebarsI18n.configure([
       ['en', 'PriceFormat', {currency: 'EUR', minimumFractionDigits: 3}, 'my-custom-format'],
@@ -886,7 +892,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('€2.000', res);
   });
 
-  it('function _price when called after configure() should fall back to standard language format "en" when custom format is unknown', function () {
+  it('_price when called after configure() should fall back to standard language format "en" when custom format is unknown', function () {
     HandlebarsI18n.configure([
       ['en', 'PriceFormat', {currency: 'EUR', minimumFractionDigits: 3}, 'my-custom-format'],
       ['en', 'PriceFormat', {currency: 'USD'}]
@@ -896,7 +902,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('$2.00', res);
   });
 
-  it('function _price when called after configure() should fall back to standard language format "all" when custom format is unknown', function () {
+  it('_price when called after configure() should fall back to standard language format "all" when custom format is unknown', function () {
     HandlebarsI18n.configure([
       ['en', 'PriceFormat', {currency: 'EUR', minimumFractionDigits: 3}, 'my-custom-format'],
       ['all', 'PriceFormat', {currency: 'USD'}]
@@ -906,7 +912,7 @@ describe('handlebars-i18n Tests', function () {
     assert.equal('$2.00', res);
   });
 
-  it('function _price when called after configure() should fall back to Intl default when custom format is unknown', function () {
+  it('_price when called after configure() should fall back to Intl default when custom format is unknown', function () {
     HandlebarsI18n.configure([
       ['en', 'PriceFormat', {currency: 'EUR', minimumFractionDigits: 3}, 'my-custom-format']
     ]);
