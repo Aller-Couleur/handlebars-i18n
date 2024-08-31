@@ -284,11 +284,81 @@ describe('handlebars-i18n Tests', function () {
 
   it('_dateAdd should return "12/17/1995" when called with parameters "December 17, 1995 02:00:00", 1, and "day"', function () {
     i18next.changeLanguage('en');
-    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "day");
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "day" );
     assert.equal('12/18/1995', res);
   });
 
+  // -- Test for "second" -- //
 
+  it('_dateAdd should return "12/18/1995" when called with parameters "December 17, 1995 02:00:00", 1, and "second"', function () {
+    i18next.changeLanguage('en');
+    const options = {hash: {hour: "2-digit", minute: "2-digit", second: "2-digit"}}
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "second", options);
+    assert.equal('02:00:01', res);
+  });
+
+  // -- Test for "minute" -- //
+
+  it('_dateAdd should return "02:01:00" when called with parameters "December 17, 1995 02:00:00", 1, and "minute"', function () {
+    i18next.changeLanguage('en');
+    const options = {hash: {hour: "2-digit", minute: "2-digit", second: "2-digit"}}
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "minute", options);
+    assert.equal('02:01:00', res);
+  });
+
+  // -- Test for "hour" -- //
+
+  it('_dateAdd should return "03:00:00" when called with parameters "December 17, 1995 02:00:00", 1, and "hour"', function () {
+    i18next.changeLanguage('en');
+    const options = {hash: {hour: "2-digit", minute: "2-digit", second: "2-digit"}}
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "hour", options);
+    assert.equal('03:00:00', res);
+  });
+
+  // -- Test for "day" -- //
+
+  it('_dateAdd should return "December 18, 1995 02:00:00" when called with parameters "December 17, 1995 02:00:00", 1, and "day"', function () {
+    i18next.changeLanguage('en');
+    const options = {hash: {year: "numeric", month: "long", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"}}
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "day", options);
+    assert.equal('December 18, 1995 at 02:00:00', res);
+  });
+
+  // -- Test for "week" -- //
+
+  it('_dateAdd should return "December 24, 1995 02:00:00" when called with parameters "December 17, 1995 02:00:00", 1, and "week"', function () {
+    i18next.changeLanguage('en');
+    const options = {hash: {year: "numeric", month: "long", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"}}
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "week", options);
+    assert.equal('December 24, 1995 at 02:00:00', res);
+  });
+
+  // -- Test for "month" -- //
+
+  it('_dateAdd should return "January 17, 1996 02:00:00" when called with parameters "December 17, 1995 02:00:00", 1, and "month"', function () {
+    i18next.changeLanguage('en');
+    const options = {hash: {year: "numeric", month: "long", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"}}
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "month", options);
+    assert.equal('January 17, 1996 at 02:00:00', res);
+  });
+
+  // -- Test for "quarter" -- //
+
+  it('_dateAdd should return "March 17, 1996 02:00:00" when called with parameters "December 17, 1995 02:00:00", 1, and "quarter"', function () {
+    i18next.changeLanguage('en');
+    const options = {hash: {year: "numeric", month: "long", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"}}
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "quarter", options);
+    assert.equal('March 17, 1996 at 02:00:00', res);
+  });
+
+  // -- Test for "year" -- //
+
+  it('_dateAdd should return "December 17, 1996 02:00:00" when called with parameters "December 17, 1995 02:00:00", 1, and "year"', function () {
+    i18next.changeLanguage('en');
+    const options = {hash: {year: "numeric", month: "long", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit"}}
+    const res = hI18n.helpers._dateAdd('December 17, 1995 02:00:00', 1, "year", options);
+    assert.equal('December 17, 1996 at 02:00:00', res);
+  });
 
 
   /****************************************
