@@ -197,13 +197,9 @@ Template usage:
 The i18next resource:
 
 ```javascript
-"en"
-:
-{
+"en" : {
   translation : {
-    "whatIsWhat"
-  :
-    "{{a}} is {{b}}."
+    "whatIsWhat" : "{{a}} is {{b}}."
   }
 }
 ```
@@ -215,19 +211,12 @@ The i18next resource:
 ```
 
 ```javascript
-"en"
-:
-{
+"en" : {
   translation : {
-    "keyWithCount"
-  :
-    "{{count}} item",
-      "keyWithCount_plural"
-  :
-    "{{count}} items"
+    "keyWithCount" : "{{count}} item", 
+    "keyWithCount_plural" : "{{count}} items"
   }
-}
-, ...
+}, 
 ```
 
 **Override globally selected language**
@@ -311,7 +300,35 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ---
 
-### _dateRel :tada: new in 1.7
+### _dateAdd :tada: new in 1.8
+
+Adds a time offset in a given unit to a date, returns the modified date.
+
+```
+{{_dateAdd "1996-12-17T00:00:00" 24 unit="hour"}}
+```
+
+
+
+---
+
+### _dateDiff
+
+Outputs the time difference between two given dates.
+
+```
+{{_dateDiff "1996-12-17T00:00:00" "1995-12-17T00:00:00" unit="year"}}
+```
+
+Will output for "en" &#x2192; **in 1 year**
+
+The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
+is made. A negative value refers to a past date. Allowed date input formats are similar to *_date*, options equal
+**_dateRel**. Default unit is `"hour"`.
+
+---
+
+### _dateRel 
 
 Outputs a string with a relative date statement, formatted according to the language specific conventions.
 
@@ -331,24 +348,7 @@ A positive number argument leads to a future event statement, a negative refers 
 are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`). 
 For a complete set of options (such as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
-Alternatively check this repo’s TS types
-in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
-
----
-
-### _dateDiff :tada: new in 1.7
-
-Outputs the time difference between two given dates.
-
-```
-{{_dateDiff "1996-12-17T00:00:00", "1995-12-17T00:00:00" unit="year"}}
-```
-
-Will output for "en" &#x2192; **in 1 year**
-
-The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
-is made. A negative value refers to a past date. Allowed date input formats are similar to *_date*, options equal
-**_dateRel**.
+Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ---
 

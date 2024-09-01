@@ -451,11 +451,10 @@
          *
          * @param dateInput
          * @param offset
-         * @param unit
          * @param options
          * @returns {string}
          */
-        function (dateInput, offset, unit, options) {
+        function (dateInput, offset, options) {
 
           if (typeof dateInput !== 'number' && typeof dateInput !== 'string')
             throw new Error('@ handlebars-i18n: invalid first argument "dateInput" was given for _dateAdd.');
@@ -465,9 +464,10 @@
 
           const date = __createDateObj(dateInput);
 
-          unit = unit || 'hour';
+          const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
+          opts.unit = opts.unit || 'hour';
 
-          switch (unit) {
+          switch (opts.unit) {
             case 'second':
             case 'seconds':
               date.setSeconds(date.getSeconds() + offset);
@@ -505,7 +505,6 @@
                 'Unit must be either "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year".');
           }
 
-          const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);
           return dateFormat.format(date);
         }
