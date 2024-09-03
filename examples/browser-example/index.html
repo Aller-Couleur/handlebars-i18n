@@ -242,9 +242,7 @@
             <code>{{{{raw}}}} {{_dateRel 7 unit="hour"}} {{{{/raw}}}}</code>
             <p>&#x2192; {{_dateRel -7 unit="hour"}}</p>
 
-            {{_dateAdd "1996-12-17" 24 unit="hour"}}
-
-            <p>&nbsp;</p><button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>`;
+            <button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>`;
 
         // -- Ignore this. It’s just a helper to display un-rendered {{handlebars code}} between the <code> Tags
         Handlebars.registerHelper('raw', function(options) {

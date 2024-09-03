@@ -359,8 +359,8 @@ Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/hand
 
 ### _num
 
-Outputs a formatted number according to the language specific conventions of number representation, e.g. *
-*4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
+Outputs a formatted number according to the language specific conventions of number representation, e.g. 
+**4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
 
 ```
 {{_num 4100000.8314 }}
@@ -383,8 +383,8 @@ Will output **3.14** for "**en**", but **3,14** for "**de**".
 
 ### _price
 
-Outputs a formatted currency string according to the language specific conventions of price representation, e.g. *
-*€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
+Outputs a formatted currency string according to the language specific conventions of price representation, e.g. 
+**€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
 
 ```
 {{_price 9999.99}}
@@ -455,6 +455,8 @@ Call a subset in template with the parameter format="custom-name", like:
 ```
 {{_date myDate format="year-only"}}
 ```
+
+Subsets must be defined per language, a subset for "all" is invalid.
 
 ### The lookup cascade
 
