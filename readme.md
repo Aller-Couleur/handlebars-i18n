@@ -28,16 +28,8 @@ If you use handlebars-i18n in a professional context, you could
 
 ## Install
 
-If you use version npm >= 7:
-
 ```bash
-$ npm i handlebars-i18n
-```
-
-For older versions do:
-
-```bash
-$ npm i handlebars-i18n handlebars@4.7.6 i18next@20.2.1 intl@1.2.5
+npm i handlebars-i18n
 ```
 
 ## Usage
@@ -147,7 +139,7 @@ Finally use in template:
 
 * returns for "en" &#x2192; **$1,200.99**
 
-## Further examples
+## Detailed examples
 
 :point_right: See the *examples folder* in the repo for more use cases and details.
 
