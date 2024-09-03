@@ -305,16 +305,21 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 Adds a time offset in a given unit to a date, returns the modified date.
 
 ```
-{{_dateAdd "1996-12-17T00:00:00" 24 unit="hour"}}
+{{_dateAdd "1996-12-17" 24 unit="hour"}}
 ```
 
+Will output for "en" &#x2192; **12/18/1996**
 
+The first argument is a date (see function **_date** for valid date inputs). The second argument is a time amount given 
+as number. The option **unit** specifies the time amount. Possible units
+are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`).
+Further options as for function **_date** can be applied.
 
 ---
 
 ### _dateDiff
 
-Outputs the time difference between two given dates.
+Outputs the relative time difference between two given dates.
 
 ```
 {{_dateDiff "1996-12-17T00:00:00" "1995-12-17T00:00:00" unit="year"}}
@@ -323,8 +328,8 @@ Outputs the time difference between two given dates.
 Will output for "en" &#x2192; **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
-is made. A negative value refers to a past date. Allowed date input formats are similar to *_date*, options equal
-**_dateRel**. Default unit is `"hour"`.
+is made. A negative value refers to a past date. (If no second argument is given, the default date is the present moment). 
+Allowed date input formats are similar to **_date**, options equal **_dateRel**. Default unit is `"hour"`.
 
 ---
 
