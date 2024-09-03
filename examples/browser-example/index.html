@@ -218,6 +218,22 @@
 
           <button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>
 
+            <h4>Date with positive time offset:</h4>
+            <code>{{{{raw}}}} {{_dateAdd "December 17, 1995" 24 unit="hour"}} {{{{/raw}}}}</code>
+            <p>&#x2192; {{_dateAdd "December 17, 1995 08:00:00" 24 unit="hour"}}</p>
+
+            <h4>Date with negative time offset:</h4>
+            <code>{{{{raw}}}} {{_dateAdd "December 17, 1995" -10 unit="day"}} {{{{/raw}}}}</code>
+            <p>&#x2192; {{_dateAdd "December 17, 1995" -10 unit="day"}}</p>
+
+            <h4>Relative difference between two dates:</h4>
+            <code>{{{{raw}}}} {{_dateDiff "1996-12-07T00:00:00" "1996-12-08T00:00:00" unit="day"}} {{{{/raw}}}}</code>
+            <p>&#x2192; {{_dateDiff "1996-12-07T00:00:00" "1996-12-08T00:00:00" unit="day"}}</p>
+
+            <h4>Relative difference between two dates with custom configuration (subset "date-rel-spec"):</h4>
+            <code>{{{{raw}}}} {{_dateDiff myDate "1995-12-17T00:00:00" format="date-rel-spec"}} {{{{/raw}}}}</code>
+            <p>&#x2192; {{_dateDiff myDate "1995-12-17T00:00:00" format="date-rel-spec"}}</p>
+
             <h4>Relative date event in the future:</h4>
             <code>{{{{raw}}}} {{_dateRel 7 unit="hour"}} {{{{/raw}}}}</code>
             <p>&#x2192; {{_dateRel 7 unit="hour"}}</p>
@@ -226,15 +242,7 @@
             <code>{{{{raw}}}} {{_dateRel 7 unit="hour"}} {{{{/raw}}}}</code>
             <p>&#x2192; {{_dateRel -7 unit="hour"}}</p>
 
-            <h4>Date difference:</h4>
-            <code>{{{{raw}}}} {{_dateDiff "1996-12-07T00:00:00" "1996-12-08T00:00:00" unit="day"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_dateDiff "1996-12-07T00:00:00" "1996-12-08T00:00:00" unit="day"}}</p>
-
-            <h4>Date difference by custom configuration (subset "date-rel-spec"):</h4>
-            <code>{{{{raw}}}} {{_dateDiff mydate "1995-12-17T00:00:00" format="date-rel-spec"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_dateDiff mydate "1995-12-17T00:00:00" format="date-rel-spec"}}</p>
-
-            <p>&nbsp;</p><button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>`;
+            <button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>`;
 
         // -- Ignore this. It’s just a helper to display un-rendered {{handlebars code}} between the <code> Tags
         Handlebars.registerHelper('raw', function(options) {

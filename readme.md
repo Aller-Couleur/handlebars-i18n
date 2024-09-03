@@ -28,16 +28,8 @@ If you use handlebars-i18n in a professional context, you could
 
 ## Install
 
-If you use version npm >= 7:
-
 ```bash
-$ npm i handlebars-i18n
-```
-
-For older versions do:
-
-```bash
-$ npm i handlebars-i18n handlebars@4.7.6 i18next@20.2.1 intl@1.2.5
+npm i handlebars-i18n
 ```
 
 ## Usage
@@ -147,7 +139,7 @@ Finally use in template:
 
 * returns for "en" &#x2192; **$1,200.99**
 
-## Further examples
+## Detailed examples
 
 :point_right: See the *examples folder* in the repo for more use cases and details.
 
@@ -197,13 +189,9 @@ Template usage:
 The i18next resource:
 
 ```javascript
-"en"
-:
-{
+"en" : {
   translation : {
-    "whatIsWhat"
-  :
-    "{{a}} is {{b}}."
+    "whatIsWhat" : "{{a}} is {{b}}."
   }
 }
 ```
@@ -215,19 +203,12 @@ The i18next resource:
 ```
 
 ```javascript
-"en"
-:
-{
+"en" : {
   translation : {
-    "keyWithCount"
-  :
-    "{{count}} item",
-      "keyWithCount_plural"
-  :
-    "{{count}} items"
+    "keyWithCount" : "{{count}} item", 
+    "keyWithCount_plural" : "{{count}} items"
   }
-}
-, ...
+}, 
 ```
 
 **Override globally selected language**
@@ -311,7 +292,40 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ---
 
-### _dateRel :tada: new in 1.7
+### _dateAdd :tada: new in 1.8
+
+Adds a time offset in a given unit to a date, returns the modified date.
+
+```
+{{_dateAdd "1996-12-17" 24 unit="hour"}}
+```
+
+Will output for "en" &#x2192; **12/18/1996**
+
+The first argument is a date (see function **_date** for valid date inputs). The second argument is a time amount given 
+as number. The option **unit** specifies the time amount. Possible units
+are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`).
+Further options as for function **_date** can be applied.
+
+---
+
+### _dateDiff
+
+Outputs the relative time difference between two given dates.
+
+```
+{{_dateDiff "1996-12-17T00:00:00" "1995-12-17T00:00:00" unit="year"}}
+```
+
+Will output for "en" &#x2192; **in 1 year**
+
+The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
+is made. A negative value refers to a past date. (If no second argument is given, the default date is the present moment). 
+Allowed date input formats are similar to **_date**, options equal **_dateRel**. Default unit is `"hour"`.
+
+---
+
+### _dateRel 
 
 Outputs a string with a relative date statement, formatted according to the language specific conventions.
 
@@ -331,31 +345,14 @@ A positive number argument leads to a future event statement, a negative refers 
 are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`). 
 For a complete set of options (such as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
-Alternatively check this repo’s TS types
-in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
-
----
-
-### _dateDiff :tada: new in 1.7
-
-Outputs the time difference between two given dates.
-
-```
-{{_dateDiff "1996-12-17T00:00:00", "1995-12-17T00:00:00" unit="year"}}
-```
-
-Will output for "en" &#x2192; **in 1 year**
-
-The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
-is made. A negative value refers to a past date. Allowed date input formats are similar to *_date*, options equal
-**_dateRel**.
+Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ---
 
 ### _num
 
-Outputs a formatted number according to the language specific conventions of number representation, e.g. *
-*4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
+Outputs a formatted number according to the language specific conventions of number representation, e.g. 
+**4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
 
 ```
 {{_num 4100000.8314 }}
@@ -378,8 +375,8 @@ Will output **3.14** for "**en**", but **3,14** for "**de**".
 
 ### _price
 
-Outputs a formatted currency string according to the language specific conventions of price representation, e.g. *
-*€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
+Outputs a formatted currency string according to the language specific conventions of price representation, e.g. 
+**€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
 
 ```
 {{_price 9999.99}}
@@ -450,6 +447,8 @@ Call a subset in template with the parameter format="custom-name", like:
 ```
 {{_date myDate format="year-only"}}
 ```
+
+Subsets must be defined per language, a subset for "all" is invalid.
 
 ### The lookup cascade
 
