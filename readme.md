@@ -28,20 +28,27 @@ If you use handlebars-i18n in a professional context, you could
 
 ## Install
 
-```bash
+```sh
 npm i handlebars-i18n
 ```
 
-## Usage
+## Import
 
-Usage within node environment:
+Import as commonJS within node environment:
 
 ```javascript
 const HandlebarsI18n = require("handlebars-i18n");
 HandlebarsI18n.init();
 ```
 
-Usage in web browser:
+With ES6 import syntax:
+
+```typescript
+import * as HandlebarsI18n from "handlebars-i18n";
+HandlebarsI18n.init();
+```
+
+Usage in web browser (old school):
 
 ```javascript
 <script src="handlebars.js"></script>
@@ -53,12 +60,9 @@ Usage in web browser:
 </script>
 ```
 
-With ES6 import syntax:
-
-```typescript
-import * as HandlebarsI18n from "handlebars-i18n";
-
-HandlebarsI18n.init();
+Via jsDelivr:
+```javascript
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.0/dist/handlebars-i18n.min.js"></script>
 ```
 
 ## Quick example
@@ -143,17 +147,17 @@ Finally use in template:
 
 :point_right: See the *examples folder* in the repo for more use cases and details.
 
-- Open `examples/browser-example/index.html` in your Web browser to see an implementation with a simple UI
-- Run `$ npm run example:js` in the console to get a very basic node example logged
-- Run `$ npm run example:ts` to compile and log a typescript example
+- Open `examples/browser-example/index.html` in your Web browser to see an implementation with a simple UI.
+- Run `npm run example:js` in the console to get a very basic node example logged.
+- Run `npm run example:ts` to compile and log a typescript example.
 
 ## Additional CLI Helper for Handlebars-i18n available :metal:
 
 Handlebars-i18n has its own command line
 interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli).
 
-```bash
-$ npm i handlebars-i18n-cli --save-dev
+```sh
+npm i handlebars-i18n-cli --save-dev
 ```
 
 Automatically extract translation strings from handlebars templates and generate i18next conform json files from it.
