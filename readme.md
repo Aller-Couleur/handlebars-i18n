@@ -8,13 +8,14 @@ the web browser. Supports Typescript.
 Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-![Node.js Version](https://img.shields.io/badge/Node.js-14.x-green)
+![Node.js version](https://img.shields.io/badge/node-%3E%3D14-brightgreen)
 [![Build](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/Aller-Couleur/handlebars-i18n/badge.svg?branch=master)](https://coveralls.io/github/Aller-Couleur/handlebars-i18n?branch=master)
 [![Code Climate](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n/badges/gpa.svg)](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n)
 [![Known Vulnerabilities](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)
 ![npm](https://img.shields.io/npm/dt/handlebars-i18n)
 ![npm](https://img.shields.io/npm/dm/handlebars-i18n)
+![GitHub stars](https://img.shields.io/github/stars/fwalzel/handlebars-i18n?style=social)
 
 ## License
 
@@ -28,20 +29,27 @@ If you use handlebars-i18n in a professional context, you could
 
 ## Install
 
-```bash
+```sh
 npm i handlebars-i18n
 ```
 
-## Usage
+## Import
 
-Usage within node environment:
+Import as commonJS within node environment:
 
 ```javascript
 const HandlebarsI18n = require("handlebars-i18n");
 HandlebarsI18n.init();
 ```
 
-Usage in web browser:
+With ES6 import syntax:
+
+```typescript
+import * as HandlebarsI18n from "handlebars-i18n";
+HandlebarsI18n.init();
+```
+
+Usage in web browser (old school):
 
 ```javascript
 <script src="handlebars.js"></script>
@@ -53,12 +61,9 @@ Usage in web browser:
 </script>
 ```
 
-With ES6 import syntax:
-
-```typescript
-import * as HandlebarsI18n from "handlebars-i18n";
-
-HandlebarsI18n.init();
+Via jsDelivr CDN:
+```javascript
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.0/dist/handlebars-i18n.min.js"></script>
 ```
 
 ## Quick example
@@ -143,17 +148,17 @@ Finally use in template:
 
 :point_right: See the *examples folder* in the repo for more use cases and details.
 
-- Open `examples/browser-example/index.html` in your Web browser to see an implementation with a simple UI
-- Run `$ npm run example:js` in the console to get a very basic node example logged
-- Run `$ npm run example:ts` to compile and log a typescript example
+- Open `examples/browser-example/index.html` in your Web browser to see an implementation with a simple UI.
+- Run `npm run example:js` in the console to get a very basic node example logged.
+- Run `npm run example:ts` to compile and log a typescript example.
 
 ## Additional CLI Helper for Handlebars-i18n available :metal:
 
 Handlebars-i18n has its own command line
 interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli).
 
-```bash
-$ npm i handlebars-i18n-cli --save-dev
+```sh
+npm i handlebars-i18n-cli --save-dev
 ```
 
 Automatically extract translation strings from handlebars templates and generate i18next conform json files from it.
@@ -514,8 +519,8 @@ HandlebarsI18n.init(null, i18nextCustom);
 
 ## Run tests
 
-```bash
-$ npm test
+```sh
+npm test
 ```
 
 ## Merci à vous
