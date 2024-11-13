@@ -8,13 +8,14 @@ the web browser. Supports Typescript.
 Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-![Node.js Version](https://img.shields.io/badge/Node.js-14.x-green)
+![Node.js version](https://img.shields.io/badge/node-%3E%3D14-brightgreen)
 [![Build](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/Aller-Couleur/handlebars-i18n/badge.svg?branch=master)](https://coveralls.io/github/Aller-Couleur/handlebars-i18n?branch=master)
 [![Code Climate](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n/badges/gpa.svg)](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n)
 [![Known Vulnerabilities](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)](https://snyk.io/test/github/Aller-Couleur/handlebars-i18n/badge.svg)
 ![npm](https://img.shields.io/npm/dt/handlebars-i18n)
 ![npm](https://img.shields.io/npm/dm/handlebars-i18n)
+![GitHub stars](https://img.shields.io/github/stars/fwalzel/handlebars-i18n?style=social)
 
 ## License
 
@@ -60,7 +61,7 @@ Usage in web browser (old school):
 </script>
 ```
 
-Via jsDelivr:
+Via jsDelivr CDN:
 ```javascript
 <script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.0/dist/handlebars-i18n.min.js"></script>
 ```
@@ -518,8 +519,8 @@ HandlebarsI18n.init(null, i18nextCustom);
 
 ## Run tests
 
-```bash
-$ npm test
+```sh
+npm test
 ```
 
 ## Merci à vous
