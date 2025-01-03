@@ -17,13 +17,8 @@ Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i1
 ![npm](https://img.shields.io/npm/dm/handlebars-i18n)
 ![GitHub stars](https://img.shields.io/github/stars/fwalzel/handlebars-i18n?style=social)
 
-## License
 
-Copyright (c) 2020–24 Florian Walzel,
-
-MIT License
-
-If you use handlebars-i18n in a professional context, you could
+If you use handlebars-i18n in a professional context, I’d be delighted if you 
 
 [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/fwalzel)
 
@@ -45,7 +40,7 @@ HandlebarsI18n.init();
 With ES6 import syntax:
 
 ```typescript
-import * as HandlebarsI18n from "handlebars-i18n";
+import HandlebarsI18n from "handlebars-i18n";
 HandlebarsI18n.init();
 ```
 
@@ -124,33 +119,33 @@ Finally use in template:
 <p> {{__ "phrase1"}} </p>
 ```
 
-* returns for "en" &#x2192; **What is good?**
+* output: en &#x2192; **What is good?** | de &#x2192; **Was ist gut?**
 
 ```
 <p> {{__ "phrase2" thing=myItem}} </p>
 ```
 
-* returns for "en" &#x2192; **handlebars-i18n is good.**
+* output: en &#x2192; **handlebars-i18n is good.** | de &#x2192; **handlebars-i18n ist gut.**
 
 ```
 <p> {{_date myDate}} </p>
 ```
 
-* returns for "en" &#x2192; **March 11, 2020, 4:24 AM**
+* output: en &#x2192; **March 11, 2020 at 3:24 AM** | de &#x2192; **11.3.2020, 03:24**
 
 ```
 <p> {{_price myPrice}} </p>
 ```
 
-* returns for "en" &#x2192; **$1,200.99**
+* output: en &#x2192; **$1,200.99** | de &#x2192; **1.200,99 $**
 
 ## Detailed examples
 
 :point_right: See the *examples folder* in the repo for more use cases and details.
 
-- Open `examples/browser-example/index.html` in your Web browser to see an implementation with a simple UI.
-- Run `npm run example:js` in the console to get a very basic node example logged.
-- Run `npm run example:ts` to compile and log a typescript example.
+- Open `examples/browser-example/index.html` in your web browser to see an implementation with a simple UI.
+- Prompt `npm run example:js` from the root of this repo to log a very basic node example to console.
+- Prompt `npm run example:ts` to compile and log a typescript example.
 
 ## Additional CLI Helper for Handlebars-i18n available :metal:
 
@@ -161,11 +156,11 @@ interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cl
 npm i handlebars-i18n-cli --save-dev
 ```
 
-Automatically extract translation strings from handlebars templates and generate i18next conform json files from it.
-Handlebars-i18n-cli also helps to keep[](https://) your translations up to date when changes are made in the templates
-over time.
+* programmatically extract/ update translation strings from handlebars templates and generate i18next conform
+  JSON files from it
+* automatic translation of i18next JSON via [DeepL’s](https://www.deepl.com/en/pro-api/) free API
 
-## API
+## Public Functions
 
 ### __
 
@@ -305,7 +300,7 @@ Adds a time offset in a given unit to a date, returns the modified date.
 {{_dateAdd "1996-12-17" 24 unit="hour"}}
 ```
 
-Will output for "en" &#x2192; **12/18/1996**
+* output: en &#x2192; **12/18/1996**
 
 The first argument is a date (see function **_date** for valid date inputs). The second argument is a time amount given 
 as number. The option **unit** specifies the time amount. Possible units
@@ -319,10 +314,9 @@ Further options as for function **_date** can be applied.
 Outputs the relative time difference between two given dates.
 
 ```
-{{_dateDiff "1996-12-17T00:00:00" "1995-12-17T00:00:00" unit="year"}}
+{{_dateDiff "1996-12-17" "1995-12-17" unit="year"}}
 ```
-
-Will output for "en" &#x2192; **in 1 year**
+* output: en &#x2192; **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
 is made. A negative value refers to a past date. (If no second argument is given, the default date is the present moment). 
@@ -338,13 +332,13 @@ Outputs a string with a relative date statement, formatted according to the lang
 {{_dateRel 7 unit="hour"}}
 ```
 
-Will output for "en" &#x2192; **in 7 hours**
+* output: en &#x2192;  **in 7 hours**
 
 ```
 {{_dateRel -7 unit="hour"}}
 ```
 
-Will output for "en" &#x2192; **7 hours ago**
+* output: en &#x2192;  **7 hours ago**
 
 A positive number argument leads to a future event statement, a negative refers to a past date. Possible units
 are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`). 
@@ -374,7 +368,7 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 {{_num 3.14159 maximumFractionDigits=2}}
 ```
 
-Will output **3.14** for "**en**", but **3,14** for "**de**".
+* output: en &#x2192; **3.14** | de &#x2192; **3,14**
 
 ---
 
@@ -522,6 +516,10 @@ HandlebarsI18n.init(null, i18nextCustom);
 ```sh
 npm test
 ```
+
+## License
+
+MIT License, Copyright (c) 2020–25 Florian Walzel
 
 ## Merci à vous
 
