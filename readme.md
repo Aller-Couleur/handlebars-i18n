@@ -350,8 +350,7 @@ Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/hand
 
 ### _num
 
-Outputs a formatted number according to the language specific conventions of number representation, e.g. 
-**4,100,000.8314** for "**en**", but **4.100.000,8314** for "**de**".
+Outputs a formatted number according to the language specific conventions of number representation.
 
 ```
 {{_num 4100000.8314 }}
@@ -374,8 +373,7 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ### _price
 
-Outputs a formatted currency string according to the language specific conventions of price representation, e.g. 
-**€9,999.99** for "**en**", but **9.999,99 €** for "**de**".
+Outputs a formatted currency string according to the language specific conventions of price representation.
 
 ```
 {{_price 9999.99}}
