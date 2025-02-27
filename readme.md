@@ -2,10 +2,7 @@
 
 `handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/)
 to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting**
-via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in
-the web browser. Supports Typescript.
-
-Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i18next.com/overview/supported-frameworks).
+via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser. handlebars-i18n is listed amongst i18next’s official [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![Node.js version](https://img.shields.io/badge/node-%3E%3D14-brightgreen)
@@ -18,9 +15,20 @@ Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i1
 ![GitHub stars](https://img.shields.io/github/stars/fwalzel/handlebars-i18n?style=social)
 
 
-If you use handlebars-i18n in a professional context, I’d be delighted if you 
+## Key Features & Advantages
+
+- lightweight and well tested
+- allows custom presets per language
+- supports Typescript
+- comes with an optional CLI for automatic Translations via DeepL
+
+
+## Please Support
+
+`handlebars-i18n` is free but not free of value. If you use handlebars-i18n in a professional context, I’d be delighted if you 
 
 [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/fwalzel)
+
 
 ## Install
 
@@ -58,10 +66,10 @@ Usage in web browser (old school):
 
 Via jsDelivr CDN:
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.0/dist/handlebars-i18n.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.1/dist/handlebars-i18n.min.js"></script>
 ```
 
-## Quick example
+## Quick Example
 
 Initialize i18next with your language strings and default settings:
 
@@ -162,7 +170,7 @@ npm i handlebars-i18n-cli --save-dev
 
 ## Public Functions
 
-### __
+### `__`
 
 Returns the phrase associated with the given key for the selected language. __ will take all options
 i18next’s [t-function](https://www.i18next.com/overview/api#t) would take.
@@ -221,7 +229,7 @@ Will output the contents for "**de**" even though other language is selected.
 
 ---
 
-### _locale
+### `_locale`
 
 Returns the shortcode of i18next’s currently selected language such as "**en**", "**de**", "**fi**", "**ja**" … etc.
 
@@ -231,7 +239,7 @@ Returns the shortcode of i18next’s currently selected language such as "**en**
 
 ---
 
-### localeIs
+### `localeIs`
 
 Checks a string against i18next’s currently selected language. Returns **true** or **false**.
 
@@ -241,7 +249,7 @@ Checks a string against i18next’s currently selected language. Returns **true*
 
 ---
 
-### _date
+### `_date`
 
 Outputs a formatted date according to the language specific conventions.
 
@@ -292,7 +300,7 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ---
 
-### _dateAdd :tada: new in 1.8
+### `_dateAdd` :tada: new in 1.8
 
 Adds a time offset in a given unit to a date, returns the modified date.
 
@@ -309,7 +317,7 @@ Further options as for function **_date** can be applied.
 
 ---
 
-### _dateDiff
+### `_dateDiff`
 
 Outputs the relative time difference between two given dates.
 
@@ -324,7 +332,7 @@ Allowed date input formats are similar to **_date**, options equal **_dateRel**.
 
 ---
 
-### _dateRel 
+### `_dateRel` 
 
 Outputs a string with a relative date statement, formatted according to the language specific conventions.
 
@@ -348,7 +356,7 @@ Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/hand
 
 ---
 
-### _num
+### `_num`
 
 Outputs a formatted number according to the language specific conventions of number representation.
 
@@ -371,7 +379,7 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ---
 
-### _price
+### `_price`
 
 Outputs a formatted currency string according to the language specific conventions of price representation.
 
@@ -519,12 +527,16 @@ npm test
 
 MIT License, Copyright (c) 2020–25 Florian Walzel
 
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request on GitHub.
+
 ## Merci à vous
 
 For your contribution, I would like to
 thank [@MickL](https://github.com/MickL), [@dargmuesli](https://github.com/dargmuesli), and [@DiefBell](DiefBell).
 
-## Note
+## Note on alternatives
 
 There is a *different* package named [handlebars-i18next](https://www.npmjs.com/package/handlebars-i18next)
 by [@jgonggrijp](https://github.com/jgonggrijp) which might also suit your needs. Cheers!
