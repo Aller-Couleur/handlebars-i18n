@@ -15,17 +15,17 @@ via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global
 ![GitHub stars](https://img.shields.io/github/stars/fwalzel/handlebars-i18n?style=social)
 
 
-## Key Features & Advantages
+## Key Features & Advantage
 
-- lightweight and well tested
-- allows custom presets per language
+- comes lightweight, well tested, and with detailed [examples](#-detailed-examples)
+- allows granular custom [presets](#generic-language-format-settings) per language
 - supports Typescript
-- comes with an optional CLI for automatic Translations via DeepL
+- has an optional [CLI](#additional-cli-helper-for-handlebars-i18n-available) for automatic Translations via DeepL
 
 
 ## Please Support
 
-`handlebars-i18n` is free but not free of value. If you use handlebars-i18n in a professional context, I’d be delighted if you 
+`handlebars-i18n` is free but not free of value. If you make serious use of handlebars-i18n, I’d be delighted if you 
 
 [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/fwalzel)
 
@@ -66,7 +66,7 @@ Usage in web browser (old school):
 
 Via jsDelivr CDN:
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.1/dist/handlebars-i18n.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.2/dist/handlebars-i18n.min.js"></script>
 ```
 
 ## Quick Example
@@ -147,7 +147,7 @@ Finally use in template:
 
 * output: en &#x2192; **$1,200.99** | de &#x2192; **1.200,99 $**
 
-## Detailed examples
+## Detailed Examples
 
 :point_right: See the *examples folder* in the repo for more use cases and details.
 
@@ -155,9 +155,9 @@ Finally use in template:
 - Prompt `npm run example:js` from the root of this repo to log a very basic node example to console.
 - Prompt `npm run example:ts` to compile and log a typescript example.
 
-## Additional CLI Helper for Handlebars-i18n available :metal:
+## Additional CLI Helper for Handlebars-i18n available
 
-Handlebars-i18n has its own command line
+:metal: Handlebars-i18n has its own command line
 interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli).
 
 ```sh
