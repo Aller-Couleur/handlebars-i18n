@@ -19,7 +19,7 @@ Handlebars-i18n is listed amongst i18next’s [framework helpers](https://www.i1
 
 ## License
 
-Copyright (c) 2020–24 Florian Walzel,
+Copyright (c) 2020–25 Florian Walzel,
 
 MIT License
 
