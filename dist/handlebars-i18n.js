@@ -386,7 +386,14 @@
          * @returns {*}
          */
         function (str, attributes) {
-          return new handlebars.SafeString((typeof (i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
+          const result = typeof (i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str;
+
+          // If the result is a string, wrap it for HTML safety.
+          if (typeof result === 'string')
+            return new handlebars.SafeString(result);
+
+          // Otherwise, it's an array or object, so return it directly for helpers like #each.
+          return result;
         }
       );
       handlebars.registerHelper('_locale',
@@ -502,7 +509,7 @@
               break;
             default:
               throw new Error('@ handlebars-i18n: invalid argument "unit" was given for _dateAdd.' +
-                'Unit must be either "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year".');
+                'Unit must be one of "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year".');
           }
 
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);

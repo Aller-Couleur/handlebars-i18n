@@ -15,7 +15,7 @@ via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global
 ![GitHub stars](https://img.shields.io/github/stars/fwalzel/handlebars-i18n?style=social)
 
 
-## Key Features & Advantage
+## Key Features & Advantages
 
 - comes lightweight, well tested, and with detailed [examples](#-detailed-examples)
 - allows granular custom [presets](#generic-language-format-settings) per language
