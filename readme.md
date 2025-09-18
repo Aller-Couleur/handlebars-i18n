@@ -63,7 +63,7 @@ Usage in web browser (old school):
 
 Via jsDelivr CDN:
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.0/dist/handlebars-i18n.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.3/dist/handlebars-i18n.min.js"></script>
 ```
 
 ## Quick example
