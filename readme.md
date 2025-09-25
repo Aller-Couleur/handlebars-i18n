@@ -1,6 +1,6 @@
 # handlebars-i18n
 
-`handlebars-i18n` adds the internationalization features of [i18next](https://www.i18next.com/)
+*What it is about:* `handlebars-i18n` adds the translation features of [i18next](https://www.i18next.com/)
 to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting**
 via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser. handlebars-i18n is listed amongst i18next’s official [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
@@ -91,7 +91,8 @@ i18next.init({
       }
     }
   },
-  lng: "en"
+  lng: "en",
+  compatibilityJSON: 'v2'
 });
 ```
 
@@ -103,7 +104,6 @@ let data = {
   myPrice: 1200.99,
   myDate: "2020-03-11T03:24:00"
 }
-
 ```
 
 Initialize handlebars-i18n:
@@ -123,29 +123,29 @@ HandlebarsI18n.configure([
 
 Finally use in template:
 
-```
+```hbs
 <p> {{__ "phrase1"}} </p>
 ```
 
-* output: en &#x2192; **What is good?** | de &#x2192; **Was ist gut?**
+* output: en → **What is good?** | de → **Was ist gut?**
 
-```
+```hbs
 <p> {{__ "phrase2" thing=myItem}} </p>
 ```
 
-* output: en &#x2192; **handlebars-i18n is good.** | de &#x2192; **handlebars-i18n ist gut.**
+* output: en → **handlebars-i18n is good.** | de → **handlebars-i18n ist gut.**
 
-```
+```hbs
 <p> {{_date myDate}} </p>
 ```
 
-* output: en &#x2192; **March 11, 2020 at 3:24 AM** | de &#x2192; **11.3.2020, 03:24**
+* output: en → **March 11, 2020 at 3:24 AM** | de → **11.3.2020, 03:24**
 
-```
+```hbs
 <p> {{_price myPrice}} </p>
 ```
 
-* output: en &#x2192; **$1,200.99** | de &#x2192; **1.200,99 $**
+* output: en → **\$1,200.99** | de → **1.200,99 $**
 
 ## Detailed Examples
 
@@ -172,17 +172,17 @@ npm i handlebars-i18n-cli --save-dev
 
 ### `__`
 
-Returns the phrase associated with the given key for the selected language. __ will take all options
+Returns the phrase associated with the given key for the selected language. `__` will take all options
 i18next’s [t-function](https://www.i18next.com/overview/api#t) would take.
 The primary key can be passed hard encoded in the template when written in quotes:
 
-```
+```hbs
 {{__ "keyToTranslationPhrase"}}
 ```
 
 … or it can be referenced via a handlebars variable:
 
-```
+```hbs
 {{__ keyFromHandlebarsData}}
 ```
 
@@ -190,7 +190,7 @@ The primary key can be passed hard encoded in the template when written in quote
 
 Template usage:
 
-```
+```hbs
 {{__ "whatIsWhat" a="Everything" b="fine"}}
 ```
 
@@ -206,7 +206,7 @@ The i18next resource:
 
 **Plurals**
 
-```
+```hbs
 {{__ "keyWithCount" count=8}}
 ```
 
@@ -219,21 +219,40 @@ The i18next resource:
 }, 
 ```
 
-**Override globally selected language**
+**Override the globally selected language**
 
-```
+```hbs
 {{__ "key1" lng="de"}}
 ```
 
-Will output the contents for "**de**" even though other language is selected.
+Will output the contents for `de` even though a different language is globally set.
+
+**Looping over an array (or object) of translations**
+
+```hbs
+<ul>
+  {{#each (__ "fruits")}}
+    <li>{{this}}</li>
+  {{/each}}
+</ul>
+```
+In this case the key `fruits` would contain an array of translation strings, like:
+
+```javascript
+en: {
+  translation: {
+    fruits: ["Apple", "Banana", "Cherry"]
+  }
+}
+```
 
 ---
 
 ### `_locale`
 
-Returns the shortcode of i18next’s currently selected language such as "**en**", "**de**", "**fi**", "**ja**" … etc.
+Returns the shortcode of i18next’s currently selected language such as `en`, `de`, `ja` … etc.
 
-```
+```hbs
 {{_locale}}
 ```
 
@@ -243,7 +262,7 @@ Returns the shortcode of i18next’s currently selected language such as "**en**
 
 Checks a string against i18next’s currently selected language. Returns **true** or **false**.
 
-```
+```hbs
 {{#if (localeIs "en")}} ... {{/if}}
 ```
 
@@ -253,37 +272,37 @@ Checks a string against i18next’s currently selected language. Returns **true*
 
 Outputs a formatted date according to the language specific conventions.
 
-```
+```hbs
 {{_date}}
 ```
 
 If called without argument the current date is returned. Any other input date can be passed as a conventional date
-string, a number (timestamp in milliseconds), or a date array. _date accepts all arguments
+string, a number (timestamp in milliseconds), or a date array. `_date` accepts all arguments
 Javascript’s [new Date()](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Date)
 constructor would accept.
 
 **Date argument given as date string:**
 
-```
+```hbs
 {{_date "2020-03-11T03:24:00"}}
 ```
 
 or
 
-```
+```hbs
 {{_date "December 17, 1995 03:24:00"}}
 ```
 
 **Date argument given as number (milliseconds since begin of unix epoch):**
 
-```
+```hbs
 {{_date 1583922952743}}
 ```
 
 **Date argument given as javascript date array** [year, monthIndex [, day [, hour [, minutes [,
 seconds [, milliseconds]]]]]]:
 
-```
+```hbs
 {{_date "[2012, 11, 20, 3, 0, 0]"}}
 ```
 
@@ -294,7 +313,7 @@ See [Intl DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScrip
 for your option arguments. Alternatively check this repo’s TS types
 in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
-```
+```hbs
 {{_date 1583922952743 year="2-digit" day="2-digit" timeZone="America/Los_Angeles"}}
 ```
 
@@ -304,16 +323,16 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 Adds a time offset in a given unit to a date, returns the modified date.
 
-```
+```hbs
 {{_dateAdd "1996-12-17" 24 unit="hour"}}
 ```
 
-* output: en &#x2192; **12/18/1996**
+* output: en → **12/18/1996**
 
-The first argument is a date (see function **_date** for valid date inputs). The second argument is a time amount given 
+The first argument is a date (see function `_date` for valid date inputs). The second argument is a time amount given 
 as number. The option **unit** specifies the time amount. Possible units
 are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`).
-Further options as for function **_date** can be applied.
+Further options as for function `_date` can be applied.
 
 ---
 
@@ -321,14 +340,14 @@ Further options as for function **_date** can be applied.
 
 Outputs the relative time difference between two given dates.
 
+```hbs
+{{_dateDiff "2000-12-17" "2001-12-17" unit="year"}}
 ```
-{{_dateDiff "1996-12-17" "1995-12-17" unit="year"}}
-```
-* output: en &#x2192; **in 1 year**
+* output: en → **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
 is made. A negative value refers to a past date. (If no second argument is given, the default date is the present moment). 
-Allowed date input formats are similar to **_date**, options equal **_dateRel**. Default unit is `"hour"`.
+Allowed date input formats are similar to `_date`, options equal `_dateRel`. Default unit is `"hour"`.
 
 ---
 
@@ -336,17 +355,17 @@ Allowed date input formats are similar to **_date**, options equal **_dateRel**.
 
 Outputs a string with a relative date statement, formatted according to the language specific conventions.
 
-```
+```hbs
 {{_dateRel 7 unit="hour"}}
 ```
 
-* output: en &#x2192;  **in 7 hours**
+* output: en → **in 7 hours**
 
-```
+```hbs
 {{_dateRel -7 unit="hour"}}
 ```
 
-* output: en &#x2192;  **7 hours ago**
+* output: en → **7 hours ago**
 
 A positive number argument leads to a future event statement, a negative refers to a past date. Possible units
 are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`). 
@@ -360,7 +379,7 @@ Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/hand
 
 Outputs a formatted number according to the language specific conventions of number representation.
 
-```
+```hbs
 {{_num 4100000.8314 }}
 ```
 
@@ -371,11 +390,11 @@ See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/
 for your option arguments. Alternatively check this repo’s TS types
 in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
-```
+```hbs
 {{_num 3.14159 maximumFractionDigits=2}}
 ```
 
-* output: en &#x2192; **3.14** | de &#x2192; **3,14**
+* output: en → **3.14** | de → **3,14**
 
 ---
 
@@ -383,7 +402,7 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 Outputs a formatted currency string according to the language specific conventions of price representation.
 
-```
+```hbs
 {{_price 9999.99}}
 ```
 
@@ -394,13 +413,13 @@ See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/
 for your option arguments. Alternatively check this repo’s TS types
 in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
-```
+```hbs
 {{_price 1000 currency="JPY" minimumFractionDigits=2}}
 ```
 
 ---
 
-## How to use HandlebarsI18n.configure method
+## How to use `HandlebarsI18n.configure` method
 
 ### Generic language format settings
 
@@ -411,7 +430,7 @@ all languages or only for specific languages.
 HandlebarsI18n.configure("all", "DateTimeFormat", {timeZone: "America/Los_Angeles"});
 ```
 
-First argument is the language shortcode or "**all**" for all languages. Second is the format option you want to
+First argument is the language shortcode or `"all"` for all languages. Second is the format option you want to
 address (`DateTimeFormat`, `RelativeTimeFormat`, `NumberFormat`, or `PriceFormat`). Third argument is the options object
 with the specific settings.
 
@@ -433,9 +452,9 @@ HandlebarsI18n.configure("all", "PriceFormat", {currency: "HKD", currencyDisplay
 
 You can also define specific subsets to be used in the template, i.e. if you want the date in different formats such as:
 
-- **2020** (year-only)
-- **11.3.2020** (standard-date)
-- **7:24:02** (time-only)
+- **2020** (`year-only`)
+- **11.3.2020** (`standard-date`)
+- **7:24:02** (`time-only`)
 
 To do this, define a 4th parameter with a custom name:
 
@@ -447,9 +466,9 @@ HandlebarsI18n.configure([
 ]);
 ```
 
-Call a subset in template with the parameter format="custom-name", like:
+Call a subset in template with the parameter `format="custom-name"`, like:
 
-```
+```hbs
 {{_date myDate format="year-only"}}
 ```
 
@@ -507,9 +526,9 @@ HandlebarsModified.registerHelper("foo", function () {
 HandlebarsI18n.init(HandlebarsModified);
 ```
 
-HandlebarsI18n will have your previously defined method **foo()** by now.
+HandlebarsI18n will have your previously defined method `foo` by now.
 
-The same can be done for a custom instance of i18next. Pass it as the second argument to the init function.
+The same can be done for a custom instance of i18next. Pass it as the second argument to the `init` function.
 
 ```javascript
 const i18nextCustom = require("i18next");

@@ -2,12 +2,11 @@
  * handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @date: 2024-08
  *
  * handlebars-i18n adds features for localization/
  * internationalization to handlebars.js
  *
- * Copyright (c) 2020-24 Florian Walzel, MIT License
+ * Copyright (c) 2020-25 Florian Walzel, MIT License
  *
  *********************************************************************/
 
