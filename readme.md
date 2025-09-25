@@ -66,7 +66,7 @@ Usage in web browser (old school):
 
 Via CDN:
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.3/dist/handlebars-i18n.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.9.0/dist/handlebars-i18n.min.js"></script>
 ```
 
 ## Quick Example
@@ -216,7 +216,7 @@ The i18next resource:
     "keyWithCount" : "{{count}} item", 
     "keyWithCount_plural" : "{{count}} items"
   }
-}, 
+}, ...
 ```
 
 **Override the globally selected language**
@@ -239,12 +239,18 @@ Will output the contents for `de` even though a different language is globally s
 In this case the key `fruits` would contain an array of translation strings, like:
 
 ```javascript
-en: {
-  translation: {
-    fruits: ["Apple", "Banana", "Cherry"]
-  }
+{
+  en: {
+    translation: {
+      fruits: ["Apple", "Banana", "Cherry"]
+    }
+  },
+  returnObjects: true
 }
 ```
+
+It is recommended to set `returnObjects` actively to `true` in the `i18next.init` object if you want to loop over 
+an array or objects of properties.
 
 ---
 
