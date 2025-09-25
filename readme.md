@@ -17,7 +17,7 @@ via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global
 
 ## Key Features & Advantages
 
-- comes lightweight, well tested, and with detailed [examples](#-detailed-examples)
+- handlebars-i18n comes lightweight, well tested, and with detailed [examples](#-detailed-examples)
 - allows granular custom [presets](#generic-language-format-settings) per language
 - supports Typescript
 - has an optional [CLI](#additional-cli-helper-for-handlebars-i18n-available) for automatic Translations via DeepL
@@ -38,17 +38,17 @@ npm i handlebars-i18n
 
 ## Import
 
-Import as commonJS within node environment:
-
-```javascript
-const HandlebarsI18n = require("handlebars-i18n");
-HandlebarsI18n.init();
-```
-
-With ES6 import syntax:
+Import with ES6 import syntax:
 
 ```typescript
 import HandlebarsI18n from "handlebars-i18n";
+HandlebarsI18n.init();
+```
+
+As commonJS within node environment:
+
+```javascript
+const HandlebarsI18n = require("handlebars-i18n");
 HandlebarsI18n.init();
 ```
 
@@ -64,7 +64,7 @@ Usage in web browser (old school):
 </script>
 ```
 
-Via jsDelivr CDN:
+Via CDN:
 ```javascript
 <script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.8.3/dist/handlebars-i18n.min.js"></script>
 ```
