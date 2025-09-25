@@ -20,14 +20,22 @@ describe('handlebars-i18n Tests', function () {
         translation: {
           'key1': 'What is good?',
           'key2': '{{what}} is {{adverb}}.',
-          'fruits': ["Apple", "Banana", "Cherry"]
+          'fruits': ["Apple", "Banana", "Cherry"],
+          'steps': [
+            { 'title': 'Step 1', 'text': 'Open the app' },
+            { 'title': 'Step 2', text: 'Click start' }
+          ]
         }
       },
       'de': {
         translation: {
           'key1': 'Was ist gut?',
           'key2': '{{what}} ist {{adverb}}.',
-          'fruits': ["Apfel", "Banane", "Kirsche"]
+          'fruits': ["Apfel", "Banane", "Kirsche"],
+          'steps': [
+            { 'title': 'Schritt 1', 'text': 'App öffnen' },
+            { 'title': 'Schritt 2', 'text': 'Klicke auf Start' }
+          ]
         }
       }
     },
