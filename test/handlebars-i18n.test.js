@@ -196,7 +196,7 @@ describe('handlebars-i18n Tests', function () {
     expect(output).to.contain("Cherry");
   });
 
-  /*it("__ should loop over array of objects with #each", () => {
+  it("__ should loop over array of objects with #each", () => {
     const template = Handlebars.compile(`
       <ol>
         {{#each (__ "steps")}}
@@ -208,10 +208,7 @@ describe('handlebars-i18n Tests', function () {
     const output = template({});
     expect(output).to.contain("<strong>Step 1</strong>: Open the app");
     expect(output).to.contain("<strong>Step 2</strong>: Click start");
-  });*/
-
-
-
+  });
 
 
   /****************************************

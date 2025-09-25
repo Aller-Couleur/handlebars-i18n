@@ -393,7 +393,7 @@
             : key;
 
           if (typeof result === "string") {
-            return new Handlebars.SafeString(result);
+            return new handlebars.SafeString(result);
           }
           return result;
         }
