@@ -2,12 +2,11 @@
  * handlebars-i18n.js
  *
  * @author: Florian Walzel
- * @date: 2024-08
  *
  * handlebars-i18n adds features for localization/
  * internationalization to handlebars.js
  *
- * Copyright (c) 2020-24 Florian Walzel, MIT License
+ * Copyright (c) 2020-25 Florian Walzel, MIT License
  *
  *********************************************************************/
 
@@ -381,12 +380,22 @@
          * use like: {{__ "key_name"}}
          * or with attributes: {{__ "key_with_count" count=7}}
          *
-         * @param str
-         * @param attributes
+         * @param key
+         * @param options
          * @returns {*}
          */
-        function (str, attributes) {
-          return new handlebars.SafeString((typeof (i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str));
+        function (key, options) {
+          const hash = options.hash || {};
+
+          // Force object/array return if needed
+          const result = (typeof i18next !== "undefined")
+            ? i18next.t(key, { ...hash, returnObjects: true })
+            : key;
+
+          if (typeof result === "string") {
+            return new handlebars.SafeString(result);
+          }
+          return result;
         }
       );
       handlebars.registerHelper('_locale',
@@ -502,7 +511,7 @@
               break;
             default:
               throw new Error('@ handlebars-i18n: invalid argument "unit" was given for _dateAdd.' +
-                'Unit must be either "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year".');
+                'Unit must be one of "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year".');
           }
 
           const dateFormat = new Intl.DateTimeFormat(i18next.language, opts);

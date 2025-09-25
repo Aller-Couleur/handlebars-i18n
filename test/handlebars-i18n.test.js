@@ -19,13 +19,23 @@ describe('handlebars-i18n Tests', function () {
       'en': {
         translation: {
           'key1': 'What is good?',
-          'key2': '{{what}} is {{adverb}}.'
+          'key2': '{{what}} is {{adverb}}.',
+          'fruits': ["Apple", "Banana", "Cherry"],
+          'steps': [
+            { 'title': 'Step 1', 'text': 'Open the app' },
+            { 'title': 'Step 2', text: 'Click start' }
+          ]
         }
       },
       'de': {
         translation: {
           'key1': 'Was ist gut?',
-          'key2': '{{what}} ist {{adverb}}.'
+          'key2': '{{what}} ist {{adverb}}.',
+          'fruits': ["Apfel", "Banane", "Kirsche"],
+          'steps': [
+            { 'title': 'Schritt 1', 'text': 'App öffnen' },
+            { 'title': 'Schritt 2', 'text': 'Klicke auf Start' }
+          ]
         }
       }
     },
@@ -175,6 +185,37 @@ describe('handlebars-i18n Tests', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers.__("key2", {hash: {what: "handlebarsI18next", adverb: "gut"}});
     assert.equal("handlebarsI18next ist gut.", res.string);
+  });
+
+  it("__ should loop over array of strings with #each", () => {
+    i18next.changeLanguage('en');
+    const template = Handlebars.compile(`
+      <ul>
+        {{#each (__ "fruits")}}
+          <li>{{this}}</li>
+        {{/each}}
+      </ul>
+    `);
+
+    const output = template({});
+    console.log(output);
+    expect(output).to.contain("Apple");
+    expect(output).to.contain("Banana");
+    expect(output).to.contain("Cherry");
+  });
+
+  it("__ should loop over array of objects with #each", () => {
+    const template = Handlebars.compile(`
+      <ol>
+        {{#each (__ "steps")}}
+          <li><strong>{{title}}</strong>: {{text}}</li>
+        {{/each}}
+      </ol>
+    `);
+
+    const output = template({});
+    expect(output).to.contain("<strong>Step 1</strong>: Open the app");
+    expect(output).to.contain("<strong>Step 2</strong>: Click start");
   });
 
 
