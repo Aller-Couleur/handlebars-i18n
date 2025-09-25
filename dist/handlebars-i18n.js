@@ -380,18 +380,21 @@
          * use like: {{__ "key_name"}}
          * or with attributes: {{__ "key_with_count" count=7}}
          *
-         * @param str
-         * @param attributes
+         * @param key
+         * @param options
          * @returns {*}
          */
-        function (str, attributes) {
-          const result = typeof (i18next) !== 'undefined' ? i18next.t(str, attributes.hash) : str;
+        function (key, options) {
+          const hash = options.hash || {};
 
-          // If the result is a string, wrap it for HTML safety.
-          if (typeof result === 'string')
-            return new handlebars.SafeString(result);
+          // Force object/array return if needed
+          const result = (typeof i18next !== "undefined")
+            ? i18next.t(key, { ...hash, returnObjects: true })
+            : key;
 
-          // Otherwise, it's an array or object, so return it directly for helpers like #each.
+          if (typeof result === "string") {
+            return new Handlebars.SafeString(result);
+          }
           return result;
         }
       );

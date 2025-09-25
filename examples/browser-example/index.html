@@ -53,7 +53,12 @@
                             'key2': '{{what}} is good.',
                             'key3WithCount': '{{count}} item',
                             'key3WithCount_plural': '{{count}} items',
-                            'key4': 'Selected Language is:'
+                            'key4': 'Selected Language is:',
+                            'fruits': ['Apple', 'Banana', 'Cherry'],
+                            'steps': [
+                                { 'title': 'Step 1', 'text': 'Open the app' },
+                                { 'title': 'Step 2', text: 'Click start' }
+                            ]
                         }
                     },
                     'de' : {
@@ -63,12 +68,18 @@
                             'key2': '{{what}} ist gut.',
                             'key3WithCount': '{{count}} Gegenstand',
                             'key3WithCount_plural': '{{count}} Gegenstände',
-                            'key4': 'Die ausgewählte Sprache ist:'
+                            'key4': 'Die ausgewählte Sprache ist:',
+                            'fruits': ['Apfel', 'Banane', 'Kirsche'],
+                            'steps': [
+                                { 'title': 'Schritt 1', 'text': 'App öffnen' },
+                                { 'title': 'Schritt 2', 'text': 'Klicke auf Start' }
+                            ]
                         }
                     }
                 },
                 lng : 'en',
-                compatibilityJSON: 'v2'
+                compatibilityJSON: 'v2', // important: defines the JSON standard for variable replacement
+                returnObjects: true // set to true if you want to loop over an array or objects of properties
             });
 
         // -- Handlebars' example data object
@@ -129,6 +140,16 @@
             <h4>Override language to use:</h4>
             <code>{{{{raw}}}} {{__ "key1" lng="de"}} {{{{/raw}}}}</code>
             <p>&#x2192; {{__ "key1" lng="de"}}</p>
+
+            <h4>Loop over Array of Translations:</h4>
+            <code>
+                {{{{raw}}}} {{#each (__ "fruits")}} {{this}} {{/each}} {{{{/raw}}}}
+            </code>
+            <p><ul>
+            {{#each (__ "fruits")}}
+                <li>{{this}}</li>
+            {{/each}}
+            </ul></p>
 
         <h3>Output selected language</h3>
 
