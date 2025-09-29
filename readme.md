@@ -2,7 +2,7 @@
 
 *What it is about:* `handlebars-i18n` adds the translation features of [i18next](https://www.i18next.com/)
 to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting**
-via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser. handlebars-i18n is listed amongst i18next’s official [framework helpers](https://www.i18next.com/overview/supported-frameworks).
+via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser. `handlebars-i18n` is listed amongst i18next’s official [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![Node.js version](https://img.shields.io/badge/node-%3E%3D14-brightgreen)
@@ -17,7 +17,7 @@ via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global
 
 ## Key Features & Advantages
 
-- handlebars-i18n comes lightweight, well tested, and with detailed [examples](#-detailed-examples)
+- handlebars-i18n comes lightweight, well tested, and with detailed [examples](#detailed-examples)
 - allows granular custom [presets](#generic-language-format-settings) per language
 - supports Typescript
 - has an optional [CLI](#additional-cli-helper-for-handlebars-i18n-available) for automatic Translations via DeepL
@@ -38,7 +38,7 @@ npm i handlebars-i18n
 
 ## Import
 
-Import with ES6 import syntax:
+Import with ES6 syntax:
 
 ```typescript
 import HandlebarsI18n from "handlebars-i18n";
@@ -157,7 +157,7 @@ Finally use in template:
 
 ## Additional CLI Helper for Handlebars-i18n available
 
-:metal: Handlebars-i18n has its own command line
+:metal: `handlebars-i18n` has its own command line
 interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli).
 
 ```sh
