@@ -168,13 +168,13 @@ npm i handlebars-i18n-cli --save-dev
   JSON files from it
 * automatic translation of i18next JSON via [DeepL’s](https://www.deepl.com/en/pro-api/) free API
 
-## Public Functions
+## Template Functions
 
 ### `__`
 
 Returns the phrase associated with the given key for the selected language. `__` will take all options
 i18next’s [t-function](https://www.i18next.com/overview/api#t) would take.
-The primary key can be passed hard encoded in the template when written in quotes:
+The key can be passed hard encoded in the template when written in quotes:
 
 ```hbs
 {{__ "keyToTranslationPhrase"}}
@@ -203,6 +203,8 @@ The i18next resource:
   }
 }
 ```
+
+* output: en → **Everything is fine.**
 
 **Plurals**
 
@@ -527,7 +529,7 @@ it instead of the generic Handlebars object like so:
 ```javascript
 const HandlebarsModified = require("handlebars");
 HandlebarsModified.registerHelper("foo", function () {
-  return "what you want"
+  return "bar"
 });
 HandlebarsI18n.init(HandlebarsModified);
 ```
