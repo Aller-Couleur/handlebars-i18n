@@ -10,6 +10,8 @@
  *
  *********************************************************************/
 
+import handlebars from "handlebars";
+
 (function (root, factory) {
 
   if (typeof exports === 'object' && typeof module === 'object') {
@@ -418,6 +420,18 @@
          */
         function (language) {
           return i18next.language === language;
+        }
+      );
+      handlebars.registerHelper('_keyExists',
+        /**
+         * checks if a translation key exists
+         * use like: {{#if (_keyExists "myKey")}} {{__ "myKey"}} {{/if}}
+         *
+         * @param {string} key - The translation key to check
+         * @returns {boolean}
+         */
+        function (key) {
+          return i18next.exists(key);
         }
       );
       handlebars.registerHelper('_date',
