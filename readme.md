@@ -324,7 +324,7 @@ seconds [, milliseconds]]]]]]:
 {{_date "[2012, 11, 20, 3, 0, 0]"}}
 ```
 
-**Additional arguments for formatting**
+**Additional arguments for formatting:**
 
 You can add multiple arguments for individual formatting.
 See [Intl DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
@@ -401,7 +401,7 @@ Outputs a formatted number according to the language specific conventions of num
 {{_num 3.14159}}
 ```
 
-**Additional arguments for formatting**
+**Additional arguments for formatting:**
 
 You can add multiple arguments for individual formatting.
 See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
@@ -424,7 +424,7 @@ Outputs a formatted currency string according to the language specific conventio
 {{_price 9999.99}}
 ```
 
-**Additional arguments for formatting**
+**Additional arguments for formatting:**
 
 You can add multiple arguments for individual currency formatting.
 See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
@@ -452,7 +452,7 @@ First argument is the language shortcode or `"all"` for all languages. Second is
 address (`DateTimeFormat`, `RelativeTimeFormat`, `NumberFormat`, or `PriceFormat`). Third argument is the options object
 with the specific settings.
 
-Examples for generic settings:
+**Examples for generic settings:**
 
 ```javascript
 HandlebarsI18n.configure("all", "RelativeTimeFormat", {style: "long", unit: "second"});
