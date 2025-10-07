@@ -398,7 +398,7 @@ Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/hand
 Outputs a formatted number according to the language specific conventions of number representation.
 
 ```hbs
-{{_num 4100000.8314 }}
+{{_num 3.14159}}
 ```
 
 **Additional arguments for formatting**
