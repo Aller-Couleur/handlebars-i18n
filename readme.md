@@ -256,7 +256,7 @@ an array or objects of properties.
 
 ---
 
-### `_locale`
+### `_keyExists`
 
 Checks if a i18next translation key exists. Returns `true`* or `false`.
 
