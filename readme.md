@@ -278,7 +278,7 @@ Returns the shortcode of i18next’s currently selected language such as `en`, `
 
 ### `localeIs`
 
-Checks a string against i18next’s currently selected language. Returns `true`* or `false`.
+Checks a string against i18next’s currently selected language. Returns `true` or `false`.
 
 ```hbs
 {{#if (localeIs "en")}} ... {{/if}}
