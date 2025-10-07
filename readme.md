@@ -258,6 +258,16 @@ an array or objects of properties.
 
 ### `_locale`
 
+Checks if a i18next translation key exists. Returns `true`* or `false`.
+
+```hbs
+{{#if (_keyExists "myKey")}} {{__ "myKey"}} {{/if}}
+```
+
+---
+
+### `_locale`
+
 Returns the shortcode of i18next’s currently selected language such as `en`, `de`, `ja` … etc.
 
 ```hbs
@@ -268,7 +278,7 @@ Returns the shortcode of i18next’s currently selected language such as `en`, `
 
 ### `localeIs`
 
-Checks a string against i18next’s currently selected language. Returns **true** or **false**.
+Checks a string against i18next’s currently selected language. Returns `true`* or `false`.
 
 ```hbs
 {{#if (localeIs "en")}} ... {{/if}}
@@ -327,7 +337,7 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ---
 
-### `_dateAdd` :tada: new in 1.8
+### `_dateAdd`
 
 Adds a time offset in a given unit to a date, returns the modified date.
 
