@@ -389,7 +389,7 @@
 
           // Force object/array return if needed
           const result = (typeof i18next !== "undefined")
-            ? i18next.t(key, { ...hash, returnObjects: true })
+            ? i18next.t(key, {...hash, returnObjects: true})
             : key;
 
           if (typeof result === "string") {
@@ -555,6 +555,7 @@
       );
       handlebars.registerHelper('_dateDiff',
         /**
+         * Outputs the relative time difference between two given dates in the requested unit.
          *
          * @param dateInputA
          * @param dateInputB
