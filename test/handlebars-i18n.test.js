@@ -220,6 +220,30 @@ describe('handlebars-i18n Tests', function () {
 
 
   /****************************************
+   Tests against function keyExists
+   ****************************************/
+
+  it('should return true for an existing translation key', function() {
+    const exists = hI18n.helpers.keyExists('key1');
+    assert.isTrue(exists);
+  });
+
+  it('should return false for a non-existing translation key', function() {
+    const exists = hI18n.helpers.keyExists('nonExistentKey');
+    assert.isFalse(exists);
+  });
+
+  it('should return false when called with no parameters', function() {
+    const exists = hI18n.helpers.keyExists();
+    assert.isFalse(exists);
+  });
+
+  it('should return false when called with null or undefined', function() {
+    assert.isFalse(hI18n.helpers.keyExists(null));
+    assert.isFalse(hI18n.helpers.keyExists(undefined));
+  });
+
+  /****************************************
    Tests against function _date
    ****************************************/
 
