@@ -398,6 +398,7 @@
           return result;
         }
       );
+
       handlebars.registerHelper('_locale',
         /**
          * echos the current language
