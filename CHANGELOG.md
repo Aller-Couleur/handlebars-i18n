@@ -47,7 +47,7 @@
 
 ### Bug Fixes
 
-* it() in line 72 in handlebars-i18n.test.js ([88049f9](https://github.com/fwalzel/handlebars-i18n/commit/88049f94c7dbf72ee58b713e0a3ab494a4cde28f))
+* it() in line 72 in handlebars-i18n.test.mjs ([88049f9](https://github.com/fwalzel/handlebars-i18n/commit/88049f94c7dbf72ee58b713e0a3ab494a4cde28f))
 * **release:** schedule release ([052f0e1](https://github.com/fwalzel/handlebars-i18n/commit/052f0e1e5cbae779060fe45c604fc97bf0b1c34f))
 
 

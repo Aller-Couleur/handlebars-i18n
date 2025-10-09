@@ -256,12 +256,12 @@ an array or objects of properties.
 
 ---
 
-### `_keyExists`
+### `keyExists`
 
 Checks if a i18next translation key exists. Returns `true` or `false`.
 
 ```hbs
-{{#if (_keyExists "myKey")}} {{__ "myKey"}} {{/if}}
+{{#if (keyExists "myKey")}} {{__ "myKey"}} {{/if}}
 ```
 
 ---

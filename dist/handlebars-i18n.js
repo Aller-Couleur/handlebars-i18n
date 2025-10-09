@@ -391,7 +391,7 @@ import handlebars from "handlebars";
 
           // Force object/array return if needed
           const result = (typeof i18next !== "undefined")
-            ? i18next.t(key, { ...hash, returnObjects: true })
+            ? i18next.t(key, {...hash, returnObjects: true})
             : key;
 
           if (typeof result === "string") {
@@ -400,10 +400,10 @@ import handlebars from "handlebars";
           return result;
         }
       );
-      handlebars.registerHelper('_keyExists',
+      handlebars.registerHelper('keyExists',
         /**
          * checks if a translation key exists
-         * use like: {{#if (_keyExists "myKey")}} {{__ "myKey"}} {{/if}}
+         * use like: {{#if (keyExists "myKey")}} {{__ "myKey"}} {{/if}}
          *
          * @param {string} key - The translation key to check
          * @returns {boolean}
