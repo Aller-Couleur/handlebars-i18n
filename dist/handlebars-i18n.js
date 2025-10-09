@@ -398,7 +398,18 @@
           return result;
         }
       );
-
+      handlebars.registerHelper('keyExists',
+        /**
+         * checks if a translation key exists
+         * use like: {{#if (keyExists "myKey")}} {{__ "myKey"}} {{/if}}
+         *
+         * @param {string} key - The translation key to check
+         * @returns {boolean}
+         */
+        function (key) {
+          return i18next.exists(key);
+        }
+      );
       handlebars.registerHelper('_locale',
         /**
          * echos the current language
