@@ -389,13 +389,25 @@
 
           // Force object/array return if needed
           const result = (typeof i18next !== "undefined")
-            ? i18next.t(key, { ...hash, returnObjects: true })
+            ? i18next.t(key, {...hash, returnObjects: true})
             : key;
 
           if (typeof result === "string") {
             return new handlebars.SafeString(result);
           }
           return result;
+        }
+      );
+      handlebars.registerHelper('keyExists',
+        /**
+         * checks if a translation key exists
+         * use like: {{#if (keyExists "myKey")}} {{__ "myKey"}} {{/if}}
+         *
+         * @param {string} key - The translation key to check
+         * @returns {boolean}
+         */
+        function (key) {
+          return i18next.exists(key);
         }
       );
       handlebars.registerHelper('_locale',
@@ -543,6 +555,7 @@
       );
       handlebars.registerHelper('_dateDiff',
         /**
+         * Outputs the relative time difference between two given dates in the requested unit.
          *
          * @param dateInputA
          * @param dateInputB

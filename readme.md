@@ -2,7 +2,7 @@
 
 *What it is about:* `handlebars-i18n` adds the translation features of [i18next](https://www.i18next.com/)
 to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting**
-via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser. handlebars-i18n is listed amongst i18next’s official [framework helpers](https://www.i18next.com/overview/supported-frameworks).
+via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser. `handlebars-i18n` is listed amongst i18next’s official [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 ![Node.js version](https://img.shields.io/badge/node-%3E%3D14-brightgreen)
@@ -17,7 +17,7 @@ via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global
 
 ## Key Features & Advantages
 
-- handlebars-i18n comes lightweight, well tested, and with detailed [examples](#-detailed-examples)
+- handlebars-i18n comes lightweight, well tested, and with detailed [examples](#detailed-examples)
 - allows granular custom [presets](#generic-language-format-settings) per language
 - supports Typescript
 - has an optional [CLI](#additional-cli-helper-for-handlebars-i18n-available) for automatic Translations via DeepL
@@ -25,7 +25,7 @@ via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global
 
 ## Please Support
 
-`handlebars-i18n` is free but not free of value. If you make serious use of handlebars-i18n, I’d be delighted if you 
+`handlebars-i18n` is free but not free of value. If you make serious use of handlebars-i18n, I’d be delighted if you
 
 [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/fwalzel)
 
@@ -38,7 +38,7 @@ npm i handlebars-i18n
 
 ## Import
 
-Import with ES6 import syntax:
+Import with ES6 syntax:
 
 ```typescript
 import HandlebarsI18n from "handlebars-i18n";
@@ -66,7 +66,7 @@ Usage in web browser (old school):
 
 Via CDN:
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.9.0/dist/handlebars-i18n.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.0/dist/handlebars-i18n.min.js"></script>
 ```
 
 ## Quick Example
@@ -157,7 +157,7 @@ Finally use in template:
 
 ## Additional CLI Helper for Handlebars-i18n available
 
-:metal: Handlebars-i18n has its own command line
+:metal: `handlebars-i18n` has its own command line
 interface [handlebars-i18n-cli](https://www.npmjs.com/package/handlebars-i18n-cli).
 
 ```sh
@@ -168,13 +168,13 @@ npm i handlebars-i18n-cli --save-dev
   JSON files from it
 * automatic translation of i18next JSON via [DeepL’s](https://www.deepl.com/en/pro-api/) free API
 
-## Public Functions
+## Template Functions
 
 ### `__`
 
 Returns the phrase associated with the given key for the selected language. `__` will take all options
 i18next’s [t-function](https://www.i18next.com/overview/api#t) would take.
-The primary key can be passed hard encoded in the template when written in quotes:
+The key can be passed hard encoded in the template when written in quotes:
 
 ```hbs
 {{__ "keyToTranslationPhrase"}}
@@ -203,6 +203,8 @@ The i18next resource:
   }
 }
 ```
+
+* output: en → **Everything is fine.**
 
 **Plurals**
 
@@ -249,8 +251,18 @@ In this case the key `fruits` would contain an array of translation strings, lik
 }
 ```
 
-It is recommended to set `returnObjects` actively to `true` in the `i18next.init` object if you want to loop over 
+It is recommended to set `returnObjects` actively to `true` in the `i18next.init` object if you want to loop over
 an array or objects of properties.
+
+---
+
+### `keyExists`
+
+Checks if a i18next translation key exists. Returns `true` or `false`.
+
+```hbs
+{{#if (keyExists "myKey")}} {{__ "myKey"}} {{/if}}
+```
 
 ---
 
@@ -266,7 +278,7 @@ Returns the shortcode of i18next’s currently selected language such as `en`, `
 
 ### `localeIs`
 
-Checks a string against i18next’s currently selected language. Returns **true** or **false**.
+Checks a string against i18next’s currently selected language. Returns `true` or `false`.
 
 ```hbs
 {{#if (localeIs "en")}} ... {{/if}}
@@ -312,7 +324,7 @@ seconds [, milliseconds]]]]]]:
 {{_date "[2012, 11, 20, 3, 0, 0]"}}
 ```
 
-**Additional arguments for formatting**
+**Additional arguments for formatting:**
 
 You can add multiple arguments for individual formatting.
 See [Intl DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat)
@@ -325,7 +337,7 @@ in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
 
 ---
 
-### `_dateAdd` :tada: new in 1.8
+### `_dateAdd`
 
 Adds a time offset in a given unit to a date, returns the modified date.
 
@@ -335,7 +347,7 @@ Adds a time offset in a given unit to a date, returns the modified date.
 
 * output: en → **12/18/1996**
 
-The first argument is a date (see function `_date` for valid date inputs). The second argument is a time amount given 
+The first argument is a date (see function `_date` for valid date inputs). The second argument is a time amount given
 as number. The option **unit** specifies the time amount. Possible units
 are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`).
 Further options as for function `_date` can be applied.
@@ -344,7 +356,7 @@ Further options as for function `_date` can be applied.
 
 ### `_dateDiff`
 
-Outputs the relative time difference between two given dates.
+Outputs the relative time difference between two given dates in the requested unit.
 
 ```hbs
 {{_dateDiff "2000-12-17" "2001-12-17" unit="year"}}
@@ -352,12 +364,12 @@ Outputs the relative time difference between two given dates.
 * output: en → **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
-is made. A negative value refers to a past date. (If no second argument is given, the default date is the present moment). 
+is made. A negative value refers to a past date. (If no second argument is given, the default date is the present moment).
 Allowed date input formats are similar to `_date`, options equal `_dateRel`. Default unit is `"hour"`.
 
 ---
 
-### `_dateRel` 
+### `_dateRel`
 
 Outputs a string with a relative date statement, formatted according to the language specific conventions.
 
@@ -374,7 +386,7 @@ Outputs a string with a relative date statement, formatted according to the lang
 * output: en → **7 hours ago**
 
 A positive number argument leads to a future event statement, a negative refers to a past date. Possible units
-are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`). 
+are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`).
 For a complete set of options (such as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
 Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
@@ -386,10 +398,10 @@ Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/hand
 Outputs a formatted number according to the language specific conventions of number representation.
 
 ```hbs
-{{_num 4100000.8314 }}
+{{_num 3.14159}}
 ```
 
-**Additional arguments for formatting**
+**Additional arguments for formatting:**
 
 You can add multiple arguments for individual formatting.
 See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
@@ -412,7 +424,7 @@ Outputs a formatted currency string according to the language specific conventio
 {{_price 9999.99}}
 ```
 
-**Additional arguments for formatting**
+**Additional arguments for formatting:**
 
 You can add multiple arguments for individual currency formatting.
 See [Intl NumberFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat)
@@ -440,7 +452,7 @@ First argument is the language shortcode or `"all"` for all languages. Second is
 address (`DateTimeFormat`, `RelativeTimeFormat`, `NumberFormat`, or `PriceFormat`). Third argument is the options object
 with the specific settings.
 
-Examples for generic settings:
+**Examples for generic settings:**
 
 ```javascript
 HandlebarsI18n.configure("all", "RelativeTimeFormat", {style: "long", unit: "second"});
@@ -527,7 +539,7 @@ it instead of the generic Handlebars object like so:
 ```javascript
 const HandlebarsModified = require("handlebars");
 HandlebarsModified.registerHelper("foo", function () {
-  return "what you want"
+  return "bar"
 });
 HandlebarsI18n.init(HandlebarsModified);
 ```
