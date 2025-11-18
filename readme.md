@@ -356,7 +356,7 @@ Further options as for function `_date` can be applied.
 
 ### `_dateDiff`
 
-Outputs the relative time difference between two given dates in the requested unit.
+Outputs the time difference between two given dates in the requested unit.
 
 ```hbs
 {{_dateDiff "2000-12-17" "2001-12-17" unit="year"}}
