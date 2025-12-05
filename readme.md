@@ -66,7 +66,7 @@ Usage in web browser (old school):
 
 Via CDN:
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.0/dist/handlebars-i18n.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.1/dist/handlebars-i18n.min.js"></script>
 ```
 
 ## Quick Example
@@ -349,14 +349,14 @@ Adds a time offset in a given unit to a date, returns the modified date.
 
 The first argument is a date (see function `_date` for valid date inputs). The second argument is a time amount given
 as number. The option **unit** specifies the time amount. Possible units
-are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`).
+are `second` | `minute` | `hour` | `day` | `week` | `month` | `quarter` | `year` (default is `hour`).
 Further options as for function `_date` can be applied.
 
 ---
 
 ### `_dateDiff`
 
-Outputs the relative time difference between two given dates in the requested unit.
+Outputs the time difference between two given dates in the requested unit.
 
 ```hbs
 {{_dateDiff "2000-12-17" "2001-12-17" unit="year"}}
@@ -365,7 +365,7 @@ Outputs the relative time difference between two given dates in the requested un
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
 is made. A negative value refers to a past date. (If no second argument is given, the default date is the present moment).
-Allowed date input formats are similar to `_date`, options equal `_dateRel`. Default unit is `"hour"`.
+Allowed date input formats are similar to `_date`, options equal `_dateRel`. Default unit is `hour`.
 
 ---
 
@@ -386,7 +386,7 @@ Outputs a string with a relative date statement, formatted according to the lang
 * output: en → **7 hours ago**
 
 A positive number argument leads to a future event statement, a negative refers to a past date. Possible units
-are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`).
+are `second` | `minute` | `hour` | `day` | `week` | `month` | `quarter` | `year` (default is `hour`).
 For a complete set of options (such as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
 Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
