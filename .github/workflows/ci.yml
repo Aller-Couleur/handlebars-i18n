@@ -1,10 +1,7 @@
-name: CI
+name: CI Build (manual)
 
 on:
-  pull_request:
-  push:
-  release:
-    types: [published]
+  workflow_dispatch:
 
 env:
   IMAGE_ID: ${{ github.repository }}

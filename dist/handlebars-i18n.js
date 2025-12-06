@@ -557,6 +557,7 @@ import handlebars from "handlebars";
       );
       handlebars.registerHelper('_dateDiff',
         /**
+         * Outputs the relative time difference between two given dates in the requested unit.
          *
          * @param dateInputA
          * @param dateInputB

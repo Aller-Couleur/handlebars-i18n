@@ -25,7 +25,7 @@ via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global
 
 ## Please Support
 
-`handlebars-i18n` is free but not free of value. If you make serious use of handlebars-i18n, I’d be delighted if you 
+`handlebars-i18n` is free but not free of value. If you make serious use of handlebars-i18n, I’d be delighted if you
 
 [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/fwalzel)
 
@@ -66,7 +66,7 @@ Usage in web browser (old school):
 
 Via CDN:
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.9.0/dist/handlebars-i18n.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.1/dist/handlebars-i18n.min.js"></script>
 ```
 
 ## Quick Example
@@ -251,7 +251,7 @@ In this case the key `fruits` would contain an array of translation strings, lik
 }
 ```
 
-It is recommended to set `returnObjects` actively to `true` in the `i18next.init` object if you want to loop over 
+It is recommended to set `returnObjects` actively to `true` in the `i18next.init` object if you want to loop over
 an array or objects of properties.
 
 ---
@@ -347,9 +347,9 @@ Adds a time offset in a given unit to a date, returns the modified date.
 
 * output: en → **12/18/1996**
 
-The first argument is a date (see function `_date` for valid date inputs). The second argument is a time amount given 
+The first argument is a date (see function `_date` for valid date inputs). The second argument is a time amount given
 as number. The option **unit** specifies the time amount. Possible units
-are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`).
+are `second` | `minute` | `hour` | `day` | `week` | `month` | `quarter` | `year` (default is `hour`).
 Further options as for function `_date` can be applied.
 
 ---
@@ -364,12 +364,12 @@ Outputs the time difference between two given dates in the requested unit.
 * output: en → **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
-is made. A negative value refers to a past date. (If no second argument is given, the default date is the present moment). 
-Allowed date input formats are similar to `_date`, options equal `_dateRel`. Default unit is `"hour"`.
+is made. A negative value refers to a past date. (If no second argument is given, the default date is the present moment).
+Allowed date input formats are similar to `_date`, options equal `_dateRel`. Default unit is `hour`.
 
 ---
 
-### `_dateRel` 
+### `_dateRel`
 
 Outputs a string with a relative date statement, formatted according to the language specific conventions.
 
@@ -386,7 +386,7 @@ Outputs a string with a relative date statement, formatted according to the lang
 * output: en → **7 hours ago**
 
 A positive number argument leads to a future event statement, a negative refers to a past date. Possible units
-are `"second"` | `"minute"` | `"hour"` | `"day"` | `"week"` | `"month"` | `"quarter"` |`"year"` (default is `"hour"`). 
+are `second` | `minute` | `hour` | `day` | `week` | `month` | `quarter` | `year` (default is `hour`).
 For a complete set of options (such as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
 Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
