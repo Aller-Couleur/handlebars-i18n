@@ -10,7 +10,6 @@
  *
  *********************************************************************/
 
-import handlebars from "handlebars";
 
 (function (root, factory) {
 
