@@ -10,7 +10,13 @@ const expect = require('chai').expect;
 
 const Handlebars = require('handlebars');
 const i18next = require('i18next');
-const HandlebarsI18n = require('../dist/handlebars-i18n');
+const HandlebarsI18n = require('../dist/handlebars-i18n.js');
+/*before(async () => {
+  const mod = await import('../dist/handlebars-i18n.js');
+  HandlebarsI18n = mod.default || mod; // ✅ Works in both CJS and ESM
+});*/
+
+console.log(HandlebarsI18n);
 
 describe('handlebars-i18n Tests', function () {
 
