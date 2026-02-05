@@ -562,7 +562,7 @@ npm test
 
 ## License
 
-MIT License, Copyright (c) 2020–25 Florian Walzel
+MIT License, Copyright (c) 2020–26 Florian Walzel
 
 ## Contributing
 
