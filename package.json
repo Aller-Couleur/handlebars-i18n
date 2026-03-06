@@ -1,6 +1,6 @@
 {
   "name": "handlebars-i18n",
-  "version": "1.10.3",
+  "version": "1.10.4",
   "description": "handlebars-i18n adds internationalization to handlebars.js using i18next and Intl.",
   "main": "dist/handlebars-i18n.js",
   "types": "dist/handlebars-i18n.d.ts",
@@ -56,7 +56,7 @@
     "gulp-uglify": "3.0.2",
     "gulp-uglify-es": "3.0.0",
     "html-entities": "^2.6.0",
-    "mocha": "11.7.5",
+    "mocha": "^11.3.0",
     "mocha-lcov-reporter": "^1.3.0",
     "nyc": "17.1.0",
     "typescript": "^5.9.3"
