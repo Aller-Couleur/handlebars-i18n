@@ -69,6 +69,8 @@ Via CDN:
 <script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.1/dist/handlebars-i18n.min.js"></script>
 ```
 
+[![What Was Design](https://florianwalzel.com/what-was-design-banner-2x.webp)](https://www.slanted.de/product/what-was-design/)
+
 ## Quick Example
 
 Initialize i18next with your language strings and default settings:
