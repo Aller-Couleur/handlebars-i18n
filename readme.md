@@ -1,6 +1,6 @@
 # handlebars-i18n
 
-*What it is about:* `handlebars-i18n` adds the translation features of [i18next](https://www.i18next.com/)
+`handlebars-i18n` adds the translation features of [i18next](https://www.i18next.com/)
 to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting**
 via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser. `handlebars-i18n` is listed amongst i18next’s official [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
