@@ -66,11 +66,8 @@ Usage in web browser (old school):
 
 Via CDN:
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.1/dist/handlebars-i18n.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.5/dist/handlebars-i18n.min.js"></script>
 ```
-
-
-
 
 
 ## Quick Example
