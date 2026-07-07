@@ -1,6 +1,6 @@
 # handlebars-i18n
 
-*What it is about:* `handlebars-i18n` adds the translation features of [i18next](https://www.i18next.com/)
+`handlebars-i18n` adds the translation features of [i18next](https://www.i18next.com/)
 to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **number**, and **currency formatting**
 via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser. `handlebars-i18n` is listed amongst i18next’s official [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
@@ -14,7 +14,6 @@ via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global
 ![npm](https://img.shields.io/npm/dm/handlebars-i18n)
 ![GitHub stars](https://img.shields.io/github/stars/fwalzel/handlebars-i18n?style=social)
 
-
 ## Key Features & Advantages
 
 - handlebars-i18n comes lightweight, well tested, and with detailed [examples](#detailed-examples)
@@ -22,13 +21,11 @@ via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global
 - supports Typescript
 - has an optional [CLI](#additional-cli-helper-for-handlebars-i18n-available) for automatic Translations via DeepL
 
-
 ## Please Support
 
 `handlebars-i18n` is free but not free of value. If you make serious use of handlebars-i18n, I’d be delighted if you
 
 [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/fwalzel)
-
 
 ## Install
 
@@ -65,6 +62,7 @@ Usage in web browser (old school):
 ```
 
 Via CDN:
+
 ```javascript
 <script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.5/dist/handlebars-i18n.min.js"></script>
 ```
@@ -240,6 +238,7 @@ Will output the contents for `de` even though a different language is globally s
   {{/each}}
 </ul>
 ```
+
 In this case the key `fruits` would contain an array of translation strings, like:
 
 ```javascript
@@ -363,6 +362,7 @@ Outputs the time difference between two given dates in the requested unit.
 ```hbs
 {{_dateDiff "2000-12-17" "2001-12-17" unit="year"}}
 ```
+
 * output: en → **in 1 year**
 
 The second date argument is subtracted from the first. If the difference is a positive value, a future event statement
