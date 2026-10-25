@@ -5,7 +5,7 @@ to [handlebars.js](https://handlebarsjs.com/). It also provides **date**, **numb
 via [Intl](https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Intl). Use as node module or in the web browser. `handlebars-i18n` is listed amongst i18next’s official [framework helpers](https://www.i18next.com/overview/supported-frameworks).
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-![Node.js version](https://img.shields.io/badge/node-%3E%3D14-brightgreen)
+![Node.js version](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 [![Build](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)](https://github.com/fwalzel/handlebars-i18n/actions/workflows/node.js.yml/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/Aller-Couleur/handlebars-i18n/badge.svg?branch=master)](https://coveralls.io/github/Aller-Couleur/handlebars-i18n?branch=master)
 [![Code Climate](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n/badges/gpa.svg)](https://codeclimate.com/github/Aller-Couleur/handlebars-i18n)
