@@ -386,7 +386,18 @@
          * @returns {*}
          */
         function (key, options) {
-          const hash = options.hash || {};
+          const hash = { ...(options.hash || {}) };
+
+          // Coerce a numeric-string count (e.g. from JSON, DOM attributes,
+          // or query strings) to a Number, since i18next only runs plural
+          // resolution when opt.count is a non-string value.
+          if (
+            typeof hash.count === "string" &&
+            hash.count !== "" &&
+            !Number.isNaN(Number(hash.count))
+          ) {
+            hash.count = Number(hash.count);
+          }
 
           // Force object/array return if needed
           const result = (typeof i18next !== "undefined")
