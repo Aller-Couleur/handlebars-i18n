@@ -26,6 +26,8 @@ describe('handlebars-i18n Tests', function () {
         translation: {
           'key1': 'What is good?',
           'key2': '{{what}} is {{adverb}}.',
+          'itemCount_one': '{{count}} item',
+          'itemCount_other': '{{count}} items',
           'fruits': ["Apple", "Banana", "Cherry"],
           'steps': [
             { 'title': 'Step 1', 'text': 'Open the app' },
@@ -191,6 +193,42 @@ describe('handlebars-i18n Tests', function () {
     i18next.changeLanguage('de');
     const res = hI18n.helpers.__("key2", {hash: {what: "handlebarsI18next", adverb: "gut"}});
     assert.equal("handlebarsI18next ist gut.", res.string);
+  });
+
+  it('__ should resolve plural form "3 items" when count is given as a number (3)', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__("itemCount", {hash: {count: 3}});
+    assert.equal("3 items", res.string);
+  });
+
+  it('__ should resolve singular form "1 item" when count is given as a number (1)', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__("itemCount", {hash: {count: 1}});
+    assert.equal("1 item", res.string);
+  });
+
+  it('__ should resolve plural form "3 items" when count is given as a numeric string ("3")', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__("itemCount", {hash: {count: "3"}});
+    assert.equal("3 items", res.string);
+  });
+
+  it('__ should resolve singular form "1 item" when count is given as a numeric string ("1")', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__("itemCount", {hash: {count: "1"}});
+    assert.equal("1 item", res.string);
+  });
+
+  it('__ should leave a non-numeric string count untouched and pass it through to i18next as-is', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__("itemCount", {hash: {count: "abc"}});
+    assert.isString(res.string);
+  });
+
+  it('__ should leave an empty string count untouched and pass it through to i18next as-is', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__("itemCount", {hash: {count: ""}});
+    assert.isString(res.string);
   });
 
   it("__ should loop over array of strings with #each", () => {

@@ -64,7 +64,7 @@ Usage in web browser (old school):
 Via CDN:
 
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.9/dist/handlebars-i18n.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.10/dist/handlebars-i18n.min.js"></script>
 ```
 
 [![Florian Walzel: What was design? Declarations and definitions from a century of creative quest](https://florianwalzel.com/wwd-hero-c.webp)](https://www.slanted.de/product/what-was-design/)
