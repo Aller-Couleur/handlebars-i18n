@@ -605,7 +605,7 @@
          * @returns {boolean}
          */
         function (initialDate, compareDate) {
-          compareDate = compareDate || new Date();
+          compareDate = compareDate ? __createDateObj(compareDate) : new Date();
           let date = __createDateObj(initialDate);
           return date > compareDate;
         }
@@ -619,7 +619,7 @@
          * @returns {boolean}
          */
         function (initialDate, compareDate) {
-          compareDate = compareDate || new Date();
+          compareDate = compareDate ? __createDateObj(compareDate) : new Date();
           let date = __createDateObj(initialDate);
           return date < compareDate;
         }

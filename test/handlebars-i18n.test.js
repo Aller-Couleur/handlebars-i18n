@@ -744,6 +744,66 @@ describe('handlebars-i18n Tests', function () {
 
 
   /****************************************
+   Tests against function isFuture
+   ****************************************/
+
+  it('isFuture should return true when called with a date far in the future and no compareDate', function () {
+    const res = hI18n.helpers.isFuture('[2999,0,1]');
+    assert.isTrue(res);
+  });
+
+  it('isFuture should return false when called with a date in the past and no compareDate', function () {
+    const res = hI18n.helpers.isFuture('1995-12-17T00:00:00');
+    assert.isFalse(res);
+  });
+
+  it('isFuture should return true when initialDate is after the given compareDate', function () {
+    const res = hI18n.helpers.isFuture('1996-12-17T00:00:00', '1995-12-17T00:00:00');
+    assert.isTrue(res);
+  });
+
+  it('isFuture should return false when initialDate is before the given compareDate', function () {
+    const res = hI18n.helpers.isFuture('1995-12-17T00:00:00', '1996-12-17T00:00:00');
+    assert.isFalse(res);
+  });
+
+  it('isFuture should return false when initialDate equals the given compareDate', function () {
+    const res = hI18n.helpers.isFuture('1995-12-17T00:00:00', '1995-12-17T00:00:00');
+    assert.isFalse(res);
+  });
+
+
+  /****************************************
+   Tests against function isPast
+   ****************************************/
+
+  it('isPast should return true when called with a date in the past and no compareDate', function () {
+    const res = hI18n.helpers.isPast('1995-12-17T00:00:00');
+    assert.isTrue(res);
+  });
+
+  it('isPast should return false when called with a date far in the future and no compareDate', function () {
+    const res = hI18n.helpers.isPast('[2999,0,1]');
+    assert.isFalse(res);
+  });
+
+  it('isPast should return true when initialDate is before the given compareDate', function () {
+    const res = hI18n.helpers.isPast('1995-12-17T00:00:00', '1996-12-17T00:00:00');
+    assert.isTrue(res);
+  });
+
+  it('isPast should return false when initialDate is after the given compareDate', function () {
+    const res = hI18n.helpers.isPast('1996-12-17T00:00:00', '1995-12-17T00:00:00');
+    assert.isFalse(res);
+  });
+
+  it('isPast should return false when initialDate equals the given compareDate', function () {
+    const res = hI18n.helpers.isPast('1995-12-17T00:00:00', '1995-12-17T00:00:00');
+    assert.isFalse(res);
+  });
+
+
+  /****************************************
    Tests against function _num
    ****************************************/
 
