@@ -610,6 +610,7 @@
           return date > compareDate;
         }
       );
+
       handlebars.registerHelper('_num',
         /**
          * formats a given number by internationalization options
