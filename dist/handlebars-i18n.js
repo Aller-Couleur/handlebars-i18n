@@ -596,6 +596,20 @@
           return relDateFormat.format(relDate, opts.unit);
         }
       );
+      handlebars.registerHelper('isFuture',
+        /**
+         * checks if a given date is in the future.
+         * When no date is given, it will compare against the current date.
+         *
+         * @param initialDate
+         * @returns {boolean}
+         */
+        function (initialDate, compareDate) {
+          compareDate = compareDate || new Date();
+          let date = __createDateObj(initialDate);
+          return date > compareDate;
+        }
+      );
       handlebars.registerHelper('_num',
         /**
          * formats a given number by internationalization options
