@@ -89,6 +89,10 @@ describe('handlebars-i18n Tests', function () {
     assert.isFunction(hI18n.helpers._dateDiff);
   });
 
+  it('after method call init() HandlebarsEnvironment object should have a function _dateRange', function () {
+    assert.isFunction(hI18n.helpers._dateRange);
+  });
+
   it('after method call init() HandlebarsEnvironment object should have a function _num', function () {
     assert.isFunction(hI18n.helpers._num);
   });
@@ -744,6 +748,55 @@ describe('handlebars-i18n Tests', function () {
 
 
   /****************************************
+   Tests against function _dateRange
+   ****************************************/
+
+  it('_dateRange should return null when called with no parameter', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRange();
+    assert.equal(null, res);
+  });
+
+  it('_dateRange should return null when called with invalid first argument', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRange('', '2021-01-12', {hash: {}});
+    assert.equal(null, res);
+  });
+
+  it('_dateRange should return null when called with invalid second argument', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRange('2021-01-10', '', {hash: {}});
+    assert.equal(null, res);
+  });
+
+  it('expect _dateRange to return a locale formatted range when no separator is given', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRange('2021-01-10', '2021-01-12', {hash: {}});
+    assert.equal('1/10/2021 – 1/12/2021', res);
+  });
+
+  it('expect _dateRange to join dates with a custom separator when given', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers._dateRange('2021-01-10', '2021-01-12', ' to ', {hash: {}});
+    assert.equal('1/10/2021 to 1/12/2021', res);
+  });
+
+  it('expect _dateRange to apply DateTimeFormat options given as hash', function () {
+    i18next.changeLanguage('en');
+    const hash = {hash: {month: 'long', day: 'numeric'}};
+    const res = hI18n.helpers._dateRange('2021-01-10', '2021-01-12', hash);
+    assert.equal('January 10 – January 12', res);
+  });
+
+  it('expect _dateRange to apply DateTimeFormat options together with a custom separator', function () {
+    i18next.changeLanguage('en');
+    const hash = {hash: {month: 'long', day: 'numeric'}};
+    const res = hI18n.helpers._dateRange('2021-01-10', '2021-01-12', ' - ', hash);
+    assert.equal('January 10 - January 12', res);
+  });
+
+
+  /****************************************
    Tests against function isFuture
    ****************************************/
 
@@ -1332,6 +1385,25 @@ describe('handlebars-i18n Private helper Function Tests (in production not expor
   it('should return an empty object when no configuration is provided at all', () => {
     const result = HandlebarsI18n.private.configLookup({}, lang, OCFormat);
     expect(result).to.deep.equal({});
+  });
+
+
+  /********************************************************************
+   Tests for private function formatDateRange
+   ********************************************************************/
+
+  it('formatDateRange should return a locale formatted range when no separator is given', () => {
+    const dateA = HandlebarsI18n.private.createDateObj('2021-01-10');
+    const dateB = HandlebarsI18n.private.createDateObj('2021-01-12');
+    const result = HandlebarsI18n.private.formatDateRange('en', {}, dateA, dateB, undefined);
+    expect(result).to.equal('1/10/2021 – 1/12/2021');
+  });
+
+  it('formatDateRange should join dates with a custom separator', () => {
+    const dateA = HandlebarsI18n.private.createDateObj('2021-01-10');
+    const dateB = HandlebarsI18n.private.createDateObj('2021-01-12');
+    const result = HandlebarsI18n.private.formatDateRange('en', {}, dateA, dateB, ' to ');
+    expect(result).to.equal('1/10/2021 to 1/12/2021');
   });
 
 });

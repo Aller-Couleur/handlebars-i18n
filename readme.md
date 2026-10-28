@@ -371,6 +371,41 @@ Allowed date input formats are similar to `_date`, options equal `_dateRel`. Def
 
 ---
 
+### `_dateRange`
+
+Outputs a date range string, formatted according to the language specific conventions.
+
+```hbs
+{{_dateRange "2021-01-10" "2021-01-12"}}
+```
+
+* output: en → **1/10/2021 – 1/12/2021**
+
+By default `_dateRange` relies on [`Intl.DateTimeFormat.prototype.formatRange`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatRange),
+which collapses the shared parts of both dates according to locale conventions (e.g. **Jan 10 – 12, 2021** instead of
+**Jan 10, 2021 – Jan 12, 2021**). In environments where `formatRange` is unavailable (such as the `intl` polyfill used
+as a fallback in Node), both dates are formatted individually and joined with a default separator (`" – "`) instead.
+
+An optional third argument lets you define a custom separator string. When given, both dates are always formatted
+individually (without collapsing) and joined with that separator:
+
+```hbs
+{{_dateRange "2021-01-10" "2021-01-12" " to "}}
+```
+
+* output: en → **1/10/2021 to 1/12/2021**
+
+Allowed date input formats are the same as for `_date`. Further `Intl.DateTimeFormat` options (such as `month` or `day`)
+can be applied the same way as for `_date`.
+
+```hbs
+{{_dateRange "2021-01-10" "2021-01-12" month="long" day="numeric"}}
+```
+
+* output: en → **January 10 – 12** (when `formatRange` is available)
+
+---
+
 ### `_dateRel`
 
 Outputs a string with a relative date statement, formatted according to the language specific conventions.
@@ -392,6 +427,42 @@ are `second` | `minute` | `hour` | `day` | `week` | `month` | `quarter` | `year`
 For a complete set of options (such as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
 Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
+
+---
+
+### `isFuture`
+
+Checks if a given date lies in the future, compared against a second date. Returns `true` or `false`.
+If no second date is given, the comparison is made against the current moment.
+
+```hbs
+{{#if (isFuture "2030-01-01")}} This date is in the future. {{/if}}
+```
+
+```hbs
+{{#if (isFuture "2030-01-01" "2025-01-01")}} 2030 is after 2025. {{/if}}
+```
+
+The first argument is the date to check (see function `_date` for valid date inputs). The optional second argument
+is the date to compare against, given in the same accepted formats.
+
+---
+
+### `isPast`
+
+Checks if a given date lies in the past, compared against a second date. Returns `true` or `false`.
+If no second date is given, the comparison is made against the current moment.
+
+```hbs
+{{#if (isPast "2020-01-01")}} This date is in the past. {{/if}}
+```
+
+```hbs
+{{#if (isPast "2020-01-01" "2025-01-01")}} 2020 is before 2025. {{/if}}
+```
+
+The first argument is the date to check (see function `_date` for valid date inputs). The optional second argument
+is the date to compare against, given in the same accepted formats.
 
 ---
 

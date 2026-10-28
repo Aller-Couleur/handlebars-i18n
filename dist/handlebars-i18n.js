@@ -297,6 +297,29 @@
     return Math.trunc(diff / divisions[unit]);
   }
 
+  /**
+   *
+   * @param lang
+   * @param opts
+   * @param dateA
+   * @param dateB
+   * @param separator
+   * @returns {string}
+   * @private
+   */
+  function __formatDateRange(lang, opts, dateA, dateB, separator) {
+
+    const dateFormat = new Intl.DateTimeFormat(lang, opts);
+
+    if (typeof separator === 'undefined')
+      if (typeof dateFormat.formatRange === 'function')
+        return dateFormat.formatRange(dateA, dateB);
+      else
+        separator = ' – ';
+
+    return dateFormat.format(dateA) + separator + dateFormat.format(dateB);
+  }
+
 
   /*************************************
    * PUBLIC INTERFACE
@@ -596,6 +619,53 @@
           return relDateFormat.format(relDate, opts.unit);
         }
       );
+      handlebars.registerHelper('_dateRange',
+        /**
+         * formats a date range according to the given internationalization options.
+         *
+         * by default it relies on Intl.DateTimeFormat.prototype.formatRange, which
+         * produces a locale specific, collapsed range notation, e.g.
+         * {{_dateRange "2021-01-10" "2021-01-12"}} -> "Jan 10 - 12, 2021" (en)
+         *
+         * when a separator is given, both dates are formatted individually and
+         * joined with that separator instead of using the collapsed notation:
+         * {{_dateRange "2021-01-10" "2021-01-12" " to "}} -> "Jan 10, 2021 to Jan 12, 2021"
+         *
+         * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatRange
+         *
+         * @param dateInputA
+         * @param dateInputB
+         * @param separator : string (optional)
+         * @param options
+         * @returns {string|null}
+         */
+        function (dateInputA, dateInputB, separator, options) {
+
+          // the separator argument is optional; when the template call omits it,
+          // Handlebars passes the options hash object as the third argument instead.
+          if (typeof separator === 'object' && separator !== null) {
+            options = separator;
+            separator = undefined;
+          }
+
+          if (!__isNumOrString(dateInputA)) {
+            console.error('@ handlebars-i18n: invalid first argument dateInputA was given for _dateRange.');
+            return null;
+          }
+
+          if (!__isNumOrString(dateInputB)) {
+            console.error('@ handlebars-i18n: invalid second argument dateInputB was given for _dateRange.');
+            return null;
+          }
+
+          const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
+
+          const dateA = __createDateObj(dateInputA);
+          const dateB = __createDateObj(dateInputB);
+
+          return __formatDateRange(i18next.language, opts, dateA, dateB, separator);
+        }
+      );
       handlebars.registerHelper('isFuture',
         /**
          * checks if a given date is in the future compared to another date.
@@ -687,7 +757,8 @@
         isNumOrString: __isNumOrString,
         createDateObj: __createDateObj,
         getRelDateFormatPolyfill: __getRelDateFormatPolyfill,
-        getDateDiff: __getDateDiff
+        getDateDiff: __getDateDiff,
+        formatDateRange: __formatDateRange
       }
     },
   }
