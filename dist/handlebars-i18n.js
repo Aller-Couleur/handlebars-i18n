@@ -433,6 +433,58 @@
           return result;
         }
       );
+
+      handlebars.registerHelper('__fallback',
+        /**
+         * retrieves the translation phrase from a key given as string, with a
+         * fallback to another translation key or to a literal default text
+         * in case the primary key does not resolve to a translation.
+         *
+         * use like: {{__fallback "missing.key" fallbackKey="default.message"}}
+         * or: {{__fallback "missing.key" fallbackText="Default message"}}
+         * also supports count: {{__fallback "missing.key" fallbackKey="itemCount" count=3}}
+         *
+         * @param key
+         * @param options
+         * @returns {*}
+         */
+        function (key, options) {
+          const hash = { ...(options.hash || {}) };
+          const fallbackKey = hash.fallbackKey;
+          const fallbackText = hash.fallbackText;
+          delete hash.fallbackKey;
+          delete hash.fallbackText;
+
+          // Coerce a numeric-string count (e.g. from JSON, DOM attributes,
+          // or query strings) to a Number, since i18next only runs plural
+          // resolution when opt.count is a non-string value.
+          if (
+            typeof hash.count === "string" &&
+            hash.count !== "" &&
+            !Number.isNaN(Number(hash.count))
+          ) {
+            hash.count = Number(hash.count);
+          }
+
+          const translate = (k) => {
+            const result = i18next.t(k, { ...hash, returnObjects: true });
+            return (typeof result === "string")
+              ? new handlebars.SafeString(result)
+              : result;
+          };
+
+          if (typeof key === "string" && key !== "" && i18next.exists(key, hash))
+            return translate(key);
+
+          if (typeof fallbackKey === "string" && fallbackKey !== "" && i18next.exists(fallbackKey, hash))
+            return translate(fallbackKey);
+
+          if (typeof fallbackText === "string")
+            return new handlebars.SafeString(fallbackText);
+
+          return translate(key);
+        }
+      );
       handlebars.registerHelper('keyExists',
         /**
          * checks if a translation key exists

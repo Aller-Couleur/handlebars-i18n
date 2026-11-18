@@ -28,6 +28,11 @@ describe('handlebars-i18n Tests', function () {
           'key2': '{{what}} is {{adverb}}.',
           'itemCount_one': '{{count}} item',
           'itemCount_other': '{{count}} items',
+          'default': {
+            'message': 'Default message'
+          },
+          'fallbackCount_one': '{{count}} fallback item',
+          'fallbackCount_other': '{{count}} fallback items',
           'fruits': ["Apple", "Banana", "Cherry"],
           'steps': [
             { 'title': 'Step 1', 'text': 'Open the app' },
@@ -39,6 +44,9 @@ describe('handlebars-i18n Tests', function () {
         translation: {
           'key1': 'Was ist gut?',
           'key2': '{{what}} ist {{adverb}}.',
+          'default': {
+            'message': 'Standardnachricht'
+          },
           'fruits': ["Apfel", "Banane", "Kirsche"],
           'steps': [
             { 'title': 'Schritt 1', 'text': 'App öffnen' },
@@ -63,6 +71,10 @@ describe('handlebars-i18n Tests', function () {
 
   it('after method call init() HandlebarsEnvironment object should have a function __', function () {
     assert.isFunction(hI18n.helpers.__);
+  });
+
+  it('after method call init() HandlebarsEnvironment object should have a function __fallback', function () {
+    assert.isFunction(hI18n.helpers.__fallback);
   });
 
   it('after method call init() HandlebarsEnvironment object should have a function _locale', function () {
@@ -290,6 +302,116 @@ describe('handlebars-i18n Tests', function () {
     assert.isFalse(hI18n.helpers.keyExists(null));
     assert.isFalse(hI18n.helpers.keyExists(undefined));
   });
+
+
+  /****************************************
+   Tests against function __fallback
+   ****************************************/
+
+  it('expect __fallback to throw error when called with no parameter', function () {
+    expect(function () {
+      hI18n.helpers.__fallback()
+    }).to.throw();
+  });
+
+  it('__fallback should return the translation of the primary key when it exists, ignoring fallbackKey/fallbackText', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('key1', {hash: {fallbackKey: 'default.message', fallbackText: 'Default text'}});
+    assert.equal('What is good?', res.string);
+  });
+
+  it('__fallback should return the translation of fallbackKey when the primary key does not exist', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('missing.key', {hash: {fallbackKey: 'default.message'}});
+    assert.equal('Default message', res.string);
+  });
+
+  it('__fallback should return the "de" translation of fallbackKey when the primary key does not exist', function () {
+    i18next.changeLanguage('de');
+    const res = hI18n.helpers.__fallback('missing.key', {hash: {fallbackKey: 'default.message'}});
+    assert.equal('Standardnachricht', res.string);
+  });
+
+  it('__fallback should return fallbackText when the primary key does not exist and no fallbackKey is given', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('missing.key', {hash: {fallbackText: 'Default message'}});
+    assert.equal('Default message', res.string);
+  });
+
+  it('__fallback should return fallbackText when both the primary key and the fallbackKey do not exist', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('missing.key', {hash: {fallbackKey: 'also.missing', fallbackText: 'Default message'}});
+    assert.equal('Default message', res.string);
+  });
+
+  it('__fallback should prefer fallbackKey over fallbackText when the fallbackKey exists', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('missing.key', {hash: {fallbackKey: 'default.message', fallbackText: 'Default text'}});
+    assert.equal('Default message', res.string);
+  });
+
+  it('__fallback should return the key itself when neither the key, fallbackKey, nor fallbackText exist', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('missing.key', {hash: {fallbackKey: 'also.missing'}});
+    assert.equal('missing.key', res.string);
+  });
+
+  it('__fallback should return the key itself when called with no hash options at all', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('missing.key', {hash: {}});
+    assert.equal('missing.key', res.string);
+  });
+
+  it('__fallback should resolve plural form "3 items" on the primary key when count is given as a number (3)', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('itemCount', {hash: {count: 3}});
+    assert.equal('3 items', res.string);
+  });
+
+  it('__fallback should resolve singular form "1 item" on the primary key when count is given as a number (1)', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('itemCount', {hash: {count: 1}});
+    assert.equal('1 item', res.string);
+  });
+
+  it('__fallback should resolve plural form "3 items" on the primary key when count is given as a numeric string ("3")', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('itemCount', {hash: {count: "3"}});
+    assert.equal('3 items', res.string);
+  });
+
+  it('__fallback should resolve plural form "3 fallback items" on fallbackKey when primary key does not exist and count is given as a number (3)', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('missing.key', {hash: {fallbackKey: 'fallbackCount', count: 3}});
+    assert.equal('3 fallback items', res.string);
+  });
+
+  it('__fallback should resolve singular form "1 fallback item" on fallbackKey when primary key does not exist and count is given as a number (1)', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('missing.key', {hash: {fallbackKey: 'fallbackCount', count: 1}});
+    assert.equal('1 fallback item', res.string);
+  });
+
+  it('__fallback should resolve translation with interpolation params on the primary key, same as helper __', function () {
+    i18next.changeLanguage('en');
+    const res = hI18n.helpers.__fallback('key2', {hash: {what: 'handlebarsI18next', adverb: 'good', fallbackText: 'Default text'}});
+    assert.equal('handlebarsI18next is good.', res.string);
+  });
+
+  it('__fallback should work within a compiled Handlebars template using fallbackKey', function () {
+    i18next.changeLanguage('en');
+    const template = Handlebars.compile('{{__fallback "missing.key" fallbackKey="default.message"}}');
+    const output = template({});
+    assert.equal('Default message', output);
+  });
+
+  it('__fallback should work within a compiled Handlebars template using fallbackText', function () {
+    i18next.changeLanguage('en');
+    const template = Handlebars.compile('{{__fallback "missing.key" fallbackText="Default message"}}');
+    const output = template({});
+    assert.equal('Default message', output);
+  });
+
 
   /****************************************
    Tests against function _date

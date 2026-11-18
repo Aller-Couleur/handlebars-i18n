@@ -257,6 +257,32 @@ an array or objects of properties.
 
 ---
 
+### `__fallback`
+
+Like `__`, retrieves a translation for a given key, but allows a fallback to another translation
+key or to a literal default text when the primary key does not resolve to a translation.
+
+```hbs
+{{__fallback "missing.key" fallbackKey="default.message"}}
+{{__fallback "missing.key" fallbackText="Default message"}}
+```
+
+* if `key` exists, its translation is returned (same as `__`), ignoring `fallbackKey`/`fallbackText`.
+* if `key` does not exist and `fallbackKey` is given and exists, the translation of `fallbackKey` is returned.
+* if `key` does not exist and either no `fallbackKey` is given or it also does not exist, `fallbackText` is
+  returned verbatim (not translated).
+* if none of `key`, `fallbackKey`, `fallbackText` resolves to anything, the key itself is returned, just like `__`.
+
+**Plurals**
+
+`__fallback` supports `count` just like `__`, applied to whichever key (`key` or `fallbackKey`) ends up being used:
+
+```hbs
+{{__fallback "missing.key" fallbackKey="itemCount" count=3}}
+```
+
+---
+
 ### `keyExists`
 
 Checks if a i18next translation key exists. Returns `true` or `false`.
