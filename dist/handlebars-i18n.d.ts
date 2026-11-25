@@ -223,25 +223,25 @@ export function configure(
     lang: NumberFormatConfiguration[0],
     typeOfFormat: NumberFormatConfiguration[1],
     options: NumberFormatConfiguration[2],
-    customFormatname: NumberFormatConfiguration[3]
+    customFormatname?: NumberFormatConfiguration[3]
 ): boolean;
 export function configure(
     lang: PriceFormatConfiguration[0],
     typeOfFormat: PriceFormatConfiguration[1],
     options: PriceFormatConfiguration[2],
-    customFormatname: PriceFormatConfiguration[3]
+    customFormatname?: PriceFormatConfiguration[3]
 ): boolean;
 export function configure(
     lang: DateTimeFormatConfiguration[0],
     typeOfFormat: DateTimeFormatConfiguration[1],
     options: DateTimeFormatConfiguration[2],
-    customFormatname: DateTimeFormatConfiguration[3]
+    customFormatname?: DateTimeFormatConfiguration[3]
 ): boolean;
 export function configure(
     lang: RelativeTimeFormatConfiguration[0],
     typeOfFormat: RelativeTimeFormatConfiguration[1],
     options: RelativeTimeFormatConfiguration[2],
-    customFormatname: RelativeTimeFormatConfiguration[3]
+    customFormatname?: RelativeTimeFormatConfiguration[3]
 ): boolean;
 
 // #region TimeZone type
