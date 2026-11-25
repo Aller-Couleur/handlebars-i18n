@@ -64,7 +64,7 @@ Usage in web browser (old school):
 Via CDN:
 
 ```javascript
-<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@1.10.10/dist/handlebars-i18n.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/handlebars-i18n@latest/dist/handlebars-i18n.min.js"></script>
 ```
 
 [![Florian Walzel: What was design? Declarations and definitions from a century of creative quest](https://florianwalzel.com/wwd-hero-c.webp)](https://www.slanted.de/product/what-was-design/)
@@ -92,7 +92,7 @@ i18next.init({
     }
   },
   lng: "en",
-  compatibilityJSON: 'v2'
+  compatibilityJSON: 'v4'
 });
 ```
 
@@ -170,6 +170,32 @@ npm i handlebars-i18n-cli --save-dev
 
 ## Template Functions
 
+**Translations**
+
+- [`__`](#__)
+- [`__fallback`](#__fallback)
+- [`keyExists`](#keyexists)
+
+**Selected language**
+
+- [`_locale`](#_locale)
+- [`localeIs`](#localeis)
+
+**Numbers & prices**
+
+- [`_num`](#_num)
+- [`_price`](#_price)
+
+**Dates**
+
+- [`_date`](#_date)
+- [`_dateAdd`](#_dateadd)
+- [`_dateDiff`](#_datediff)
+- [`_dateRange`](#_daterange)
+- [`_dateRel`](#_daterel)
+- [`isFuture`](#isfuture)
+- [`isPast`](#ispast)
+
 ### `__`
 
 Returns the phrase associated with the given key for the selected language. `__` will take all options
@@ -215,11 +241,13 @@ The i18next resource:
 ```javascript
 "en" : {
   translation : {
-    "keyWithCount" : "{{count}} item", 
-    "keyWithCount_plural" : "{{count}} items"
+    "keyWithCount_one" : "{{count}} item", 
+    "keyWithCount_other" : "{{count}} items"
   }
 }, ...
 ```
+
+Note: For plurals to work, `compatibilityJSON: 'v4'` must be set in the i18next `init` options (it is the default in current i18next versions) — this option selects i18next’s JSON resource format, and `v4` resolves plural suffixes like `_one` / `_other` via `Intl.PluralRules` categories instead of the legacy `_plural` suffix used by `v2`/`v3`.
 
 **Override the globally selected language**
 
@@ -254,6 +282,32 @@ In this case the key `fruits` would contain an array of translation strings, lik
 
 It is recommended to set `returnObjects` actively to `true` in the `i18next.init` object if you want to loop over
 an array or objects of properties.
+
+---
+
+### `__fallback`
+
+Like `__`, retrieves a translation for a given key, but allows a fallback to another translation
+key or to a literal default text when the primary key does not resolve to a translation.
+
+```hbs
+{{__fallback "missing.key" fallbackKey="default.message"}}
+{{__fallback "missing.key" fallbackText="Default message"}}
+```
+
+* if `key` exists, its translation is returned (same as `__`), ignoring `fallbackKey`/`fallbackText`.
+* if `key` does not exist and `fallbackKey` is given and exists, the translation of `fallbackKey` is returned.
+* if `key` does not exist and either no `fallbackKey` is given or it also does not exist, `fallbackText` is
+  returned verbatim (not translated).
+* if none of `key`, `fallbackKey`, `fallbackText` resolves to anything, the key itself is returned, just like `__`.
+
+**Plurals**
+
+`__fallback` supports `count` just like `__`, applied to whichever key (`key` or `fallbackKey`) ends up being used:
+
+```hbs
+{{__fallback "missing.key" fallbackKey="itemCount" count=3}}
+```
 
 ---
 
@@ -371,6 +425,41 @@ Allowed date input formats are similar to `_date`, options equal `_dateRel`. Def
 
 ---
 
+### `_dateRange`
+
+Outputs a date range string, formatted according to the language specific conventions.
+
+```hbs
+{{_dateRange "2021-01-10" "2021-01-12"}}
+```
+
+* output: en → **1/10/2021 – 1/12/2021**
+
+By default `_dateRange` relies on [`Intl.DateTimeFormat.prototype.formatRange`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatRange),
+which collapses the shared parts of both dates according to locale conventions (e.g. **Jan 10 – 12, 2021** instead of
+**Jan 10, 2021 – Jan 12, 2021**). In environments where `formatRange` is unavailable (such as the `intl` polyfill used
+as a fallback in Node), both dates are formatted individually and joined with a default separator (`" – "`) instead.
+
+An optional third argument lets you define a custom separator string. When given, both dates are always formatted
+individually (without collapsing) and joined with that separator:
+
+```hbs
+{{_dateRange "2021-01-10" "2021-01-12" " to "}}
+```
+
+* output: en → **1/10/2021 to 1/12/2021**
+
+Allowed date input formats are the same as for `_date`. Further `Intl.DateTimeFormat` options (such as `month` or `day`)
+can be applied the same way as for `_date`.
+
+```hbs
+{{_dateRange "2021-01-10" "2021-01-12" month="long" day="numeric"}}
+```
+
+* output: en → **January 10 – 12** (when `formatRange` is available)
+
+---
+
 ### `_dateRel`
 
 Outputs a string with a relative date statement, formatted according to the language specific conventions.
@@ -392,6 +481,42 @@ are `second` | `minute` | `hour` | `day` | `week` | `month` | `quarter` | `year`
 For a complete set of options (such as `numberingSystem` or `localeMatcher`)
 see [Intl.RelativeTimeFormat Constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat/RelativeTimeFormat).
 Alternatively check this repo’s TS types in [handlebars-i18n.d.ts](./dist/handlebars-i18n.d.ts).
+
+---
+
+### `isFuture`
+
+Checks if a given date lies in the future, compared against a second date. Returns `true` or `false`.
+If no second date is given, the comparison is made against the current moment.
+
+```hbs
+{{#if (isFuture "2030-01-01")}} This date is in the future. {{/if}}
+```
+
+```hbs
+{{#if (isFuture "2030-01-01" "2025-01-01")}} 2030 is after 2025. {{/if}}
+```
+
+The first argument is the date to check (see function `_date` for valid date inputs). The optional second argument
+is the date to compare against, given in the same accepted formats.
+
+---
+
+### `isPast`
+
+Checks if a given date lies in the past, compared against a second date. Returns `true` or `false`.
+If no second date is given, the comparison is made against the current moment.
+
+```hbs
+{{#if (isPast "2020-01-01")}} This date is in the past. {{/if}}
+```
+
+```hbs
+{{#if (isPast "2020-01-01" "2025-01-01")}} 2020 is before 2025. {{/if}}
+```
+
+The first argument is the date to check (see function `_date` for valid date inputs). The optional second argument
+is the date to compare against, given in the same accepted formats.
 
 ---
 

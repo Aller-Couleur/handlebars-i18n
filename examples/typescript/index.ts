@@ -7,6 +7,8 @@ import { readFileSync } from "fs";
  * A simple example using handlebars-i18n
  * with TypeScript.
  *
+ * Mirrors the content structure of examples/browser-example/index.html
+ *
  * @author: Dief Bell
  *
  * usage:
@@ -21,27 +23,40 @@ myI18nInstance
 		resources: {
 			"en-GB": {
 				translation: {
-					"key0": "Change Language to",
+					"key0": "Language",
 					"key1": "What is good?",
 					"key2": "{{what}} is good.",
-					"key3WithCount": "{{count}} item",
-					"key3WithCount_plural": "{{count}} items",
-					"key4": "Selected Language is:"
+					"key3WithCount_one": "{{count}} item",
+					"key3WithCount_other": "{{count}} items",
+					"key4": "Selected Language is:",
+					"key5": "I am the default translation.",
+					"fruits": ["Apple", "Banana", "Cherry"],
+					"steps": [
+						{ title: "Step 1", text: "Open the app" },
+						{ title: "Step 2", text: "Click start" }
+					]
 				}
 			},
 			"de": {
 				translation: {
-					"key0": "Sprache wechseln zu",
+					"key0": "Sprache",
 					"key1": "Was ist gut?",
 					"key2": "{{what}} ist gut.",
-					"key3WithCount": "{{count}} Gegenstand",
-					"key3WithCount_plural": "{{count}} Gegenstände",
-					"key4": "Die ausgewählte Sprache ist:"
+					"key3WithCount_one": "{{count}} Gegenstand",
+					"key3WithCount_other": "{{count}} Gegenstände",
+					"key4": "Die ausgewählte Sprache ist:",
+					"key5": "Ich bin die Standard-Übersetzung.",
+					"fruits": ["Apfel", "Banane", "Kirsche"],
+					"steps": [
+						{ title: "Schritt 1", text: "App öffnen" },
+						{ title: "Schritt 2", text: "Klicke auf Start" }
+					]
 				}
 			}
 		},
 		lng: "en-GB",
-		compatibilityJSON: "v2"
+		compatibilityJSON: "v4", // important: defines the JSON standard for plurals
+		returnObjects: true // set to true if you want to loop over an array or objects of properties
 	});
 
 // -- Handlebars" example data object
@@ -50,7 +65,7 @@ const data = {
 	holdKey3: "key3WithCount",
 	holdKey4: "key4",
 	mynumber: 33.333,
-	myMmaxDigits: 1,
+	myMaxDigits: 1,
 	myPrice: 12.99,
 	myDate: "2020-03-11T03:24:00"
 };
@@ -86,8 +101,69 @@ HandlebarsI18n.configure([
   ["de", "RelativeTimeFormat", { style: "short", unit: "year" }, "date-rel-spec"]
 ]);
 
-const template = readFileSync(__dirname + "/test.hbs", { encoding: "utf-8" });
-const compiled = myHandlebarsInstance.compile(template);
-myI18nInstance.changeLanguage("de"); // --> Test the changes by replacing "de" with "en-GB"
+/**
+ * The template layer lives in examples.hbs — a plain handlebars file
+ * organized like the sections of examples/browser-example/index.html.
+ *
+ * A comment starting with "#" opens a section,
+ * every other comment describes the snippet that follows it.
+ */
+type Example = [description: string, snippet: string];
 
-console.log("\x1b[36m%s\x1b[0m", compiled(data));
+interface Section {
+	title: string;
+	examples: Example[];
+}
+
+// -- Split the template file into sections and snippets
+function parseExamples(source: string): Section[] {
+	const sections: Section[] = [];
+	let current: Section | undefined;
+	const tokens = source.split(/\{\{!--([\s\S]*?)--\}\}/);
+
+	for (let i = 1; i < tokens.length; i += 2) {
+		const comment = tokens[i].trim();
+		const snippet = (tokens[i + 1] || "").trim();
+
+		if (comment.indexOf("#") === 0) {
+			current = { title: comment.substring(1).trim(), examples: [] };
+			sections.push(current);
+		} else if (current !== undefined && snippet.length > 0) {
+			current.examples.push([comment, snippet]);
+		}
+	}
+
+	return sections;
+}
+
+// -- Load the template layer
+const sections = parseExamples(readFileSync(__dirname + "/examples.hbs", { encoding: "utf-8" }));
+
+// --> Test the changes by replacing "en-GB" with "de"
+myI18nInstance.changeLanguage("en-GB");
+
+// -- Semantic colors for the log output
+const color = {
+	bold: "\x1b[1m",
+	dim: "\x1b[90m",
+	yellow: "\x1b[33m",
+	cyan: "\x1b[36m",
+	green: "\x1b[32m",
+	reset: "\x1b[0m"
+};
+
+// -- Build the output: description, un-rendered snippet, compiled result
+let output = "\n" + color.bold + "HandlebarsI18n example output" + color.reset + "\n";
+output += color.bold + "========================================" + color.reset + "\n";
+
+sections.forEach(function (section) {
+	output += "\n" + color.yellow + section.title + color.reset + "\n";
+	output += color.yellow + "----------------------------------------" + color.reset + "\n";
+	section.examples.forEach(function (example) {
+		output += color.dim + example[0] + color.reset + "\n"; // explanation
+		output += color.cyan + "  " + example[1] + color.reset + "\n"; // code sample
+		output += color.green + "  → " + myHandlebarsInstance.compile(example[1])(data) + color.reset + "\n\n"; // result
+	});
+});
+
+console.log("%s", output);

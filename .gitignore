@@ -32,18 +32,18 @@ coverage
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
+# Devin Folder
+.devin
+
 # Bower dependency directory (https://bower.io/)
 bower_components
 
 # node-waf configuration
 .lock-wscript
 
-# Compiled binary addons (https://nodejs.org/api/addons.html)
-build/Release
 
 # Dependency directories
 node_modules/
-jspm_packages/
 
 # TypeScript v1 declaration files
 typings/
@@ -84,41 +84,6 @@ typings/
 .cache
 .parcel-cache
 
-# Next.js build output
-.next
-
-# Nuxt.js build / generate output
-.nuxt
-dist
-
-# Storybook build outputs
-.out
-.storybook-out
-storybook-static
-
-# rollup.js default build output
-dist/
-
-# Gatsby files
-.cache/
-# Comment in the public line in if your project uses Gatsby and not Next.js
-# https://nextjs.org/blog/next-9-1#public-directory-support
-# public
-
-# vuepress build output
-.vuepress/dist
-
-# Serverless directories
-.serverless/
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
-
-# TernJS port file
-.tern-port
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test

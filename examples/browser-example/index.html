@@ -1,291 +1,465 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>handlebars-i18n Demo</title>
-    <style>
-        html, body {
-            margin: 1rem;
-            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-        }
-        h3 {
-            margin-top: 2rem;
-            border-bottom: 1px solid black;  }
-        h4 {  margin: 1.5rem 0 .5rem 0;
-        }
-        code {
-            font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-            font-size: .8rem;
-            color: #fff;
-            background-color: #666666;
-            padding: 3px;
-            margin-left: 1rem;
-        }
-        p {  margin-left: 1rem;  }
-        img {  margin: 1rem 0 .5rem 1rem;  }
-        button {  font-size: .8rem;  }
-        button:hover { cursor: pointer; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>handlebars-i18n Demo</title>
+  <style>
+    :root {
+      --bg: #f4f5f7;
+      --card: #ffffff;
+      --ink: #1f2430;
+      --muted: #667085;
+      --line: #e4e7ec;
+      --accent: #4f46e5;
+      --accent-soft: #eef0ff;
+      --mono: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+    }
+
+    body {
+      font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+
+    /* -- fixed header bar with the language switch -- */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, .92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: .6rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: .95rem;
+      white-space: nowrap;
+    }
+
+    .brand em {
+      font-style: normal;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .lang-switch {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .switch-label {
+      font-size: .8rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .seg {
+      display: flex;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .seg button {
+      border: 0;
+      padding: .35rem .9rem;
+      font-size: .8rem;
+      font-weight: 600;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .seg button.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* -- content -- */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 4.5rem 1rem 3rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, .05);
+    }
+
+    .card h2 {
+      margin: 0 0 1rem;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .helpers code {
+      font-family: var(--mono);
+      font-size: .72rem;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 4px;
+      padding: .15rem .4rem;
+    }
+
+    .example {
+      padding: .9rem 0;
+      border-top: 1px dashed var(--line);
+    }
+
+    .example:first-of-type {
+      border-top: 0;
+      padding-top: .25rem;
+    }
+
+    .desc {
+      margin: 0 0 .5rem;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .io {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: .5rem;
+      align-items: start;
+    }
+
+    .syntax {
+      display: block;
+      margin: 0;
+      font-family: var(--mono);
+      font-size: .8rem;
+      color: var(--ink);
+      background: #f2f4f7;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: .55rem .7rem;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .result {
+      position: relative;
+      margin: 0;
+      min-height: 2.1rem;
+      font-size: .9rem;
+      background: #fbfbfd;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: .55rem .7rem .55rem 1.7rem;
+    }
+
+    .result::before {
+      content: '\2192';
+      position: absolute;
+      left: .6rem;
+      top: .5rem;
+      color: var(--muted);
+    }
+
+    .result ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    .result img {
+      vertical-align: middle;
+    }
+
+    /* -- desktop: template and output side by side -- */
+    @media (min-width: 720px) {
+      .io {
+        grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      }
+    }
+
+    /* -- mobile: condensed header and cards -- */
+    @media (max-width: 560px) {
+      .brand em,
+      .switch-label {
+        display: none;
+      }
+
+      .card {
+        padding: 1rem;
+      }
+
+      main {
+        padding-top: 4rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <h2>handlebars-i18n Demo</h2>
+<header class="topbar">
+  <div class="topbar-inner">
+    <span class="brand">handlebars-i18n <em>· browser demo</em></span>
+    <div class="lang-switch">
+      <span class="switch-label" id="switchLabel"></span>
+      <div class="seg" role="group" aria-label="Select language">
+        <button type="button" data-lang="en" class="active">EN</button>
+        <button type="button" data-lang="de">DE</button>
+      </div>
+    </div>
+  </div>
+</header>
 
-    <div id="demo"><!-- handlebars’ rendered demo content goes here --></div>
+<!--
+  Each .example div carries the Handlebars snippet in data-hbs and a caption
+  in data-desc. The script below renders the snippet text and the compiled
+  output side by side — no template escaping needed.
+-->
+<main>
 
-    <!-- Load scripts: handlebars, i18next, handlebars-i18n.js -->
-    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/19.3.2/i18next.js"></script>
-    <script src="../../dist/handlebars-i18n.js"></script>
+  <section class="card">
+    <h2>Translations <span class="helpers"><code>__</code></span></h2>
+    <div class="example" data-hbs='{{__ "key1"}}' data-desc="Simple translation, key given as string"></div>
+    <div class="example" data-hbs='{{__ holdKey4}}' data-desc="Translation key given through a handlebars variable"></div>
+    <div class="example" data-hbs='{{__ "key2" what=sayWhat}}' data-desc="Translation with variable replacement"></div>
+    <div class="example" data-hbs='{{__ "key3WithCount" count=1}}' data-desc="Phrase with [singular] / plural"></div>
+    <div class="example" data-hbs='{{__ "key3WithCount" count=7}}' data-desc="Phrase with singular / [plural]"></div>
+    <div class="example" data-hbs='{{__ "key1" lng="de"}}' data-desc="Override language to use"></div>
+    <div class="example" data-hbs='<ul>{{#each (__ "fruits")}}<li>{{this}}</li>{{/each}}</ul>' data-desc="Loop over an array of translations"></div>
+    <div class="example" data-hbs='<ul>{{#each (__ "steps")}}<li>{{this.title}} – {{this.text}}</li>{{/each}}</ul>' data-desc="Loop over an array of objects"></div>
+  </section>
 
-    <!-- The demo -->
-    <script>
+  <section class="card">
+    <h2>Fallbacks &amp; key checks <span class="helpers"><code>__fallback</code> <code>keyExists</code></span></h2>
+    <div class="example" data-hbs='{{__fallback "key.missing" fallbackKey="key5"}}' data-desc="Missing key falls back to another translation key"></div>
+    <div class="example" data-hbs='{{__fallback "key.missing" fallbackText="This is a literal fallback text."}}' data-desc="Missing key falls back to a literal text"></div>
+    <div class="example" data-hbs='{{__fallback "key.missing" fallbackKey="key3WithCount" count=3}}' data-desc="Fallback key combined with plural count"></div>
+    <div class="example" data-hbs='{{#if (keyExists "key1")}}key "key1" exists{{else}}key "key1" is missing{{/if}}' data-desc="Check whether a key exists"></div>
+    <div class="example" data-hbs='{{#if (keyExists "key.missing")}}key "key.missing" exists{{else}}key "key.missing" is missing{{/if}}' data-desc="Check for a missing key"></div>
+  </section>
 
-        'use strict';
+  <section class="card">
+    <h2>Selected language <span class="helpers"><code>_locale</code> <code>localeIs</code></span></h2>
+    <div class="example" data-hbs='{{__ "key4"}} {{_locale}}' data-desc="Output the selected language"></div>
+    <div class="example" data-hbs='{{#if (localeIs "en")}}English is selected{{else}}Deutsch ist ausgewählt{{/if}}' data-desc="Check against the selected language"></div>
+    <div class="example" data-hbs='<img src="img/{{#if (localeIs "en")}}united_kingdom{{else}}germany{{/if}}.png" height="20" alt="flag">' data-desc="Use it in markup, e.g. a flag icon"></div>
+  </section>
 
-        // -- The translation phrases for i18next
-        i18next
-            .init({
-                resources : {
-                    'en' : {
-                        translation : {
-                            'key0': 'Change Language to',
-                            'key1': 'What is good?',
-                            'key2': '{{what}} is good.',
-                            'key3WithCount': '{{count}} item',
-                            'key3WithCount_plural': '{{count}} items',
-                            'key4': 'Selected Language is:',
-                            'fruits': ['Apple', 'Banana', 'Cherry'],
-                            'steps': [
-                                { 'title': 'Step 1', 'text': 'Open the app' },
-                                { 'title': 'Step 2', text: 'Click start' }
-                            ]
-                        }
-                    },
-                    'de' : {
-                        translation: {
-                            'key0': 'Sprache wechseln zu',
-                            'key1': 'Was ist gut?',
-                            'key2': '{{what}} ist gut.',
-                            'key3WithCount': '{{count}} Gegenstand',
-                            'key3WithCount_plural': '{{count}} Gegenstände',
-                            'key4': 'Die ausgewählte Sprache ist:',
-                            'fruits': ['Apfel', 'Banane', 'Kirsche'],
-                            'steps': [
-                                { 'title': 'Schritt 1', 'text': 'App öffnen' },
-                                { 'title': 'Schritt 2', 'text': 'Klicke auf Start' }
-                            ]
-                        }
-                    }
-                },
-                lng : 'en',
-                compatibilityJSON: 'v2', // important: defines the JSON standard for variable replacement
-                returnObjects: true // set to true if you want to loop over an array or objects of properties
-            });
+  <section class="card">
+    <h2>Number representation <span class="helpers"><code>_num</code></span></h2>
+    <div class="example" data-hbs='{{_num 7000}}' data-desc="Number as configured for all languages"></div>
+    <div class="example" data-hbs='{{_num 3.1415926 maximumFractionDigits=2}}' data-desc="Number with a specific format attribute"></div>
+    <div class="example" data-hbs='{{_num mynumber maximumFractionDigits=myMaxDigits}}' data-desc="Number and attribute given through handlebars variables"></div>
+  </section>
 
-        // -- Handlebars' example data object
-        let data = {
-            sayWhat : 'handlebars-i18n',
-            holdKey3 : 'key3WithCount',
-            holdKey4 : 'key4',
-            mynumber : 33.333,
-            myMmaxDigits: 1,
-            myPrice: 12.99,
-            myDate: '2020-03-11T03:24:00'
-        };
+  <section class="card">
+    <h2>Price representation <span class="helpers"><code>_price</code></span></h2>
+    <div class="example" data-hbs='{{_price 9999.99}}' data-desc="Price as configured per language"></div>
+    <div class="example" data-hbs='{{_price 1000.99 currency="JPY" minimumFractionDigits=0}}' data-desc="Price with specific format attributes"></div>
+    <div class="example" data-hbs='{{_price myPrice currency="DKK"}}' data-desc="Price given through a handlebars variable"></div>
+  </section>
 
-        // -- Init and configure handlebars-i18n
-        HandlebarsI18n.init();
-        HandlebarsI18n.configure([
-            // generic configuration for number representation in all languages :
-            ['all', 'NumberFormat', { minimumFractionDigits: 2 }],
-            // generic configurations per language for price representation:
-            ['en', 'PriceFormat', { currency: 'USD'}],
-            ['de', 'PriceFormat', { currency: 'EUR'}],
-            // generic configurations per language for date representation:
-            ['en', 'DateTimeFormat', { year:'numeric', month:'long', day:'numeric', hour:'numeric', minute:'numeric'}],
-            ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric', hour:'numeric', minute:'numeric', hour12:false}],
-            // custom formats for dates:
-            ['en', 'DateTimeFormat', { year:'numeric' }, 'custom-year-only'],
-            ['de', 'DateTimeFormat', { year:'numeric' }, 'custom-year-only'],
-            ['en', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric' }, 'custom-date-short'],
-            ['de', 'DateTimeFormat', { year:'numeric', month:'numeric', day:'numeric' }, 'custom-date-short'],
-            ['en', 'DateTimeFormat', { hour:'numeric', minute:'numeric', second:'numeric', hour12:false}, 'custom-time'],
-            ['de', 'DateTimeFormat', { hour:'numeric', minute:'numeric', second:'numeric', hour12:false}, 'custom-time'],
-            // custom formats for relative dates:
-            ['en', 'RelativeTimeFormat', { style: 'short', unit: 'year' }, 'date-rel-spec'],
-            ['de', 'RelativeTimeFormat', { style: 'short', unit: 'year' }, 'date-rel-spec']
-        ]);
+  <section class="card">
+    <h2>Date representation <span class="helpers"><code>_date</code></span></h2>
+    <div class="example" data-hbs='{{_date}}' data-desc="Current date as configured per language"></div>
+    <div class="example" data-hbs='{{_date "2020-03-11T03:24:00"}}' data-desc="Date given as date string"></div>
+    <div class="example" data-hbs='{{_date 1583922952743}}' data-desc="Date in milliseconds since begin of unix epoch"></div>
+    <div class="example" data-hbs='{{_date "[2012, 11, 20, 3, 0, 0]"}}' data-desc="Date given as javascript date parameter array"></div>
+    <div class="example" data-hbs='{{_date "today" year="2-digit" month="2-digit" day="2-digit"}}' data-desc="Current date with specific format attributes"></div>
+    <div class="example" data-hbs='{{_date myDate}}' data-desc="Date given through a handlebars variable"></div>
+    <div class="example" data-hbs='{{_date myDate format="custom-year-only"}}' data-desc="Custom configuration subset custom-year-only"></div>
+    <div class="example" data-hbs='{{_date myDate format="custom-date-short"}}' data-desc="Custom configuration subset custom-date-short"></div>
+    <div class="example" data-hbs='{{_date myDate format="custom-time"}}' data-desc="Custom configuration subset custom-time"></div>
+  </section>
 
-        // -- The handlebars template to be rendered
-        let template =`
-        <button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>
-            <h3>Translations</h3>
+  <section class="card">
+    <h2>Relative dates &amp; date checks <span class="helpers"><code>_dateRange</code> <code>_dateAdd</code> <code>_dateDiff</code> <code>_dateRel</code> <code>isFuture</code> <code>isPast</code></span></h2>
+    <div class="example" data-hbs='{{_dateRange "2021-01-10" "2021-01-12"}}' data-desc="Date range, collapsed per locale conventions"></div>
+    <div class="example" data-hbs='{{_dateRange "2021-01-10" "2021-01-12" " ⇔ "}}' data-desc="Date range with a custom separator"></div>
+    <div class="example" data-hbs='{{_dateRange "2021-01-10" "2021-01-12" month="long" day="numeric"}}' data-desc="Date range with format attributes"></div>
+    <div class="example" data-hbs='{{_dateAdd "December 17, 1995 08:00:00" 24 unit="hour"}}' data-desc="Date with a positive time offset"></div>
+    <div class="example" data-hbs='{{_dateAdd "December 17, 1995" -10 unit="day"}}' data-desc="Date with a negative time offset"></div>
+    <div class="example" data-hbs='{{_dateDiff "1996-12-07T00:00:00" "1996-12-08T00:00:00" unit="day"}}' data-desc="Relative difference between two dates"></div>
+    <div class="example" data-hbs='{{_dateDiff myDate "1995-12-17T00:00:00" format="date-rel-spec"}}' data-desc="Difference with custom configuration subset date-rel-spec"></div>
+    <div class="example" data-hbs='{{_dateRel 7 unit="hour"}}' data-desc="Relative date event in the future"></div>
+    <div class="example" data-hbs='{{_dateRel -7 unit="hour"}}' data-desc="Relative date event in the past"></div>
+    <div class="example" data-hbs='{{#if (isFuture "2030-01-01")}}2030-01-01 lies in the future{{else}}2030-01-01 lies in the past{{/if}}' data-desc="Check if a date lies in the future"></div>
+    <div class="example" data-hbs='{{#if (isPast "2020-01-01")}}2020-01-01 lies in the past{{else}}2020-01-01 lies in the future{{/if}}' data-desc="Check if a date lies in the past"></div>
+  </section>
 
-            <h4>Simple translation, key given as string:</h4>
-            <code>{{{{raw}}}} {{__ "key1"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{__ "key1"}}</p>
+</main>
 
-            <h4>Translation with variable replacement:</h4>
-            <code>{{{{raw}}}} {{__ "key2" what=sayWhat}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{__ "key2" what=sayWhat}}</p>
+<!-- Load scripts: handlebars, i18next, handlebars-i18n.js -->
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/19.3.2/i18next.js"></script>
+<script src="../../dist/handlebars-i18n.js"></script>
 
-            <h4>Phrase with [singular] / plural:</h4>
-            <code>{{{{raw}}}} {{__ "key3WithCount" count=1}} {{{{/raw}}}}</code>
-            <p>&#x2192;{{__ "key3WithCount" count=1}}</p>
+<!-- The demo -->
+<script>
 
-            <h4>Phrase with singular / [plural]:</h4>
-            <code>{{{{raw}}}} {{__ "key3WithCount" count=7}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{__ "key3WithCount" count=7}}</p>
+  'use strict';
 
-            <h4>Override language to use:</h4>
-            <code>{{{{raw}}}} {{__ "key1" lng="de"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{__ "key1" lng="de"}}</p>
-
-            <h4>Loop over Array of Translations:</h4>
-            <code>
-                {{{{raw}}}} {{#each (__ "fruits")}} {{this}} {{/each}} {{{{/raw}}}}
-            </code>
-            <p><ul>
-            {{#each (__ "fruits")}}
-                <li>{{this}}</li>
-            {{/each}}
-            </ul></p>
-
-        <h3>Output selected language</h3>
-
-        <button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>
-
-            <h4>Translation key given through handlebars variable and _locale output:</h4>
-            <code>{{{{raw}}}} {{__ holdKey4}} {{_locale}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{__ holdKey4}} {{_locale}}</p>
-
-            <h4>Check against selected language:</h4>
-            <code>{{{{raw}}}} &lt;img src="img/{{#if (localeIs \'en\')}}united_kingdom{{else}}germany{{/if}}.png"/&gt {{{{/raw}}}}</code><br/>
-            <img src="img/{{#if (localeIs \'en\')}}united_kingdom{{else}}germany{{/if}}.png" height="20"/>
-
-        <h3>Number representation</h3>
-
-        <button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>
-
-            <h4>Number representation as configured for all languages:</h4>
-            <code>{{{{raw}}}} {{_num 7000}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_num 7000}}</p>
-
-            <h4>Number representation with specific format attribute:</h4>
-            <code>{{{{raw}}}} {{_num 3.1415926 maximumFractionDigits=2}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_num 3.1415926 maximumFractionDigits=2}}</p>
-
-            <h4>Number and attribute given through handlebars variables:</h4>
-            <code>{{{{raw}}}} {{_num mynumber maximumFractionDigits=myMaxDigits}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_num mynumber maximumFractionDigits=myMaxDigits}}</p>
-
-        <h3>Price representation</h3>
-
-        <button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>
-
-            <h4>Price representation as configured per language:</h4>
-            <code>{{{{raw}}}} {{_price 9999.99}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_price 9999.99}}</p>
-
-            <h4>Price representation with specific format attributes:</h4>
-            <code>{{{{raw}}}} {{_price 1000.99 currency="JPY" minimumFractionDigits=0}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_price 1000.99 currency="JPY" minimumFractionDigits=0}}</p>
-
-            <h4>&#x2192; Price given through handlebars variable and with specific format attribute:</h4>
-            <code>{{{{raw}}}} {{_price myPrice currency="DKK"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_price myPrice currency="DKK"}}</p>
-
-        <h3>Date representation</h3>
-
-        <button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>
-
-            <h4>Todays’ date as configured per language:</h4>
-            <code>{{{{raw}}}} {{_date}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_date}}</p>
-
-            <h4>Date given as date string:</h4>
-            <code>{{{{raw}}}} {{_date "2020-03-11T03:24:00"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_date "2020-03-11T03:24:00"}}</p>
-
-            <h4>Date given in milliseconds since begin of unix epoch:</h4>
-            <code>{{{{raw}}}} {{_date 1583922952743}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_date 1583922952743}}</p>
-
-            <h4>Date given as javascript date parameter array:</h4>
-            <code>{{{{raw}}}} {{_date "[2012, 11, 20, 3, 0, 0]"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_date "[2012, 11, 20, 3, 0, 0]"}}</p>
-
-            <h4>Todays’ date with specific format attributes:</h4>
-            <code>{{{{raw}}}} {{_date "today" year="2-digit" month="2-digit" day="2-digit"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_date "today" year="2-digit" month="2-digit" day="2-digit"}}</p>
-
-            <h4>Date given through handlebars variable:</h4>
-            <code>{{{{raw}}}} {{_date myDate}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_date myDate}}</p>
-
-            <h4>Date formatted by custom configuration (subset "custom-year-only"):</h4>
-            <code>{{{{raw}}}} {{_date myDate format="custom-year-only"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_date myDate format="custom-year-only"}}</p>
-
-            <h4>Date formatted by custom configuration (subset "custom-date-short"):</h4>
-            <code>{{{{raw}}}} {{_date myDate format="custom-date-short"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_date myDate format="custom-date-short"}}</p>
-
-            <h4>Date formatted by custom configuration (subset "custom-time"):</h4>
-            <code>{{{{raw}}}} {{_date myDate format="custom-time"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_date myDate format="custom-time"}}</p>
-
-          <h3>Relative date representation</h3>
-
-          <button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>
-
-            <h4>Date with positive time offset:</h4>
-            <code>{{{{raw}}}} {{_dateAdd "December 17, 1995" 24 unit="hour"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_dateAdd "December 17, 1995 08:00:00" 24 unit="hour"}}</p>
-
-            <h4>Date with negative time offset:</h4>
-            <code>{{{{raw}}}} {{_dateAdd "December 17, 1995" -10 unit="day"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_dateAdd "December 17, 1995" -10 unit="day"}}</p>
-
-            <h4>Relative difference between two dates:</h4>
-            <code>{{{{raw}}}} {{_dateDiff "1996-12-07T00:00:00" "1996-12-08T00:00:00" unit="day"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_dateDiff "1996-12-07T00:00:00" "1996-12-08T00:00:00" unit="day"}}</p>
-
-            <h4>Relative difference between two dates with custom configuration (subset "date-rel-spec"):</h4>
-            <code>{{{{raw}}}} {{_dateDiff myDate "1995-12-17T00:00:00" format="date-rel-spec"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_dateDiff myDate "1995-12-17T00:00:00" format="date-rel-spec"}}</p>
-
-            <h4>Relative date event in the future:</h4>
-            <code>{{{{raw}}}} {{_dateRel 7 unit="hour"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_dateRel 7 unit="hour"}}</p>
-
-            <h4>Relative date event in the past:</h4>
-            <code>{{{{raw}}}} {{_dateRel 7 unit="hour"}} {{{{/raw}}}}</code>
-            <p>&#x2192; {{_dateRel -7 unit="hour"}}</p>
-
-            <button onclick="changeLang()">{{__ "key0"}} {{#if (localeIs "en")}}German {{else}}Englisch {{/if}}</button>`;
-
-        // -- Ignore this. It’s just a helper to display un-rendered {{handlebars code}} between the <code> Tags
-        Handlebars.registerHelper('raw', function(options) {
-            return options.fn();
-        });
-
-        // -- Compile template and output to demo container
-        function compile() {
-            let compiled = Handlebars.compile(template);
-            document.getElementById('demo').innerHTML = compiled(data);
+  // -- The translation phrases for i18next
+  i18next
+    .init({
+      resources: {
+        'en': {
+          translation: {
+            'key0': 'Language',
+            'key1': 'What is good?',
+            'key2': '{{what}} is good.',
+            'key3WithCount': '{{count}} item',
+            'key3WithCount_plural': '{{count}} items',
+            'key4': 'Selected Language is:',
+            'key5': 'I am the default translation.',
+            'fruits': ['Apple', 'Banana', 'Cherry'],
+            'steps': [
+              {'title': 'Step 1', 'text': 'Open the app'},
+              {'title': 'Step 2', text: 'Click start'}
+            ]
+          }
+        },
+        'de': {
+          translation: {
+            'key0': 'Sprache',
+            'key1': 'Was ist gut?',
+            'key2': '{{what}} ist gut.',
+            'key3WithCount': '{{count}} Gegenstand',
+            'key3WithCount_plural': '{{count}} Gegenstände',
+            'key4': 'Die ausgewählte Sprache ist:',
+            'key5': 'Ich bin die Standard-Übersetzung.',
+            'fruits': ['Apfel', 'Banane', 'Kirsche'],
+            'steps': [
+              {'title': 'Schritt 1', 'text': 'App öffnen'},
+              {'title': 'Schritt 2', 'text': 'Klicke auf Start'}
+            ]
+          }
         }
+      },
+      lng: 'en',
+      compatibilityJSON: 'v2', // important: defines the JSON standard for variable replacement
+      returnObjects: true // set to true if you want to loop over an array or objects of properties
+    });
 
-        // -- Switch language function for the button
-        function changeLang() {
-            var changeTo = i18next.language == 'en' ? 'de' : 'en';
-            i18next.changeLanguage(changeTo).then(function() {
-                compile();
-            });
-        }
+  // -- Handlebars' example data object
+  let data = {
+    sayWhat: 'handlebars-i18n',
+    holdKey3: 'key3WithCount',
+    holdKey4: 'key4',
+    mynumber: 33.333,
+    myMaxDigits: 1,
+    myPrice: 12.99,
+    myDate: '2020-03-11T03:24:00'
+  };
 
-        compile();
+  // -- Init and configure handlebars-i18n
+  HandlebarsI18n.init();
+  HandlebarsI18n.configure([
+    // generic configuration for number representation in all languages :
+    ['all', 'NumberFormat', {minimumFractionDigits: 2}],
+    // generic configurations per language for price representation:
+    ['en', 'PriceFormat', {currency: 'USD'}],
+    ['de', 'PriceFormat', {currency: 'EUR'}],
+    // generic configurations per language for date representation:
+    ['en', 'DateTimeFormat', {year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'}],
+    ['de', 'DateTimeFormat', {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: false
+    }],
+    // custom formats for dates:
+    ['en', 'DateTimeFormat', {year: 'numeric'}, 'custom-year-only'],
+    ['de', 'DateTimeFormat', {year: 'numeric'}, 'custom-year-only'],
+    ['en', 'DateTimeFormat', {year: 'numeric', month: 'numeric', day: 'numeric'}, 'custom-date-short'],
+    ['de', 'DateTimeFormat', {year: 'numeric', month: 'numeric', day: 'numeric'}, 'custom-date-short'],
+    ['en', 'DateTimeFormat', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false}, 'custom-time'],
+    ['de', 'DateTimeFormat', {hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false}, 'custom-time'],
+    // custom formats for relative dates:
+    ['en', 'RelativeTimeFormat', {style: 'short', unit: 'year'}, 'date-rel-spec'],
+    ['de', 'RelativeTimeFormat', {style: 'short', unit: 'year'}, 'date-rel-spec']
+  ]);
 
-    </script>
+  // -- Build the example markup once from the data-* attributes:
+  //    .desc gets the caption, .syntax gets the un-rendered Handlebars snippet
+  document.querySelectorAll('[data-hbs]').forEach(function (el) {
+    var desc = document.createElement('p');
+    desc.className = 'desc';
+    desc.textContent = el.getAttribute('data-desc') || '';
+
+    var syntax = document.createElement('code');
+    syntax.className = 'syntax';
+    syntax.textContent = el.getAttribute('data-hbs');
+
+    var result = document.createElement('div');
+    result.className = 'result';
+
+    var io = document.createElement('div');
+    io.className = 'io';
+    io.appendChild(syntax);
+    io.appendChild(result);
+
+    el.appendChild(desc);
+    el.appendChild(io);
+  });
+
+  // -- Render every snippet’s output (initially and on each language change)
+  function compile() {
+    document.querySelectorAll('[data-hbs]').forEach(function (el) {
+      el.querySelector('.result').innerHTML =
+        Handlebars.compile(el.getAttribute('data-hbs'))(data);
+    });
+  }
+
+  // -- Language switcher in the header bar
+  function setLang(lng) {
+    i18next.changeLanguage(lng).then(function () {
+      document.getElementById('switchLabel').textContent = i18next.t('key0');
+      document.querySelectorAll('.lang-switch button').forEach(function (btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lng);
+      });
+      compile();
+    });
+  }
+
+  document.querySelectorAll('.lang-switch button').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      setLang(btn.getAttribute('data-lang'));
+    });
+  });
+
+  document.getElementById('switchLabel').textContent = i18next.t('key0');
+  compile();
+
+</script>
 </body>
 </html>

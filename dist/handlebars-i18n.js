@@ -297,6 +297,29 @@
     return Math.trunc(diff / divisions[unit]);
   }
 
+  /**
+   *
+   * @param lang
+   * @param opts
+   * @param dateA
+   * @param dateB
+   * @param separator
+   * @returns {string}
+   * @private
+   */
+  function __formatDateRange(lang, opts, dateA, dateB, separator) {
+
+    const dateFormat = new Intl.DateTimeFormat(lang, opts);
+
+    if (typeof separator === 'undefined')
+      if (typeof dateFormat.formatRange === 'function')
+        return dateFormat.formatRange(dateA, dateB);
+      else
+        separator = ' – ';
+
+    return dateFormat.format(dateA) + separator + dateFormat.format(dateB);
+  }
+
 
   /*************************************
    * PUBLIC INTERFACE
@@ -408,6 +431,58 @@
             return new handlebars.SafeString(result);
           }
           return result;
+        }
+      );
+
+      handlebars.registerHelper('__fallback',
+        /**
+         * retrieves the translation phrase from a key given as string, with a
+         * fallback to another translation key or to a literal default text
+         * in case the primary key does not resolve to a translation.
+         *
+         * use like: {{__fallback "missing.key" fallbackKey="default.message"}}
+         * or: {{__fallback "missing.key" fallbackText="Default message"}}
+         * also supports count: {{__fallback "missing.key" fallbackKey="itemCount" count=3}}
+         *
+         * @param key
+         * @param options
+         * @returns {*}
+         */
+        function (key, options) {
+          const hash = { ...(options.hash || {}) };
+          const fallbackKey = hash.fallbackKey;
+          const fallbackText = hash.fallbackText;
+          delete hash.fallbackKey;
+          delete hash.fallbackText;
+
+          // Coerce a numeric-string count (e.g. from JSON, DOM attributes,
+          // or query strings) to a Number, since i18next only runs plural
+          // resolution when opt.count is a non-string value.
+          if (
+            typeof hash.count === "string" &&
+            hash.count !== "" &&
+            !Number.isNaN(Number(hash.count))
+          ) {
+            hash.count = Number(hash.count);
+          }
+
+          const translate = (k) => {
+            const result = i18next.t(k, { ...hash, returnObjects: true });
+            return (typeof result === "string")
+              ? new handlebars.SafeString(result)
+              : result;
+          };
+
+          if (typeof key === "string" && key !== "" && i18next.exists(key, hash))
+            return translate(key);
+
+          if (typeof fallbackKey === "string" && fallbackKey !== "" && i18next.exists(fallbackKey, hash))
+            return translate(fallbackKey);
+
+          if (typeof fallbackText === "string")
+            return new handlebars.SafeString(fallbackText);
+
+          return translate(key);
         }
       );
       handlebars.registerHelper('keyExists',
@@ -596,6 +671,81 @@
           return relDateFormat.format(relDate, opts.unit);
         }
       );
+      handlebars.registerHelper('_dateRange',
+        /**
+         * formats a date range according to the given internationalization options.
+         *
+         * by default it relies on Intl.DateTimeFormat.prototype.formatRange, which
+         * produces a locale specific, collapsed range notation, e.g.
+         * {{_dateRange "2021-01-10" "2021-01-12"}} -> "Jan 10 - 12, 2021" (en)
+         *
+         * when a separator is given, both dates are formatted individually and
+         * joined with that separator instead of using the collapsed notation:
+         * {{_dateRange "2021-01-10" "2021-01-12" " to "}} -> "Jan 10, 2021 to Jan 12, 2021"
+         *
+         * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/formatRange
+         *
+         * @param dateInputA
+         * @param dateInputB
+         * @param separator : string (optional)
+         * @param options
+         * @returns {string|null}
+         */
+        function (dateInputA, dateInputB, separator, options) {
+
+          // the separator argument is optional; when the template call omits it,
+          // Handlebars passes the options hash object as the third argument instead.
+          if (typeof separator === 'object' && separator !== null) {
+            options = separator;
+            separator = undefined;
+          }
+
+          if (!__isNumOrString(dateInputA)) {
+            console.error('@ handlebars-i18n: invalid first argument dateInputA was given for _dateRange.');
+            return null;
+          }
+
+          if (!__isNumOrString(dateInputB)) {
+            console.error('@ handlebars-i18n: invalid second argument dateInputB was given for _dateRange.');
+            return null;
+          }
+
+          const opts = __configLookup(options, i18next.language, optionsConf.DateTimeFormat);
+
+          const dateA = __createDateObj(dateInputA);
+          const dateB = __createDateObj(dateInputB);
+
+          return __formatDateRange(i18next.language, opts, dateA, dateB, separator);
+        }
+      );
+      handlebars.registerHelper('isFuture',
+        /**
+         * checks if a given date is in the future compared to another date.
+         * When no date second is given, it will compare against the current date.
+         *
+         * @param initialDate
+         * @returns {boolean}
+         */
+        function (initialDate, compareDate) {
+          compareDate = compareDate ? __createDateObj(compareDate) : new Date();
+          let date = __createDateObj(initialDate);
+          return date > compareDate;
+        }
+      );
+      handlebars.registerHelper('isPast',
+        /**
+         * checks if a given date is in the past compared to another date.
+         * When no second date is given, it will compare against the current date.
+         *
+         * @param initialDate
+         * @returns {boolean}
+         */
+        function (initialDate, compareDate) {
+          compareDate = compareDate ? __createDateObj(compareDate) : new Date();
+          let date = __createDateObj(initialDate);
+          return date < compareDate;
+        }
+      );
       handlebars.registerHelper('_num',
         /**
          * formats a given number by internationalization options
@@ -659,7 +809,8 @@
         isNumOrString: __isNumOrString,
         createDateObj: __createDateObj,
         getRelDateFormatPolyfill: __getRelDateFormatPolyfill,
-        getDateDiff: __getDateDiff
+        getDateDiff: __getDateDiff,
+        formatDateRange: __formatDateRange
       }
     },
   }

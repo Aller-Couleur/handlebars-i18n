@@ -1,0 +1,155 @@
+# handlebars-i18n — TypeScript example templates
+#
+# This file is the template layer of the demo. It mirrors the sections
+# of examples/browser-example/index.html. index.ts loads this file,
+# splits it on handlebars comments and compiles each snippet.
+#
+# A comment starting with "#" opens a section,
+# every other comment describes the snippet that follows it.
+
+
+{{!-- # Translations ( __ ) --}}
+
+{{!-- Simple translation, key given as string --}}
+{{__ "key1"}}
+
+{{!-- Translation key given through a handlebars variable --}}
+{{__ holdKey4}}
+
+{{!-- Translation with variable replacement --}}
+{{__ "key2" what=sayWhat}}
+
+{{!-- Phrase with [singular] / plural --}}
+{{__ "key3WithCount" count=1}}
+
+{{!-- Phrase with singular / [plural] --}}
+{{__ "key3WithCount" count=7}}
+
+{{!-- Override language to use --}}
+{{__ "key1" lng="de"}}
+
+{{!-- Loop over an array of translations --}}
+<ul>{{#each (__ "fruits")}}<li>{{this}}</li>{{/each}}</ul>
+
+{{!-- Loop over an array of objects --}}
+<ul>{{#each (__ "steps")}}<li>{{this.title}} – {{this.text}}</li>{{/each}}</ul>
+
+
+{{!-- # Fallbacks & key checks ( __fallback , keyExists ) --}}
+
+{{!-- Missing key falls back to another translation key --}}
+{{__fallback "key.missing" fallbackKey="key5"}}
+
+{{!-- Missing key falls back to a literal text --}}
+{{__fallback "key.missing" fallbackText="This is a literal fallback text."}}
+
+{{!-- Fallback key combined with plural count --}}
+{{__fallback "key.missing" fallbackKey="key3WithCount" count=3}}
+
+{{!-- Check whether a key exists --}}
+{{#if (keyExists "key1")}}key "key1" exists{{else}}key "key1" is missing{{/if}}
+
+{{!-- Check for a missing key --}}
+{{#if (keyExists "key.missing")}}key "key.missing" exists{{else}}key "key.missing" is missing{{/if}}
+
+
+{{!-- # Selected language ( _locale , localeIs ) --}}
+
+{{!-- Output the selected language --}}
+{{__ "key4"}} {{_locale}}
+
+{{!-- Check against the selected language --}}
+{{#if (localeIs "en-GB")}}English is selected{{else}}Deutsch ist ausgewählt{{/if}}
+
+{{!-- Use it in markup, e.g. a flag icon --}}
+<img src="img/{{#if (localeIs "en-GB")}}united_kingdom{{else}}germany{{/if}}.png" height="20" alt="flag">
+
+
+{{!-- # Number representation ( _num ) --}}
+
+{{!-- Number as configured for all languages --}}
+{{_num 7000}}
+
+{{!-- Number with a specific format attribute --}}
+{{_num 3.1415926 maximumFractionDigits=2}}
+
+{{!-- Number and attribute given through handlebars variables --}}
+{{_num mynumber maximumFractionDigits=myMaxDigits}}
+
+
+{{!-- # Price representation ( _price ) --}}
+
+{{!-- Price as configured per language --}}
+{{_price 9999.99}}
+
+{{!-- Price with specific format attributes --}}
+{{_price 1000.99 currency="JPY" minimumFractionDigits=0}}
+
+{{!-- Price given through a handlebars variable --}}
+{{_price myPrice currency="DKK"}}
+
+
+{{!-- # Date representation ( _date ) --}}
+
+{{!-- Current date as configured per language --}}
+{{_date}}
+
+{{!-- Date given as date string --}}
+{{_date "2020-03-11T03:24:00"}}
+
+{{!-- Date in milliseconds since begin of unix epoch --}}
+{{_date 1583922952743}}
+
+{{!-- Date given as javascript date parameter array --}}
+{{_date "[2012, 11, 20, 3, 0, 0]"}}
+
+{{!-- Current date with specific format attributes --}}
+{{_date "today" year="2-digit" month="2-digit" day="2-digit"}}
+
+{{!-- Date given through a handlebars variable --}}
+{{_date myDate}}
+
+{{!-- Custom configuration subset custom-year-only --}}
+{{_date myDate format="custom-year-only"}}
+
+{{!-- Custom configuration subset custom-date-short --}}
+{{_date myDate format="custom-date-short"}}
+
+{{!-- Custom configuration subset custom-time --}}
+{{_date myDate format="custom-time"}}
+
+
+{{!-- # Relative dates & date checks ( _dateRange , _dateAdd , _dateDiff , _dateRel , isFuture , isPast ) --}}
+
+{{!-- Date range, collapsed per locale conventions --}}
+{{_dateRange "2021-01-10" "2021-01-12"}}
+
+{{!-- Date range with a custom separator --}}
+{{_dateRange "2021-01-10" "2021-01-12" " ⇔ "}}
+
+{{!-- Date range with format attributes --}}
+{{_dateRange "2021-01-10" "2021-01-12" month="long" day="numeric"}}
+
+{{!-- Date with a positive time offset --}}
+{{_dateAdd "December 17, 1995 08:00:00" 24 unit="hour"}}
+
+{{!-- Date with a negative time offset --}}
+{{_dateAdd "December 17, 1995" -10 unit="day"}}
+
+{{!-- Relative difference between two dates --}}
+{{_dateDiff "1996-12-07T00:00:00" "1996-12-08T00:00:00" unit="day"}}
+
+{{!-- Difference with custom configuration subset date-rel-spec --}}
+{{_dateDiff myDate "1995-12-17T00:00:00" format="date-rel-spec"}}
+
+{{!-- Relative date event in the future --}}
+{{_dateRel 7 unit="hour"}}
+
+{{!-- Relative date event in the past --}}
+{{_dateRel -7 unit="hour"}}
+
+{{!-- Check if a date lies in the future --}}
+{{#if (isFuture "2030-01-01")}}2030-01-01 lies in the future{{else}}2030-01-01 lies in the past{{/if}}
+
+{{!-- Check if a date lies in the past --}}
+{{#if (isPast "2020-01-01")}}2020-01-01 lies in the past{{else}}2020-01-01 lies in the future{{/if}}
