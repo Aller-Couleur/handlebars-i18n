@@ -170,6 +170,32 @@ npm i handlebars-i18n-cli --save-dev
 
 ## Template Functions
 
+**Translations**
+
+- [`__`](#__)
+- [`__fallback`](#__fallback)
+- [`keyExists`](#keyexists)
+
+**Selected language**
+
+- [`_locale`](#_locale)
+- [`localeIs`](#localeis)
+
+**Numbers & prices**
+
+- [`_num`](#_num)
+- [`_price`](#_price)
+
+**Dates**
+
+- [`_date`](#_date)
+- [`_dateAdd`](#_dateadd)
+- [`_dateDiff`](#_datediff)
+- [`_dateRange`](#_daterange)
+- [`_dateRel`](#_daterel)
+- [`isFuture`](#isfuture)
+- [`isPast`](#ispast)
+
 ### `__`
 
 Returns the phrase associated with the given key for the selected language. `__` will take all options
