@@ -92,7 +92,7 @@ i18next.init({
     }
   },
   lng: "en",
-  compatibilityJSON: 'v2'
+  compatibilityJSON: 'v4'
 });
 ```
 
@@ -215,11 +215,13 @@ The i18next resource:
 ```javascript
 "en" : {
   translation : {
-    "keyWithCount" : "{{count}} item", 
-    "keyWithCount_plural" : "{{count}} items"
+    "keyWithCount_one" : "{{count}} item", 
+    "keyWithCount_other" : "{{count}} items"
   }
 }, ...
 ```
+
+Note: For plurals to work, `compatibilityJSON: 'v4'` must be set in the i18next `init` options (it is the default in current i18next versions) — this option selects i18next’s JSON resource format, and `v4` resolves plural suffixes like `_one` / `_other` via `Intl.PluralRules` categories instead of the legacy `_plural` suffix used by `v2`/`v3`.
 
 **Override the globally selected language**
 
